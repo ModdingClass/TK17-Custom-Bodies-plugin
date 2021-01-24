@@ -1,0 +1,68 @@
+//-----------------------------------------------------------------------------------------------------------------------------------
+//h5m data description
+//-----------------------------------------------------------------------------------------------------------------------------------
+SIG 		- 3 bytes - just symbols "h5m" ansi string (not null terminated, exactly 3 bytes)
+TYPE 		- 4 bytes UINT - type of model for h5m should be equal to 10 ("model_type", if model_type equal 11, then you should read/save two set of 3 float value,  first one: 3 float x,y,z (4 bytes each, in sum 12 bytes) - min bound corner for object in world coordinates, second one 3 float x,y,z(4 bytes each, in sum 12 bytes) - max bound corner for object in world coordinates)
+VCOUNT	- 4 bytes UINT - count of vertices of model
+VSIZE		- 4 bytes UINT - size of vertex struct
+ICOUNT	- 4 bytes UINT - count of indices in index array
+SCOUNT	- 4 bytes UINT - count of subsets
+
+VARRAY   - VCOUNT * VSIZE bytes, array of vertices of model
+			------------------------------
+			vertex struct for h5m:
+			D3DXVECTOR3 p  - 12 bytes - vertex position
+			D3DXVECTOR3 t	- 12 bytes - vertex tangent
+			D3DXVECTOR3 b	- 12 bytes - vertex binormal
+			D3DXVECTOR3 n	- 12 bytes - vertex normal
+			D3DXVECTOR2 uv	- 8  bytes - vertex texture coords
+		
+IARRAY 	- ICOUNT * 4 bytes, array of indices of model   (ICOUNT needs to be divided by 3, basically icount holds X,Y,Z vectors as one after another 4bytes values)
+
+SARRAY	- SCOUNT * 20, array of subsets of model, 20 is a size of one subset struct
+			------------------------------
+			subset struct for h5m:
+			subset id 		- 4 byte UINT
+			face start 		- 4 byte UINT
+			face count		- 4 byte UINT
+			vertex start	- 4 byte UINT
+			vertex count	- 4 byte UINT
+			
+next for every subset repeatedly:
+	
+	DXMATERIAL9 struct - 68 bytes, search in net info about this struct   (search for D3DMATERIAL9 )
+	D_STR_SIZE - 4 byte UINT, length of relative path to diffuse texture
+	DIFF_NAME - ansi string with D_STR_SIZE characters
+	N_STR_SIZE - 4 byte UINT, length of relative path to normal texture
+	NORM_NAME - ansi string with N_STR_SIZE characters
+	S_STR_SIZE - 4 byte UINT, length of relative path to specular texture
+	SPEC_NAME - ansi string with N_STR_SIZE characters
+	
+//-----------------------------------------------------------------------------------------------------------------------------------
+//h5s data description
+//-----------------------------------------------------------------------------------------------------------------------------------
+//funny there is should be sig and type but seems I forgot it
+
+BCOUNT		- 4 bytes UINT - count of bones of rig
+
+repeatedly for BCOUNT
+		STR_SIZE		- 4 bytes UINT - length of ansi string of bone name
+		BONE_NAME 	- ansi string with STR_SIZE characters
+
+IMARRAY 		- BCOUNT * 64 bytes  - array of inversed initial transformations matrix for the bones with respect order of BONE_NAME
+
+VCOUNT		- 4 bytes UINT - count of vertices of model
+VARRAY   	- VCOUNT * sizeof(h5s vertex struct) bytes, array of vertices of model
+				------------------------------
+				vertex struct for h5s:
+				D3DXVECTOR3 p  - 12 bytes - vertex position
+				D3DXVECTOR3 t	- 12 bytes - vertex tangent
+				D3DXVECTOR3 b	- 12 bytes - vertex binormal
+				D3DXVECTOR3 n	- 12 bytes - vertex normal
+				D3DXVECTOR2 uv	- 8  bytes - vertex texture coords
+				bone_index[4]	- 16 bytes - 4 int bone index;
+				bone_weight[4]	- 16 bytes - 4 float bone weight;
+			
+ICOUNT	- 4 bytes UINT - count of indices in index array
+IARRAY 	- ICOUNT * 4 bytes, array of indices of model
+

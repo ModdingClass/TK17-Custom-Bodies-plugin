@@ -1,0 +1,89 @@
+class TKARMATURE_panel(bpy.types.Panel) :
+	bl_label = 'TK17 Body Editor'
+	bl_space_type = 'VIEW_3D'
+	bl_region_type = 'TOOLS'
+	bl_idname = 'TKARMATUREImport'
+	bl_context = "objectmode"
+	bl_category = "TK17 Body"
+
+
+	def draw_header(self, context):
+		layout = self.layout
+		row = layout.row(align = True)
+		row.label(icon = 'NONE')
+		##row.label(icon = '')
+
+	def draw(self, context):
+		layout = self.layout
+		#layout.operator(InitMyPropOperator.bl_idname, text=InitMyPropOperator.bl_label)
+		scene  = bpy.context.scene
+		tkarmature  = scene.tkarmature
+		ob = bpy.context.active_object
+		
+		#layout.label("First row")
+        #row = layout.row(align=True)
+        #row.alignment = 'EXPAND'		
+		box = layout.box()
+
+		subbox_import = box.box()
+		if 1 == 1:
+			col =subbox_import.column()
+			icon='TRIA_RIGHT'
+			col.label(text='Importer:',icon=icon)
+			row = subbox_import.row(align=True)
+			row.operator('tkarmature.create_armature',text='Create Armature')
+			row.operator('tkarmature.fake',text='              ')
+			row.operator('tkarmature.fake',text='              ')
+			row = subbox_import.row(align=True)
+			row.operator('tkarmature.fake',text='              ')
+			row.operator('test.open_filebrowser',text='Import G3F body')	
+			row.operator('tkarmature.fake',text='Import G3F morph')			
+
+		subbox_bone_tools = box.box()
+		if 1 == 1:
+			col =subbox_bone_tools.column()
+			icon='TRIA_RIGHT'
+			col.label(text='Armature Tools:',icon=icon)		
+			row = subbox_bone_tools.row(align=True)
+			row.operator('tkarmature.rename_bones',text='Rename bones')
+			row.operator('tkarmature.adjust_bones',text='Adjust parent bones to child')
+			row.operator('tkarmature.fix_symmetry',text='Fix Symmetry')
+			row = subbox_bone_tools.row(align=True)
+			row.operator('tkarmature.apply_armature_rotation',text='Apply Rotation')	
+			row.operator('tkarmature.fake',text='              ')
+			row.operator('tkarmature.fake',text='              ')
+		#row = box.row(align=True)
+		#row.scale_y = 1.3
+		#row.prop_enum(tkarmature,'tabs_ops','config')
+		#row = row.row()
+		#row.scale_y = 1.3
+		#
+		subbox_exporter = box.box()
+		if 1 == 1:
+			row = subbox_exporter.row(align=True)
+			row.operator('tkarmature.fake',text='              ')
+			row.operator('tkarmature.fake',text='              ')
+			row.operator('tkarmature.add_fake_bones',text='Add Fake Bones')
+		#
+		subbox_exporter = box.box()
+		if 1 == 1:
+			col =subbox_exporter.column()
+			icon='TRIA_RIGHT'
+			col.label(text='Exporter:',icon=icon)
+			row = subbox_exporter.row(align=True)
+			#row.operator("transform.translate", text="Orgin")
+			row.operator('tkarmature.correct_final_rolls',text='Correct Rolls')
+			row.operator('tkarmature.export_armature_to_empties',text='Armature to Empties')
+			row.operator('tkarmature.export_empties_to_files',text='Empties to Files')		
+			col =subbox_exporter.column()
+			icon='FILE_FOLDER'
+			col.label(text='Folder location:',icon=icon)
+			col2 =subbox_exporter.column()
+			col2.prop(tkarmature,'exportfolderpath',text='')
+		#
+		subbox_exporter = box.box()
+		if 1 == 1:
+			row = subbox_exporter.row(align=True)
+			row.operator('tkarmature.fake',text='              ')
+			row.operator('tkarmature.fake',text='              ')
+			row.operator('tkarmature.export_body',text='Export Body')

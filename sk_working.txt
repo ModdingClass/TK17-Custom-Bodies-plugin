@@ -1,0 +1,103 @@
+import re
+import bpy, mathutils
+from collections import OrderedDict
+
+
+usage = -1
+
+tk_conversion_matrix = mathutils.Matrix(((1,0,0),(0,0,-1),(0,1,0)))
+
+for stock_key in stock_shapekeys:
+	SKName = stock_key[0]
+	print (SKName)
+
+pyBlock_MeshData_VertexData = []
+pyBlock_MeshData_BlendControl = []
+SKGroups = {}
+
+processed_SK = OrderedDict() # important to make this an ordered dictionary to keep shapekeys in order they are defined
+
+ob = bpy.data.objects["body_subdiv_cage"]
+me = ob.data
+basis_verts = ob.data.shape_keys.key_blocks[0]
+for key in ob.data.shape_keys.key_blocks[1:]:
+	SKName = key.name
+	processed_SK[SKName] = False
+	print (SKName)
+
+for stock_key in stock_shapekeys:
+	stock_key_name = stock_key[0]
+	stock_key_shortname = stock_key[1]
+	blendControl_local = "local_"+stock_key[2]
+	vertexDataVector3f_local = "local_"+stock_key[3]
+	usage = stock_key[4]	
+	SKGroups[usage] = {}
+	SKGroups[usage]["localname"] = vertexDataVector3f_local;
+	#print ("Processing stock key: " +stock_key_name)
+	current_key = ""
+	isDefined = False
+	for processed_key in processed_SK.keys():
+		#print ("testing for:  "+processed_key)
+		if stock_key_name in processed_key or stock_key_shortname in processed_key:
+			current_key = processed_key
+			isDefined = True
+			break
+	#
+	pyBlock_MeshData_VertexData.append("VertexDataVector3f :" + vertexDataVector3f_local)
+	pyBlock_MeshData_BlendControl.insert(0,"BlendControl :" + blendControl_local)
+	#	
+	data = []
+	#
+	if isDefined:
+		print ("Found key: " + current_key+ " exported as stock object: "+stock_key_name)
+		processed_SK[current_key] = True
+		key = ob.data.shape_keys.key_blocks[current_key]
+		for i in range(len(me.vertices)):
+			delta = (key.data[i].co - basis_verts.data[i].co) * tk_conversion_matrix
+			data.append("( "+"{:0.10f}".format(delta.x)+", "+"{:0.10f}".format(delta.y)+", "+"{:0.10f}".format(delta.z)+")")
+	else:
+		print ("Missing key: " + stock_key_shortname + " exported as zeroed object: "+stock_key_name)
+		for i in range(len(me.vertices)):
+			data.append("( 0, 0, 0)")
+	#
+	SKGroups[usage]["data"] = ",".join(data)		
+	#
+	#
+	#BlendControl :local_843 Object.Name "body_blends_body_vagina_morph";
+	#VertexDataVector3f :local_808 . {
+	#	VertexDataVector3f.DataArray Array_Vector3f [ (0, 0, 0), (0, 0, 0), ... ];
+	#	VertexData.Usage U32(655373);
+	#};
+
+
+
+skg = SKGroups[usage]
+usage = 655373 # last usage consumed by stock morphs
+for processed_key in processed_SK.keys():
+	if processed_SK[processed_key] == False:
+		usage += 1 #increment usage
+		SKGroups[usage] = {}
+		processed_key_pretty = re.sub(r'\W+', '_', processed_key) #replacing any non alfanumeric character in shapekey with "_" character
+		print ("Found custom key: " + processed_key+ " exported as custom object: "+processed_key_pretty)
+		processed_SK[processed_key] = True
+		pyBlock_MeshData_VertexData.append("VertexDataVector3f :vert_"+processed_key_pretty)
+		pyBlock_MeshData_BlendControl.append("BlendControl :bc_"+processed_key_pretty)
+		SKGroups[usage]["localname"] = "vert_"+processed_key_pretty;
+		data = []
+		key = ob.data.shape_keys.key_blocks[processed_key]
+		for i in range(len(me.vertices)):
+			delta = (key.data[i].co - basis_verts.data[i].co) * tk_conversion_matrix
+			data.append("( "+"{:0.10f}".format(delta.x)+", "+"{:0.10f}".format(delta.y)+", "+"{:0.10f}".format(delta.z)+")")
+		SKGroups[usage]["data"] = ",".join(data)		
+		
+pyBlock_MeshData_VertexData
+pyBlock_MeshData_BlendControl
+
+
+#skg = SKGroups[usage] 
+
+
+part3_1_content_MeshDataVertexData_2_morphs.bs_block
+
+
+

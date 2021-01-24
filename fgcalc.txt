@@ -1,0 +1,13 @@
+import bpy
+
+meshobj=bpy.context.object
+
+empt = bpy.data.objects.new("Empty", None)
+empt.parent = meshobj
+empt.parent_type = 'VERTEX'
+
+# only pass on the index, not the vertex object
+empt.parent_vertices[0] = 1
+
+# add the object to the scene so we see what's happening
+bpy.context.scene.objects.link(empt)

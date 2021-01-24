@@ -1,0 +1,12 @@
+import bpy, bmesh
+
+def CreateBoneObject(name):
+    me = bpy.data.meshes.new("fake_"+name)
+    obj = bpy.data.objects.new("fake_"+name,me)
+    Verts = [[0.0, 0.0, 0.0], [1.0, 0.0, 0.0], [0.1818181276321411, -0.12856483459472656, 0.0], [0.1818181276321411, 0.0, -0.12856481969356537], [0.1818181276321411, 0.037655770778656006, 0.0], [0.1818181276321411, 0.0, 0.12856481969356537]]
+    Faces = [0, 2, 5],[0, 5, 4],[0, 4, 3],[0, 3, 2],[4, 5, 1],[3, 4, 1],[5, 2, 1],[2, 3, 1]
+    me.from_pydata(Verts, [], Faces)
+    scn = bpy.context.scene
+    scn.objects.link(obj)
+    return obj
+
