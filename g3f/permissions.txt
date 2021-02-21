@@ -1,0 +1,38 @@
+				permissionMode = "rw";
+				ParcelFileDescriptor pfd = null;
+				ContentResolver resolver = context.getContentResolver();
+				try {
+					if ( PackageManager.PERMISSION_GRANTED == context.checkCallingOrSelfUriPermission(uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION)){
+						Log.d(TAG,"write: true");
+						//permissionMode= "rw";
+					}else{ 
+						Log.d(TAG,"write: false");
+						//permissionMode= "r";
+					}
+					if ( PackageManager.PERMISSION_GRANTED == context.checkCallingOrSelfUriPermission(uri, Intent.FLAG_GRANT_READ_URI_PERMISSION)){
+						Log.d(TAG,"read: true");
+						//permissionMode= "r";
+					}else {
+						//permissionMode= "";
+						Log.d(TAG,"read: false");
+					}
+
+					pfd = resolver.openFileDescriptor(uri,"rw");
+					pfd.close();
+				} catch (FileNotFoundException e1) {
+					Log.e(TAG, "FileNotFoundException in pfd",e1);
+				} catch (SecurityException e) {
+					Log.e(TAG, "Can't open this in Write mode!!!!",e);
+					try {
+						pfd = resolver.openFileDescriptor(uri,"r");
+						pfd.close();
+						permissionMode = "r";
+					}catch (SecurityException e1) {
+						Log.e(TAG, "Can't open this in Read mode!!!!",e1);
+					} catch (FileNotFoundException e1) {
+						Log.e(TAG, "FileNotFoundException in pfd",e1);
+					} catch (IOException e1) {
+					}
+				} catch (IOException e) {
+				}finally{
+				}
