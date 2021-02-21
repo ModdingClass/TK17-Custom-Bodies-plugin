@@ -21,14 +21,14 @@ def export_breasts_fix(exportfolderpath, bodyNo):
 	#
 	#breast_L_raClips1__breast_init_LSource
 	snippet = "var :mySplineVector3f :Person\" + :person + \"Anim:Model01:breast_L_raClips1__breast_init_LSource.Curve[2] ?;"
-	mySplineVectorString = "("+" {:.6g}f,".format(breast_L_joint.location.y+ 0)    +" {:.6g}f,".format(breast_L_joint.location.z+ 0)    +" {:.6g}f".format(breast_L_joint.location.x + 0)   +" )"
+	mySplineVectorString = "("+" {:.6f}f,".format(breast_L_joint.location.y+ 0)    +" {:.6f}f,".format(breast_L_joint.location.z+ 0)    +" {:.6g}f".format(breast_L_joint.location.x + 0)   +" )"
 	snippet = snippet+"\n:mySplineVector3f.KeyValue [ " + mySplineVectorString+" , "+mySplineVectorString +" ];" 
 	snippet = snippet+"\ndel :mySplineVector3f;"
 	breasts_fix_string = breasts_fix_string+snippet
 	breasts_fix_string=breasts_fix_string + "\n"		
 	#	
 	snippet = "var :mySplineVector3f :Person\" + :person + \"Anim:Model01:breast_L_raClips1__breast_init_LSource.Curve[3] ?;"
-	mySplineVectorString = "("+" {:.6g}f,".format(breast_deform02_L_jointEnd.location.y+ 0)    +" {:.6g}f,".format(breast_deform02_L_jointEnd.location.z+ 0)    +" {:.6g}f".format(breast_deform02_L_jointEnd.location.x + 0)   +" )"
+	mySplineVectorString = "("+" {:.6f}f,".format(breast_deform02_L_jointEnd.location.y+ 0)    +" {:.6f}f,".format(breast_deform02_L_jointEnd.location.z+ 0)    +" {:.6g}f".format(breast_deform02_L_jointEnd.location.x + 0)   +" )"
 	snippet = snippet+"\n:mySplineVector3f.KeyValue [ " + mySplineVectorString+" , "+mySplineVectorString +" ];" 
 	snippet = snippet+"\ndel :mySplineVector3f;"
 	breasts_fix_string = breasts_fix_string+snippet
@@ -36,19 +36,20 @@ def export_breasts_fix(exportfolderpath, bodyNo):
 	#	
 	#breast_R_raClips1__breast_init_RSource
 	snippet = "var :mySplineVector3f :Person\" + :person + \"Anim:Model01:breast_R_raClips1__breast_init_RSource.Curve[2] ?;"
-	mySplineVectorString = "("+" {:.6g}f,".format(breast_R_joint.location.y+ 0)    +" {:.6g}f,".format(breast_R_joint.location.z+ 0)    +" {:.6g}f".format(breast_R_joint.location.x + 0)   +" )"
+	mySplineVectorString = "("+" {:.6f}f,".format(breast_R_joint.location.y+ 0)    +" {:.6f}f,".format(breast_R_joint.location.z+ 0)    +" {:.6g}f".format(breast_R_joint.location.x + 0)   +" )"
 	snippet = snippet+"\n:mySplineVector3f.KeyValue [ " + mySplineVectorString+" , "+mySplineVectorString +" ];" 
 	snippet = snippet+"\ndel :mySplineVector3f;"
 	breasts_fix_string = breasts_fix_string+snippet
 	breasts_fix_string=breasts_fix_string + "\n"		
 	#	
 	snippet = "var :mySplineVector3f :Person\" + :person + \"Anim:Model01:breast_R_raClips1__breast_init_RSource.Curve[3] ?;"
-	mySplineVectorString = "("+" {:.6g}f,".format(breast_deform02_R_jointEnd.location.y+ 0)    +" {:.6g}f,".format(breast_deform02_R_jointEnd.location.z+ 0)    +" {:.6g}f".format(breast_deform02_R_jointEnd.location.x + 0)   +" )"
+	mySplineVectorString = "("+" {:.6f}f,".format(breast_deform02_R_jointEnd.location.y+ 0)    +" {:.6f}f,".format(breast_deform02_R_jointEnd.location.z+ 0)    +" {:.6g}f".format(breast_deform02_R_jointEnd.location.x + 0)   +" )"
 	snippet = snippet+"\n:mySplineVector3f.KeyValue [ " + mySplineVectorString+" , "+mySplineVectorString +" ];" 
 	snippet = snippet+"\ndel :mySplineVector3f;"
 	breasts_fix_string = breasts_fix_string+snippet
 	breasts_fix_string=breasts_fix_string + "\n"	
-	#	
+	#
+	breasts_fix_string = breasts_fix_string.replace("-0.000000f", "0f").replace("0.000000f", "0f").replace("-1.000000f", "-1f").replace("1.000000f", "1f")
 	print (breasts_fix_string)
 	file_path = exportfolderpath+"AcBody"+bodyNo+"Collision.bs"
 	f = open(file_path, 'a')

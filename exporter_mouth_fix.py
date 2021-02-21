@@ -15,8 +15,8 @@ def export_mouth_fix(exportfolderpath, bodyNo):
 		snippet = ":Person\" + :person + \"Anim:Model01:"
 		snippet = snippet+joint
 		snippet = snippet + ".SNode? . {\n";
-		snippet = snippet+ "\t.ScalingPivot ("        +" {:.6g}f,".format(empty.location.y+ 0)    +" {:.6g}f,".format(empty.location.z+ 0)    +" {:.6g}f".format(empty.location.x+ 0)   +" );\n"	
-		snippet = snippet+ "\t.RotationPivot ("        +" {:.6g}f,".format(empty.location.y+ 0)    +" {:.6g}f,".format(empty.location.z+ 0)    +" {:.6g}f".format(empty.location.x+ 0)   +" );\n"	
+		snippet = snippet+ "\t.ScalingPivot ("        +" {:.6f}f,".format(empty.location.y+ 0)    +" {:.6f}f,".format(empty.location.z+ 0)    +" {:.6g}f".format(empty.location.x+ 0)   +" );\n"	
+		snippet = snippet+ "\t.RotationPivot ("        +" {:.6f}f,".format(empty.location.y+ 0)    +" {:.6f}f,".format(empty.location.z+ 0)    +" {:.6g}f".format(empty.location.x+ 0)   +" );\n"	
 		snippet = snippet+ "};\n"
 		snippet = snippet+""
 		print (snippet)

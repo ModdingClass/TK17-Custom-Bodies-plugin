@@ -271,10 +271,10 @@ class ToolsPanel(bpy.types.Panel):
 		row=box.row(align=True)
 		row.operator('tkarmature.fake',text='              ')
 		row.operator('tkarmature.clone_as_weighted_object',text='Make Weighted Obj')
-		row.operator('tkarmature.fake',text='              ')
+		row.operator('tkarmature.adjust_rig_to_shape',text='Adjust Rig to G3F Body',icon_value=custom_icons["wand_icon"].icon_id)
 		#row.operator('tkarmature.fake',text='              ')
 		#row=box.row(align=True)
-		#row.operator('tkarmature.fake',text='              ')
+		#row.operator('tkarmature.fake',text='              ') 
 		#row.operator('tkarmature.fake',text='              ')
 		#row.operator('tkarmature.add_fake_bones',text='Add Fake Bones')
 
@@ -379,6 +379,37 @@ class OT_correct_final_rolls(bpy.types.Operator):
 		
 		
 		
+
+class OT_adjust_rig_to_shape(bpy.types.Operator):
+	''''''
+	bl_idname = "tkarmature.adjust_rig_to_shape"
+	bl_label = ""
+	bl_description = "Adjust armature to shape of the custom g3f body."
+
+	group = bpy.props.StringProperty(name="ALL")
+
+	def execute(self, context):
+		scene  = bpy.context.scene
+		tkarmature  = scene.tkarmature
+		
+		script_file = os.path.realpath(__file__)
+		directory = os.path.dirname(script_file)
+		
+		exec(open(os.path.join(directory,"g3f","script_autofix_armature_0_init_vertex_groups.py")).read())
+		exec(open(os.path.join(directory,"g3f","script_autofix_armature_1_functions.py")).read())
+		exec(open(os.path.join(directory,"g3f","script_autofix_armature_3_start_boilerplate.py")).read())
+		#
+		exec(open(os.path.join(directory,"g3f","script_autofix_armature_4_calculate_body.py")).read())
+		exec(open(os.path.join(directory,"g3f","script_autofix_armature_4_calculate_head.py")).read())
+		#
+		exec(open(os.path.join(directory,"g3f","script_autofix_armature_5_preinit_boilerplate.py")).read())
+		#
+		exec(open(os.path.join(directory,"g3f","script_autofix_armature_5_run_body.py")).read())
+		exec(open(os.path.join(directory,"g3f","script_autofix_armature_5_run_head.py")).read())
+		#
+		exec(open(os.path.join(directory,"g3f","script_autofix_armature_9_end_boilerplate.py")).read())
+		return {'FINISHED'}		
+
 		
 class OT_clone_as_weighted_object(bpy.types.Operator):
 	''''''
@@ -869,6 +900,7 @@ def register() :
 	directory = os.path.dirname(script_path)
 	icons_dir = os.path.join(directory, "icons")
 	custom_icons.load("matrix_icon", os.path.join(icons_dir, "matrix.png"), 'IMAGE')
+	custom_icons.load("wand_icon", os.path.join(icons_dir, "auto-fix.png"), 'IMAGE')
 	#bpy.utils.register_class(TKARMATURE_panel)
 	#
 	#when there are many classes or a packages submodule has its own classes it can be tedious to list them all for registration. For more convenient loading bpy.utils.register_module (module)

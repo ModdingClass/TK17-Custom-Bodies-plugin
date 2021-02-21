@@ -28,9 +28,9 @@ def export_arms_fix(exportfolderpath, bodyNo):
 	snippet = ":Person\" + :person + \"Anim:Model01:"
 	snippet = snippet+"arm_L_effector"
 	snippet = snippet + ".SNode? . {\n";
-	snippet = snippet+ "\t.ScalingPivot ("        +" {:.6g}f,".format(wrist_L_joint.location.y+ 0)    +" {:.6g}f,".format(wrist_L_joint.location.x+ 0)    +" {:.6g}f".format(wrist_L_joint.location.z+ 0)   +" );\n"   #here we switch  from yzx to yxz	
-	snippet = snippet+ "\t.RotationPivot ("        +" {:.6g}f,".format(wrist_L_joint.location.y+ 0)    +" {:.6g}f,".format(wrist_L_joint.location.x+ 0)    +" {:.6g}f".format(wrist_L_joint.location.z+ 0)   +" );\n"  #here we switch  from yzx to yxz	
-	snippet = snippet+ "\t.Translation ("        +" {:.6g}f,".format(forearm_L_joint.location.y+ 0)    +" {:.6g}f,".format(forearm_L_joint.location.z+ 0)    +" {:.6g}f".format(forearm_L_joint.location.x+ 0)   +" );\n"  #no switch
+	snippet = snippet+ "\t.ScalingPivot ("        +" {:.6f}f,".format(wrist_L_joint.location.y+ 0)    +" {:.6f}f,".format(wrist_L_joint.location.x+ 0)    +" {:.6g}f".format(wrist_L_joint.location.z+ 0)   +" );\n"   #here we switch  from yzx to yxz	
+	snippet = snippet+ "\t.RotationPivot ("        +" {:.6f}f,".format(wrist_L_joint.location.y+ 0)    +" {:.6f}f,".format(wrist_L_joint.location.x+ 0)    +" {:.6g}f".format(wrist_L_joint.location.z+ 0)   +" );\n"  #here we switch  from yzx to yxz	
+	snippet = snippet+ "\t.Translation ("        +" {:.6f}f,".format(forearm_L_joint.location.y+ 0)    +" {:.6f}f,".format(forearm_L_joint.location.z+ 0)    +" {:.6g}f".format(forearm_L_joint.location.x+ 0)   +" );\n"  #no switch
 	snippet = snippet+ "};\n"
 	snippet = snippet+""
 	arms_fix_string = arms_fix_string+snippet
@@ -39,7 +39,7 @@ def export_arms_fix(exportfolderpath, bodyNo):
 	snippet = ":Person\" + :person + \"Anim:Model01:"
 	snippet = snippet+"hand_L_target01_locator_parent"
 	snippet = snippet + ".SNode? . {\n";
-	snippet = snippet+ "\t.Translation ("        +" {:.6g}f,".format(wrist_L_joint.matrix_world.to_translation().x+ 0)    +" {:.6g}f,".format(wrist_L_joint.matrix_world.to_translation().z+ 0)    +" {:.6g}f".format(-wrist_L_joint.matrix_world.to_translation().y+ 0)   +" );\n"  #no switch
+	snippet = snippet+ "\t.Translation ("        +" {:.6f}f,".format(wrist_L_joint.matrix_world.to_translation().x+ 0)    +" {:.6f}f,".format(wrist_L_joint.matrix_world.to_translation().z+ 0)    +" {:.6g}f".format(-wrist_L_joint.matrix_world.to_translation().y+ 0)   +" );\n"  #no switch
 	snippet = snippet+ "};\n"
 	snippet = snippet+""
 	arms_fix_string = arms_fix_string+snippet
@@ -48,8 +48,8 @@ def export_arms_fix(exportfolderpath, bodyNo):
 	snippet = ":Person\" + :person + \"Anim:Model01:"
 	snippet = snippet+"hand_L_target01"
 	snippet = snippet + ".SNode? . {\n";
-	snippet = snippet+ "\t.ScalingPivot ("        +" {:.6g}f,".format(wrist_L_joint.matrix_world.to_translation().x+ 0)    +" {:.6g}f,".format(wrist_L_joint.matrix_world.to_translation().z+ 0)    +" {:.6g}f".format(-wrist_L_joint.matrix_world.to_translation().y+ 0)   +" );\n"   #here we switch to xz -y	
-	snippet = snippet+ "\t.RotationPivot ("        +" {:.6g}f,".format(wrist_L_joint.matrix_world.to_translation().x+ 0)    +" {:.6g}f,".format(wrist_L_joint.matrix_world.to_translation().z+ 0)    +" {:.6g}f".format(-wrist_L_joint.matrix_world.to_translation().y+ 0)   +" );\n"   #here we switch to xz -y	
+	snippet = snippet+ "\t.ScalingPivot ("        +" {:.6f}f,".format(wrist_L_joint.matrix_world.to_translation().x+ 0)    +" {:.6f}f,".format(wrist_L_joint.matrix_world.to_translation().z+ 0)    +" {:.6g}f".format(-wrist_L_joint.matrix_world.to_translation().y+ 0)   +" );\n"   #here we switch to xz -y	
+	snippet = snippet+ "\t.RotationPivot ("        +" {:.6f}f,".format(wrist_L_joint.matrix_world.to_translation().x+ 0)    +" {:.6f}f,".format(wrist_L_joint.matrix_world.to_translation().z+ 0)    +" {:.6g}f".format(-wrist_L_joint.matrix_world.to_translation().y+ 0)   +" );\n"   #here we switch to xz -y	
 	snippet = snippet+ "};\n"
 	snippet = snippet+""
 	arms_fix_string = arms_fix_string+snippet
@@ -76,7 +76,7 @@ def export_arms_fix(exportfolderpath, bodyNo):
 	snippet = ":Person\" + :person + \"Anim:Model01:"
 	snippet = snippet+"elbow_L_group"
 	snippet = snippet + ".SNode? . {\n";
-	snippet = snippet+ "\t.RotationPivot ("        +" {:.6g}f,".format(calculated_elbow_L_group.x+ 0)    +" {:.6g}f,".format(calculated_elbow_L_group.z+ 0)    +" {:.6g}f".format(-calculated_elbow_L_group.y+ 0)   +" );\n"   #here we switch to xz -y	
+	snippet = snippet+ "\t.RotationPivot ("        +" {:.6f}f,".format(calculated_elbow_L_group.x+ 0)    +" {:.6f}f,".format(calculated_elbow_L_group.z+ 0)    +" {:.6g}f".format(-calculated_elbow_L_group.y+ 0)   +" );\n"   #here we switch to xz -y	
 	#we also need to do RotationPivotTranslation ... 
 	snippet = snippet+ "};\n"
 	snippet = snippet+""
@@ -87,7 +87,7 @@ def export_arms_fix(exportfolderpath, bodyNo):
 	snippet = ":Person\" + :person + \"Anim:Model01:"
 	snippet = snippet+"ellbow_L_locator"
 	snippet = snippet + ".SNode? . {\n";
-	snippet = snippet+ "\t.Translation ("        +" {:.6g}f,".format(calculated_elbow_L_group.x+ 0)    +" {:.6g}f,".format(calculated_elbow_L_group.z+ 0)    +" {:.6g}f".format(-calculated_elbow_L_group.y+ 0)   +" );\n"   #here we switch to xz -y	
+	snippet = snippet+ "\t.Translation ("        +" {:.6f}f,".format(calculated_elbow_L_group.x+ 0)    +" {:.6f}f,".format(calculated_elbow_L_group.z+ 0)    +" {:.6g}f".format(-calculated_elbow_L_group.y+ 0)   +" );\n"   #here we switch to xz -y	
 	snippet = snippet+ "};\n"
 	snippet = snippet+""
 	arms_fix_string = arms_fix_string+snippet
@@ -101,9 +101,9 @@ def export_arms_fix(exportfolderpath, bodyNo):
 	snippet = ":Person\" + :person + \"Anim:Model01:"
 	snippet = snippet+"arm_R_effector"
 	snippet = snippet + ".SNode? . {\n";
-	snippet = snippet+ "\t.ScalingPivot ("        +" {:.6g}f,".format(wrist_R_joint.location.y+ 0)    +" {:.6g}f,".format(wrist_R_joint.location.x+ 0)    +" {:.6g}f".format(wrist_R_joint.location.z+ 0)   +" );\n"   #here we switch  from yzx to yxz	
-	snippet = snippet+ "\t.RotationPivot ("        +" {:.6g}f,".format(wrist_R_joint.location.y+ 0)    +" {:.6g}f,".format(wrist_R_joint.location.x+ 0)    +" {:.6g}f".format(wrist_R_joint.location.z+ 0)   +" );\n"  #here we switch  from yzx to yxz	
-	snippet = snippet+ "\t.Translation ("        +" {:.6g}f,".format(forearm_R_joint.location.y+ 0)    +" {:.6g}f,".format(forearm_R_joint.location.z+ 0)    +" {:.6g}f".format(forearm_R_joint.location.x+ 0)   +" );\n"  #no switch
+	snippet = snippet+ "\t.ScalingPivot ("        +" {:.6f}f,".format(wrist_R_joint.location.y+ 0)    +" {:.6f}f,".format(wrist_R_joint.location.x+ 0)    +" {:.6g}f".format(wrist_R_joint.location.z+ 0)   +" );\n"   #here we switch  from yzx to yxz	
+	snippet = snippet+ "\t.RotationPivot ("        +" {:.6f}f,".format(wrist_R_joint.location.y+ 0)    +" {:.6f}f,".format(wrist_R_joint.location.x+ 0)    +" {:.6g}f".format(wrist_R_joint.location.z+ 0)   +" );\n"  #here we switch  from yzx to yxz	
+	snippet = snippet+ "\t.Translation ("        +" {:.6f}f,".format(forearm_R_joint.location.y+ 0)    +" {:.6f}f,".format(forearm_R_joint.location.z+ 0)    +" {:.6g}f".format(forearm_R_joint.location.x+ 0)   +" );\n"  #no switch
 	snippet = snippet+ "};\n"
 	snippet = snippet+""
 	arms_fix_string = arms_fix_string+snippet
@@ -112,7 +112,7 @@ def export_arms_fix(exportfolderpath, bodyNo):
 	snippet = ":Person\" + :person + \"Anim:Model01:"
 	snippet = snippet+"hand_R_target01_locator_parent"
 	snippet = snippet + ".SNode? . {\n";
-	snippet = snippet+ "\t.Translation ("        +" {:.6g}f,".format(wrist_R_joint.matrix_world.to_translation().x+ 0)    +" {:.6g}f,".format(wrist_R_joint.matrix_world.to_translation().z+ 0)    +" {:.6g}f".format(-wrist_R_joint.matrix_world.to_translation().y+ 0)   +" );\n"  #here we switch to xz -y	(daz to villa)
+	snippet = snippet+ "\t.Translation ("        +" {:.6f}f,".format(wrist_R_joint.matrix_world.to_translation().x+ 0)    +" {:.6f}f,".format(wrist_R_joint.matrix_world.to_translation().z+ 0)    +" {:.6g}f".format(-wrist_R_joint.matrix_world.to_translation().y+ 0)   +" );\n"  #here we switch to xz -y	(daz to villa)
 	snippet = snippet+ "};\n"
 	snippet = snippet+""
 	arms_fix_string = arms_fix_string+snippet
@@ -121,8 +121,8 @@ def export_arms_fix(exportfolderpath, bodyNo):
 	snippet = ":Person\" + :person + \"Anim:Model01:"
 	snippet = snippet+"hand_R_target01"
 	snippet = snippet + ".SNode? . {\n";
-	snippet = snippet+ "\t.ScalingPivot ("        +" {:.6g}f,".format(wrist_R_joint.matrix_world.to_translation().x+ 0)    +" {:.6g}f,".format(wrist_R_joint.matrix_world.to_translation().z+ 0)    +" {:.6g}f".format(-wrist_R_joint.matrix_world.to_translation().y+ 0)   +" );\n"   #here we switch to xz -y	
-	snippet = snippet+ "\t.RotationPivot ("        +" {:.6g}f,".format(wrist_R_joint.matrix_world.to_translation().x+ 0)    +" {:.6g}f,".format(wrist_R_joint.matrix_world.to_translation().z+ 0)    +" {:.6g}f".format(-wrist_R_joint.matrix_world.to_translation().y+ 0)   +" );\n"   #here we switch to xz -y	
+	snippet = snippet+ "\t.ScalingPivot ("        +" {:.6f}f,".format(wrist_R_joint.matrix_world.to_translation().x+ 0)    +" {:.6f}f,".format(wrist_R_joint.matrix_world.to_translation().z+ 0)    +" {:.6g}f".format(-wrist_R_joint.matrix_world.to_translation().y+ 0)   +" );\n"   #here we switch to xz -y	
+	snippet = snippet+ "\t.RotationPivot ("        +" {:.6f}f,".format(wrist_R_joint.matrix_world.to_translation().x+ 0)    +" {:.6f}f,".format(wrist_R_joint.matrix_world.to_translation().z+ 0)    +" {:.6g}f".format(-wrist_R_joint.matrix_world.to_translation().y+ 0)   +" );\n"   #here we switch to xz -y	
 	snippet = snippet+ "};\n"
 	snippet = snippet+""
 	arms_fix_string = arms_fix_string+snippet
@@ -144,7 +144,7 @@ def export_arms_fix(exportfolderpath, bodyNo):
 	snippet = ":Person\" + :person + \"Anim:Model01:"
 	snippet = snippet+"elbow_R_group"
 	snippet = snippet + ".SNode? . {\n";
-	snippet = snippet+ "\t.RotationPivot ("        +" {:.6g}f,".format(calculated_elbow_R_group.x+ 0)    +" {:.6g}f,".format(calculated_elbow_R_group.z+ 0)    +" {:.6g}f".format(-calculated_elbow_R_group.y+ 0)   +" );\n"   #here we switch to xz -y	
+	snippet = snippet+ "\t.RotationPivot ("        +" {:.6f}f,".format(calculated_elbow_R_group.x+ 0)    +" {:.6f}f,".format(calculated_elbow_R_group.z+ 0)    +" {:.6g}f".format(-calculated_elbow_R_group.y+ 0)   +" );\n"   #here we switch to xz -y	
 	#we also need to do RotationPivotTranslation ... 
 	snippet = snippet+ "};\n"
 	snippet = snippet+""
@@ -155,7 +155,7 @@ def export_arms_fix(exportfolderpath, bodyNo):
 	snippet = ":Person\" + :person + \"Anim:Model01:"
 	snippet = snippet+"ellbow_R_locator"
 	snippet = snippet + ".SNode? . {\n";
-	snippet = snippet+ "\t.Translation ("        +" {:.6g}f,".format(calculated_elbow_R_group.x+ 0)    +" {:.6g}f,".format(calculated_elbow_R_group.z+ 0)    +" {:.6g}f".format(-calculated_elbow_R_group.y+ 0)   +" );\n"   #here we switch to xz -y	
+	snippet = snippet+ "\t.Translation ("        +" {:.6f}f,".format(calculated_elbow_R_group.x+ 0)    +" {:.6f}f,".format(calculated_elbow_R_group.z+ 0)    +" {:.6g}f".format(-calculated_elbow_R_group.y+ 0)   +" );\n"   #here we switch to xz -y	
 	snippet = snippet+ "};\n"
 	snippet = snippet+""
 	arms_fix_string = arms_fix_string+snippet
@@ -183,9 +183,9 @@ def export_elbows_grup_fix(exportfolderpath, bodyNo):
 	snippet = ":Person\" + :person + \"Anim:Model01:"
 	snippet = snippet+"arm_L_effector"
 	snippet = snippet + ".SNode? . {\n";
-	snippet = snippet+ "\t.ScalingPivot ("        +" {:.6g}f,".format(wrist_L_joint.location.y+ 0)    +" {:.6g}f,".format(wrist_L_joint.location.x+ 0)    +" {:.6g}f".format(wrist_L_joint.location.z+ 0)   +" );\n"   #here we switch  from yzx to yxz	
-	snippet = snippet+ "\t.RotationPivot ("        +" {:.6g}f,".format(wrist_L_joint.location.y+ 0)    +" {:.6g}f,".format(wrist_L_joint.location.x+ 0)    +" {:.6g}f".format(wrist_L_joint.location.z+ 0)   +" );\n"  #here we switch  from yzx to yxz	
-	snippet = snippet+ "\t.Translation ("        +" {:.6g}f,".format(forearm_L_joint.location.y+ 0)    +" {:.6g}f,".format(forearm_L_joint.location.z+ 0)    +" {:.6g}f".format(forearm_L_joint.location.x+ 0)   +" );\n"  #no switch
+	snippet = snippet+ "\t.ScalingPivot ("        +" {:.6f}f,".format(wrist_L_joint.location.y+ 0)    +" {:.6f}f,".format(wrist_L_joint.location.x+ 0)    +" {:.6g}f".format(wrist_L_joint.location.z+ 0)   +" );\n"   #here we switch  from yzx to yxz	
+	snippet = snippet+ "\t.RotationPivot ("        +" {:.6f}f,".format(wrist_L_joint.location.y+ 0)    +" {:.6f}f,".format(wrist_L_joint.location.x+ 0)    +" {:.6g}f".format(wrist_L_joint.location.z+ 0)   +" );\n"  #here we switch  from yzx to yxz	
+	snippet = snippet+ "\t.Translation ("        +" {:.6f}f,".format(forearm_L_joint.location.y+ 0)    +" {:.6f}f,".format(forearm_L_joint.location.z+ 0)    +" {:.6g}f".format(forearm_L_joint.location.x+ 0)   +" );\n"  #no switch
 	snippet = snippet+ "};\n"
 	snippet = snippet+""
 	arms_fix_string = arms_fix_string+snippet
@@ -197,13 +197,14 @@ def export_elbows_grup_fix(exportfolderpath, bodyNo):
 	snippet = ":Person\" + :person + \"Anim:Model01:"
 	snippet = snippet+"arm_R_effector"
 	snippet = snippet + ".SNode? . {\n";
-	snippet = snippet+ "\t.ScalingPivot ("        +" {:.6g}f,".format(wrist_R_joint.location.y+ 0)    +" {:.6g}f,".format(wrist_R_joint.location.x+ 0)    +" {:.6g}f".format(wrist_R_joint.location.z+ 0)   +" );\n"   #here we switch  from yzx to yxz	
-	snippet = snippet+ "\t.RotationPivot ("        +" {:.6g}f,".format(wrist_R_joint.location.y+ 0)    +" {:.6g}f,".format(wrist_R_joint.location.x+ 0)    +" {:.6g}f".format(wrist_R_joint.location.z+ 0)   +" );\n"  #here we switch  from yzx to yxz	
-	snippet = snippet+ "\t.Translation ("        +" {:.6g}f,".format(forearm_R_joint.location.y+ 0)    +" {:.6g}f,".format(forearm_R_joint.location.z+ 0)    +" {:.6g}f".format(forearm_R_joint.location.x+ 0)   +" );\n"  #no switch
+	snippet = snippet+ "\t.ScalingPivot ("        +" {:.6f}f,".format(wrist_R_joint.location.y+ 0)    +" {:.6f}f,".format(wrist_R_joint.location.x+ 0)    +" {:.6g}f".format(wrist_R_joint.location.z+ 0)   +" );\n"   #here we switch  from yzx to yxz	
+	snippet = snippet+ "\t.RotationPivot ("        +" {:.6f}f,".format(wrist_R_joint.location.y+ 0)    +" {:.6f}f,".format(wrist_R_joint.location.x+ 0)    +" {:.6g}f".format(wrist_R_joint.location.z+ 0)   +" );\n"  #here we switch  from yzx to yxz	
+	snippet = snippet+ "\t.Translation ("        +" {:.6f}f,".format(forearm_R_joint.location.y+ 0)    +" {:.6f}f,".format(forearm_R_joint.location.z+ 0)    +" {:.6g}f".format(forearm_R_joint.location.x+ 0)   +" );\n"  #no switch
 	snippet = snippet+ "};\n"
 	snippet = snippet+""
 	arms_fix_string = arms_fix_string+snippet
 	arms_fix_string = arms_fix_string+"\n"
+	arms_fix_string = arms_fix_string.replace("-0.000000f", "0f").replace("0.000000f", "0f").replace("-1.000000f", "-1f").replace("1.000000f", "1f")
 	#
 	print (arms_fix_string)
 	file_path = exportfolderpath+"AcBody"+bodyNo+"Collision.bs"
