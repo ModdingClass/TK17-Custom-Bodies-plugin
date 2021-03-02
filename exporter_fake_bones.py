@@ -12,8 +12,15 @@ def export_fake_bones(exportfolderpath, bodyNo, ignoreSomeBones):
 	for mesh in meshes:
 		if mesh.parent == None or not "cone_" in mesh.name:
 			continue
-		if ignoreSomeBones == True and ("_jointEnd" in mesh.name and not mesh.name in ["spine_jointEnd", "neck_jointEnd", "lower_jaw_jointEnd", "forehead_jointEnd", "head_jointEnd"]):
-			continue
+		if ignoreSomeBones == True:
+			if ("_jointEnd" in mesh.name and not mesh.name in ["spine_jointEnd", "neck_jointEnd", "lower_jaw_jointEnd", "forehead_jointEnd", "head_jointEnd"]):
+				continue
+			if ("toe_joint" in mesh.name):
+				continue
+			if ("testicles" in mesh.name):
+				continue				
+			if ("penis" in mesh.name):
+				continue								
 		acceptedName = mesh.name.replace(".","_")
 		localmat = mesh.matrix_local
 		decomposed = localmat.decompose()

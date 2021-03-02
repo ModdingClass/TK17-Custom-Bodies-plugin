@@ -61,6 +61,7 @@ from .exporter_body import *
 from .importer_g3f import *
 from .importer_g3f_morphs import *
 from .exporter_fake_bones import *
+from .exporter_z_cleanup_values import *
 from .exporter_boilerplate import *
 from .tools_duplicate_object_remove_mats_shapekeys import *
 
@@ -101,6 +102,7 @@ if "bpy" in locals():
 	imp.reload(importer_g3f)
 	imp.reload(importer_g3f_morphs)
 	imp.reload(exporter_fake_bones)
+	imp.reload(exporter_z_cleanup_values)
 	imp.reload(exporter_boilerplate)
 	imp.reload(tools_duplicate_object_remove_mats_shapekeys)
 	
@@ -130,6 +132,7 @@ else:
 	from . import exporter_body
 	from . import importer_g3f_morphs
 	from . import exporter_fake_bones
+	from . import exporter_z_cleanup_values
 	from . import exporter_boilerplate
 	from . import tools_duplicate_object_remove_mats_shapekeys
 	
@@ -272,11 +275,31 @@ class ToolsPanel(bpy.types.Panel):
 		row.operator('tkarmature.fake',text='              ')
 		row.operator('tkarmature.clone_as_weighted_object',text='Make Weighted Obj')
 		row.operator('tkarmature.adjust_rig_to_shape',text='Adjust Rig to G3F Body',icon_value=custom_icons["wand_icon"].icon_id)
+		
 		#row.operator('tkarmature.fake',text='              ')
 		#row=box.row(align=True)
 		#row.operator('tkarmature.fake',text='              ') 
 		#row.operator('tkarmature.fake',text='              ')
 		#row.operator('tkarmature.add_fake_bones',text='Add Fake Bones')
+
+
+class ConstraintsPanel(bpy.types.Panel):
+	"""Creates a Panel in the Tool Shelf"""
+	bl_label = "Constraints and IKs"
+	bl_idname = "Constraints Panel"
+	bl_space_type = 'VIEW_3D'
+	bl_region_type = 'TOOLS'
+	bl_category = "TK17 Body"
+	def draw(self,context):
+		layout=self.layout
+		box = layout.box()
+		scene=context.scene
+		tkarmature  = scene.tkarmature
+		row=box.row(align=True)
+		row.operator('tkarmature.fake',text='              ')
+		row.operator('tkarmature.add_legs_ik',text='Legs IK',icon='POSE_DATA')
+		row.operator('tkarmature.add_finger_hand_close_constraints',text='Finger Constraints',icon='CONSTRAINT_BONE')
+		
 
 class FakeBonesPanel(bpy.types.Panel):
 	"""Creates a Panel in the Tool Shelf"""
@@ -360,6 +383,35 @@ class OT_fake(bpy.types.Operator):
 
 	def execute(self, context):
 		return {'FINISHED'}
+
+
+class OT_add_legs_ik(bpy.types.Operator):
+	''''''
+	bl_idname = "tkarmature.add_legs_ik"
+	bl_label = ""
+	bl_description = "Add IK to the legs. Useful for posing and creating inverse bind matrix for high heels poses"
+
+	group = bpy.props.StringProperty(name="ALL")
+
+	def execute(self, context):
+		scene  = bpy.context.scene
+		tkarmature  = scene.tkarmature
+		ShowMessageBox("Not implemented", "Warning", 'INFO')
+		return {'FINISHED'}		
+		
+class OT_add_finger_hand_close_constraints(bpy.types.Operator):
+	''''''
+	bl_idname = "tkarmature.add_finger_hand_close_constraints"
+	bl_label = ""
+	bl_description = "Add finger constraints useful for hand closing"
+
+	group = bpy.props.StringProperty(name="ALL")
+
+	def execute(self, context):
+		scene  = bpy.context.scene
+		tkarmature  = scene.tkarmature
+		ShowMessageBox("Not implemented", "Warning", 'INFO')
+		return {'FINISHED'}			
 
 
 class OT_correct_final_rolls(bpy.types.Operator):
@@ -738,6 +790,7 @@ class OT_Export_Empties_To_Files(bpy.types.Operator):
 		export_breasts_fix(tkarmature.exportfolderpath, tkarmature.bodyNo)
 		export_anus_default(tkarmature.exportfolderpath, tkarmature.bodyNo)
 		export_face_default(tkarmature.exportfolderpath, tkarmature.bodyNo)
+		export_values_cleanup(tkarmature.exportfolderpath, tkarmature.bodyNo)
 		export_boilerplate_tail(tkarmature.exportfolderpath, tkarmature.bodyNo)
 		file_path = tkarmature.exportfolderpath+"AcBody"+tkarmature.bodyNo+"Collision.bs"
 		ShowMessageBox("Exported to "+file_path, "Success", 'INFO')
@@ -873,6 +926,80 @@ class OT_Import_Blenda_Body(Operator, ImportHelper):
 
 
 
+@bpy.app.handlers.persistent
+def post_ob_data_updated(scene):
+	ob = scene.objects.active
+	if ob is not None and ob.type=='ARMATURE' and ob.data.is_updated: #
+		print (ob.type)
+		print("%s - Armature Object data is_updated (post)" % ob.data.name)
+		mode = ob.mode
+		if mode=="EDIT":
+			for eb in ob.data.edit_bones:
+				pb = ob.pose.bones[eb.name]
+				pb.dp_helper.shouldUpdate = False
+				pb.dp_helper.roll = eb.roll
+			for eb in ob.data.edit_bones:
+				pb = ob.pose.bones[eb.name]
+				pb.dp_helper.shouldUpdate = True
+
+
+
+
+class OT_sync_rolls(bpy.types.Operator):
+	''''''
+	bl_idname = "tkarmature.sync_rolls"
+	bl_label = ""
+	bl_description = "Sync bone rolls"
+
+	group = bpy.props.StringProperty(name="ALL")
+
+	def execute(self, context):
+		scene  = bpy.context.scene
+		tkarmature  = scene.tkarmature
+		ob = context.active_object
+		mode = ob.mode
+		if mode!="EDIT":
+			bpy.ops.object.mode_set(mode='EDIT')
+		for eb in ob.data.edit_bones:
+			pb = ob.pose.bones[eb.name]
+			pb.dp_helper.shouldUpdate = False
+			pb.dp_helper.roll = eb.roll
+		for eb in ob.data.edit_bones:
+			pb = ob.pose.bones[eb.name]
+			pb.dp_helper.shouldUpdate = True
+		bpy.ops.object.mode_set(mode=mode) #Restore previous mode
+		return {'FINISHED'}
+
+
+def item_pose_draw(self, context):
+	layout = self.layout
+	ob = context.active_object
+	row = layout.row()
+	if ob.type == 'ARMATURE' and ob.mode in { "POSE" , "EDIT"}:
+		bone = context.active_bone
+		if bone:
+			row = layout.row()
+			bone = ob.pose.bones[bone.name] #Property group is in Pose Bone, not in Edit Bone therefore  
+			row.label(icon='MESH_CONE')
+			row.prop(bone.dp_helper, "roll", text=bone.name)
+			row = layout.row()
+			row.operator('tkarmature.sync_rolls',text='Sync rolls',icon='PMARKER')
+			
+def pbone_roll_update(self,context):
+	if (self.shouldUpdate):
+		mode = context.active_object.mode
+		if mode != 'EDIT':
+			bpy.ops.object.mode_set(mode='EDIT')
+		context.active_bone.roll = self.roll
+		bpy.ops.object.mode_set(mode=mode) #Restore previous mode
+	else:
+		print ("not going to update it!")
+
+
+class DpPoseBoneHelper(bpy.types.PropertyGroup):
+	roll = FloatProperty(subtype = 'ANGLE', update = pbone_roll_update)
+	shouldUpdate = BoolProperty(name="Allow Update",description="A bool property for Allow Update",default = True)
+
 
 @persistent
 def addon_handler(scene):
@@ -901,6 +1028,7 @@ def register() :
 	icons_dir = os.path.join(directory, "icons")
 	custom_icons.load("matrix_icon", os.path.join(icons_dir, "matrix.png"), 'IMAGE')
 	custom_icons.load("wand_icon", os.path.join(icons_dir, "auto-fix.png"), 'IMAGE')
+	custom_icons.load("ik_arm_icon", os.path.join(icons_dir, "ik_arm.png"), 'IMAGE')
 	#bpy.utils.register_class(TKARMATURE_panel)
 	#
 	#when there are many classes or a packages submodule has its own classes it can be tedious to list them all for registration. For more convenient loading bpy.utils.register_module (module)
@@ -910,12 +1038,18 @@ def register() :
 	bpy.types.Scene.tkarmature = bpy.props.PointerProperty(type=TKARMATURE_vars)	
 	tkarmature = bpy.types.Scene.tkarmature	
 	#bpy.app.handlers.scene_update_post.append(addon_handler)
+	bpy.types.PoseBone.dp_helper = PointerProperty(type = DpPoseBoneHelper)
+	bpy.types.VIEW3D_PT_view3d_name.append(item_pose_draw)
+	bpy.app.handlers.scene_update_post.append(post_ob_data_updated)
+	
 
 def unregister() :
 	global custom_icons
 	bpy.utils.previews.remove(custom_icons)
 	del bpy.types.Scene.tkarmature
 	del bpy.types.PoseBone.hfg_bone
+	bpy.types.VIEW3D_PT_view3d_name.remove(item_pose_draw)
+	bpy.app.handlers.scene_update_post.clear()
 	#when there are many classes or a packages submodule has its own classes it can be tedious to list them all for un-registration. For more convenient loading bpy.utils.unregister_module (module)
 	#Internally Blender collects subclasses on registrable types, storing them by the module in which they are defined. By passing the module name to bpy.utils.register_module Blender can register all classes created by this module and its submodules.
 	bpy.utils.unregister_module(__name__)  

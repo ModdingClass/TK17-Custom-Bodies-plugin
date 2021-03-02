@@ -42,11 +42,11 @@ def export_boilerplate_tail(exportfolderpath, bodyNo):
 	#
 	file_path = exportfolderpath+"AcBody"+bodyNo+"Collision.bs"
 	f = open(file_path, 'a')
-	tail = ""
+	tail = "\n"
 	tail += "\t\t\t\";\n"
 	tail += "\t\t};\n"
 	tail += "\t];\n"
-	tail += ";\n"
+	tail += "};\n"
 	f.write(tail)
 	f.close()
 

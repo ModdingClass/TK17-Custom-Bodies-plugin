@@ -10,3 +10,28 @@ def CreateBoneObject(name):
     scn.objects.link(obj)
     return obj
 
+
+
+
+localname	local_custommouth_RS
+objectname	body_teeth01_SG
+
+
+DressDescription :Dress14017_Description . {
+	.DressID I32(14017);
+	.PrimaryZone :DZ_TeethUpper;
+	.DressName "Embedded Teeth";
+	.Enable True;
+	.CmdArray [ DressCmd . {
+		.Target :P + "Body:body_teeth01_SG";
+		.Show I32(2);
+	};
+	
+		DressCmd . {
+		.Target :P + "Teeth_Upper:upper_jaw_mesh";
+		.Show I32(-1);
+	};	
+	
+	
+	];
+};

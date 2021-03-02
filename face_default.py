@@ -390,7 +390,8 @@ def export_face_default(exportfolderpath, bodyNo):
 	#face_default
 	#
 	#[float(i) for i in face_default]
-	face_default_values_str = '\n:Person" + :person + "AnimFace:face_poseBlend.PoseDefault ' + str([float(i) for i in face_default])+';'
+	face_default_values_str = '\n:Person" + :person + "AnimFace:face_poseBlend.PoseDefault ' + str(["{:.6f}f".format(float(i)) for i in face_default])+';'
+	face_default_values_str = face_default_values_str.replace("-0.000000f", "0.0f").replace("0.000000f", "0.0f").replace("-1.000000f", "-1.0f").replace("1.000000f", "1.0f").replace("'", "")
 	file_path = exportfolderpath+"AcBody"+bodyNo+"Collision.bs"
 	f = open(file_path, 'a')
 	f.write(face_default_values_str)

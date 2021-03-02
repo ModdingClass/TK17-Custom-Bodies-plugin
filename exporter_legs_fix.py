@@ -34,7 +34,7 @@ def export_legs_fix(exportfolderpath, bodyNo):
 	snippet = snippet+"leg_L_ikEffector"
 	snippet = snippet + ".SNode? . {\n";
 	#RK: Must use the same value than the one used by the joint linked to the TIKEffector.TranslationLink parameter. (check the sjoint of it) If the sjoint do not contain any... this mean that the translation = (0, 0, 0) and that your didn't follow the rule!
-	snippet = snippet+ "\t.Translation ("        +" {:.6f}f,".format(ankle_L_joint.location.y+ 0)    +" {:.6f}f,".format(ankle_L_joint.location.z+ 0)    +" {:.6f}f".format(ankle_L_joint.location.x+ 0)   +" );\n"  #no switch
+	snippet = snippet+ "\t.Translation ("        +" {:.6g}f,".format(ankle_L_joint.location.y+ 0)    +" {:.6g}f,".format(ankle_L_joint.location.z+ 0)    +" {:.6g}f".format(ankle_L_joint.location.x+ 0)   +" );\n"  #no switch
 	snippet = snippet+ "};\n"
 	snippet = snippet+""
 	legs_fix_string = legs_fix_string+snippet
@@ -44,7 +44,7 @@ def export_legs_fix(exportfolderpath, bodyNo):
 	snippet = snippet+"ball_L_ikEffector"
 	snippet = snippet + ".SNode? . {\n";
 	#RK: Must use the same value than the one used by the joint linked to the TIKEffector.TranslationLink parameter. (check the sjoint of it) If the sjoint do not contain any... this mean that the translation = (0, 0, 0) and that your didn't follow the rule!
-	snippet = snippet+ "\t.Translation ("        +" {:.6f}f,".format(ball_L_joint.location.y+ 0)    +" {:.6f}f,".format(ball_L_joint.location.z+ 0)    +" {:.6f}f".format(ball_L_joint.location.x+ 0)   +" );\n"  #no switch
+	snippet = snippet+ "\t.Translation ("        +" {:.6g}f,".format(ball_L_joint.location.y+ 0)    +" {:.6g}f,".format(ball_L_joint.location.z+ 0)    +" {:.6g}f".format(ball_L_joint.location.x+ 0)   +" );\n"  #no switch
 	snippet = snippet+ "};\n"
 	snippet = snippet+""
 	legs_fix_string = legs_fix_string+snippet
@@ -54,7 +54,7 @@ def export_legs_fix(exportfolderpath, bodyNo):
 	#snippet = snippet+"toe_L_ikEffector"
 	#snippet = snippet + ".SNode? . {\n";
 	#RK: Must use the same value than the one used by the joint linked to the TIKEffector.TranslationLink parameter. (check the sjoint of it) If the sjoint do not contain any... this mean that the translation = (0, 0, 0) and that your didn't follow the rule!
-	#snippet = snippet+ "\t.Translation ("        +" {:.6f}f,".format(toe_L_joint.location.y+ 0)    +" {:.6f}f,".format(toe_L_joint.location.z+ 0)    +" {:.6g}f".format(toe_L_joint.location.x+ 0)   +" );\n"  #no switch
+	#snippet = snippet+ "\t.Translation ("        +" {:.6g}f,".format(toe_L_joint.location.y+ 0)    +" {:.6g}f,".format(toe_L_joint.location.z+ 0)    +" {:.6g}f".format(toe_L_joint.location.x+ 0)   +" );\n"  #no switch
 	#snippet = snippet+ "};\n"
 	#snippet = snippet+""
 	#legs_fix_string = legs_fix_string+snippet
@@ -63,8 +63,8 @@ def export_legs_fix(exportfolderpath, bodyNo):
 	snippet = ":Person\" + :person + \"Anim:Model01:"
 	snippet = snippet+"knee_L_group"
 	snippet = snippet + ".SNode? . {\n";
-	snippet = snippet+ "\t.ScalingPivot ("        +" {:.6f}f,".format(-generic_x+ 0)    +" {:.6f}f,".format(knee_L_joint.matrix_world.to_translation().z+ 0)    +" {:.6g}f".format(knee_offset + 0)   +" );\n"   #here we switch to xz -y	
-	snippet = snippet+ "\t.RotationPivot ("        +" {:.6f}f,".format(-generic_x+ 0)    +" {:.6f}f,".format(knee_L_joint.matrix_world.to_translation().z+ 0)    +" {:.6g}f".format(knee_offset + 0)   +" );\n"   #here we switch to xz -y	
+	snippet = snippet+ "\t.ScalingPivot ("        +" {:.6g}f,".format(-generic_x+ 0)    +" {:.6g}f,".format(knee_L_joint.matrix_world.to_translation().z+ 0)    +" {:.6g}f".format(knee_offset + 0)   +" );\n"   #here we switch to xz -y	
+	snippet = snippet+ "\t.RotationPivot ("        +" {:.6g}f,".format(-generic_x+ 0)    +" {:.6g}f,".format(knee_L_joint.matrix_world.to_translation().z+ 0)    +" {:.6g}f".format(knee_offset + 0)   +" );\n"   #here we switch to xz -y	
 	snippet = snippet+ "};\n"
 	snippet = snippet+""
 	legs_fix_string = legs_fix_string+snippet
@@ -74,8 +74,8 @@ def export_legs_fix(exportfolderpath, bodyNo):
 	snippet = ":Person\" + :person + \"Anim:Model01:"
 	snippet = snippet+"tiptoe_L_rotation_group"
 	snippet = snippet + ".SNode? . {\n";
-	snippet = snippet+ "\t.ScalingPivot ("        +" {:.6f}f,".format(-generic_x+ 0)    +" {:.6f}f,".format(ball_L_joint.matrix_world.to_translation().z+ 0)    +" {:.6g}f".format(-toe_L_joint.matrix_world.to_translation().y + 0)   +" );\n"   #here we switch to xz -y	
-	snippet = snippet+ "\t.RotationPivot ("        +" {:.6f}f,".format(-generic_x+ 0)    +" {:.6f}f,".format(ball_L_joint.matrix_world.to_translation().z+ 0)    +" {:.6g}f".format(-toe_L_joint.matrix_world.to_translation().y + 0)   +" );\n"   #here we switch to xz -y	
+	snippet = snippet+ "\t.ScalingPivot ("        +" {:.6g}f,".format(-generic_x+ 0)    +" {:.6g}f,".format(ball_L_joint.matrix_world.to_translation().z+ 0)    +" {:.6g}f".format(-toe_L_joint.matrix_world.to_translation().y + 0)   +" );\n"   #here we switch to xz -y	
+	snippet = snippet+ "\t.RotationPivot ("        +" {:.6g}f,".format(-generic_x+ 0)    +" {:.6g}f,".format(ball_L_joint.matrix_world.to_translation().z+ 0)    +" {:.6g}f".format(-toe_L_joint.matrix_world.to_translation().y + 0)   +" );\n"   #here we switch to xz -y	
 	snippet = snippet+ "};\n"
 	snippet = snippet+""
 	legs_fix_string = legs_fix_string+snippet
@@ -85,8 +85,8 @@ def export_legs_fix(exportfolderpath, bodyNo):
 	snippet = ":Person\" + :person + \"Anim:Model01:"
 	snippet = snippet+"ball_L_group"
 	snippet = snippet + ".SNode? . {\n";
-	snippet = snippet+ "\t.ScalingPivot ("        +" {:.6f}f,".format(-generic_x+ 0)    +" {:.6f}f,".format(ball_L_joint.matrix_world.to_translation().z+ 0)    +" {:.6g}f".format(-toe_L_joint.matrix_world.to_translation().y + 0)   +" );\n"   #here we switch to xz -y	
-	snippet = snippet+ "\t.RotationPivot ("        +" {:.6f}f,".format(-generic_x+ 0)    +" {:.6f}f,".format(ball_L_joint.matrix_world.to_translation().z+ 0)    +" {:.6g}f".format(-toe_L_joint.matrix_world.to_translation().y + 0)   +" );\n"   #here we switch to xz -y	
+	snippet = snippet+ "\t.ScalingPivot ("        +" {:.6g}f,".format(-generic_x+ 0)    +" {:.6g}f,".format(ball_L_joint.matrix_world.to_translation().z+ 0)    +" {:.6g}f".format(-toe_L_joint.matrix_world.to_translation().y + 0)   +" );\n"   #here we switch to xz -y	
+	snippet = snippet+ "\t.RotationPivot ("        +" {:.6g}f,".format(-generic_x+ 0)    +" {:.6g}f,".format(ball_L_joint.matrix_world.to_translation().z+ 0)    +" {:.6g}f".format(-toe_L_joint.matrix_world.to_translation().y + 0)   +" );\n"   #here we switch to xz -y	
 	snippet = snippet+ "};\n"
 	snippet = snippet+""
 	legs_fix_string = legs_fix_string+snippet
@@ -96,8 +96,8 @@ def export_legs_fix(exportfolderpath, bodyNo):
 	snippet = ":Person\" + :person + \"Anim:Model01:"
 	snippet = snippet+"tiptoe_L_rotation_ikHandle"
 	snippet = snippet + ".SNode? . {\n";
-	snippet = snippet+ "\t.ScalingPivot ("        +" {:.6f}f,".format(-generic_x+ 0)    +" {:.6f}f,".format(toe_L_joint.matrix_world.to_translation().z+ 0)    +" {:.6g}f".format(0.1-toe_L_joint.matrix_world.to_translation().y + 0)   +" );\n"   #here we switch to xz -y	
-	snippet = snippet+ "\t.RotationPivot ("        +" {:.6f}f,".format(-generic_x+ 0)    +" {:.6f}f,".format(toe_L_joint.matrix_world.to_translation().z+ 0)    +" {:.6g}f".format(0.1-toe_L_joint.matrix_world.to_translation().y + 0)   +" );\n"   #here we switch to xz -y	
+	snippet = snippet+ "\t.ScalingPivot ("        +" {:.6g}f,".format(-generic_x+ 0)    +" {:.6g}f,".format(toe_L_joint.matrix_world.to_translation().z+ 0)    +" {:.6g}f".format(0.1-toe_L_joint.matrix_world.to_translation().y + 0)   +" );\n"   #here we switch to xz -y	
+	snippet = snippet+ "\t.RotationPivot ("        +" {:.6g}f,".format(-generic_x+ 0)    +" {:.6g}f,".format(toe_L_joint.matrix_world.to_translation().z+ 0)    +" {:.6g}f".format(0.1-toe_L_joint.matrix_world.to_translation().y + 0)   +" );\n"   #here we switch to xz -y	
 	snippet = snippet+ "};\n"
 	snippet = snippet+""
 	legs_fix_string = legs_fix_string+snippet
@@ -107,8 +107,8 @@ def export_legs_fix(exportfolderpath, bodyNo):
 	snippet = ":Person\" + :person + \"Anim:Model01:"
 	snippet = snippet+"tip_toe_L_group"
 	snippet = snippet + ".SNode? . {\n";
-	snippet = snippet+ "\t.ScalingPivot ("        +" {:.6f}f,".format(-generic_x+ 0)    +" {:.6f}f,".format(toe_L_joint.matrix_world.to_translation().z+ 0)    +" {:.6g}f".format(0.1-toe_L_joint.matrix_world.to_translation().y + 0)   +" );\n"   #here we switch to xz -y	
-	snippet = snippet+ "\t.RotationPivot ("        +" {:.6f}f,".format(-generic_x+ 0)    +" {:.6f}f,".format(toe_L_joint.matrix_world.to_translation().z+ 0)    +" {:.6g}f".format(0.1-toe_L_joint.matrix_world.to_translation().y + 0)   +" );\n"   #here we switch to xz -y	
+	snippet = snippet+ "\t.ScalingPivot ("        +" {:.6g}f,".format(-generic_x+ 0)    +" {:.6g}f,".format(toe_L_joint.matrix_world.to_translation().z+ 0)    +" {:.6g}f".format(0.1-toe_L_joint.matrix_world.to_translation().y + 0)   +" );\n"   #here we switch to xz -y	
+	snippet = snippet+ "\t.RotationPivot ("        +" {:.6g}f,".format(-generic_x+ 0)    +" {:.6g}f,".format(toe_L_joint.matrix_world.to_translation().z+ 0)    +" {:.6g}f".format(0.1-toe_L_joint.matrix_world.to_translation().y + 0)   +" );\n"   #here we switch to xz -y	
 	snippet = snippet+ "};\n"
 	snippet = snippet+""
 	legs_fix_string = legs_fix_string+snippet
@@ -118,8 +118,10 @@ def export_legs_fix(exportfolderpath, bodyNo):
 	snippet = ":Person\" + :person + \"Anim:Model01:"
 	snippet = snippet+"tiptoe_L_ikHandle"
 	snippet = snippet + ".SNode? . {\n";
-	snippet = snippet+ "\t.ScalingPivot ("        +" {:.6f}f,".format(-generic_x+ 0)    +" {:.6f}f,".format(ball_L_joint.matrix_world.to_translation().z+ 0)    +" {:.6g}f".format(-toe_L_joint.matrix_world.to_translation().y + 0)   +" );\n"   #here we switch to xz -y	
-	snippet = snippet+ "\t.RotationPivot ("        +" {:.6f}f,".format(-generic_x+ 0)    +" {:.6f}f,".format(ball_L_joint.matrix_world.to_translation().z+ 0)    +" {:.6g}f".format(-toe_L_joint.matrix_world.to_translation().y + 0)   +" );\n"   #here we switch to xz -y	
+	#SIKHandle.PoleVector Vector3f( 0, -0.016181393, -0.011754256 ); generic_x = 0.000168;
+	snippet = snippet+ "\t.PoleVector ("        +" {:.6g}f,".format(0)    +" {:.6g}f,".format(-toe_L_joint.matrix_world.to_translation().z+ 0)    +" {:.6g}f".format(-0.011754256 + 0)   +" );\n"  
+	snippet = snippet+ "\t.ScalingPivot ("        +" {:.6g}f,".format(-generic_x+ 0)    +" {:.6g}f,".format(ball_L_joint.matrix_world.to_translation().z+ 0)    +" {:.6g}f".format(-toe_L_joint.matrix_world.to_translation().y + 0)   +" );\n"   #here we switch to xz -y	
+	snippet = snippet+ "\t.RotationPivot ("        +" {:.6g}f,".format(-generic_x+ 0)    +" {:.6g}f,".format(ball_L_joint.matrix_world.to_translation().z+ 0)    +" {:.6g}f".format(-toe_L_joint.matrix_world.to_translation().y + 0)   +" );\n"   #here we switch to xz -y	
 	snippet = snippet+ "};\n"
 	snippet = snippet+""
 	legs_fix_string = legs_fix_string+snippet
@@ -134,11 +136,11 @@ def export_legs_fix(exportfolderpath, bodyNo):
 	#but maybe RK was wrong, need to check again??!
 	#
 	#old
-	#snippet = snippet+ "\t.ScalingPivot ("        +" {:.6f}f,".format(-generic_x+ 0)    +" {:.6f}f,".format(ankle_L_joint.matrix_world.to_translation().z+ 0)    +" {:.6g}f".format(-ball_L_joint.matrix_world.to_translation().y + 0)   +" );\n"   #here we switch to xz -y	
-	#snippet = snippet+ "\t.RotationPivot ("        +" {:.6f}f,".format(-generic_x+ 0)    +" {:.6f}f,".format(ankle_L_joint.matrix_world.to_translation().z+ 0)    +" {:.6g}f".format(-ball_L_joint.matrix_world.to_translation().y + 0)   +" );\n"   #here we switch to xz -y	
+	#snippet = snippet+ "\t.ScalingPivot ("        +" {:.6g}f,".format(-generic_x+ 0)    +" {:.6g}f,".format(ankle_L_joint.matrix_world.to_translation().z+ 0)    +" {:.6g}f".format(-ball_L_joint.matrix_world.to_translation().y + 0)   +" );\n"   #here we switch to xz -y	
+	#snippet = snippet+ "\t.RotationPivot ("        +" {:.6g}f,".format(-generic_x+ 0)    +" {:.6g}f,".format(ankle_L_joint.matrix_world.to_translation().z+ 0)    +" {:.6g}f".format(-ball_L_joint.matrix_world.to_translation().y + 0)   +" );\n"   #here we switch to xz -y	
 	#custom, lets say is at same height (z axis) as ankle and same depth as ball_joint
-	snippet = snippet+ "\t.ScalingPivot ("        +" {:.6f}f,".format(-generic_x+ 0)    +" {:.6f}f,".format(ankle_L_joint.matrix_world.to_translation().z + 0)    +" {:.6f}f".format(-(ball_L_joint.matrix_world.to_translation().y+knee_L_joint.matrix_world.to_translation().y)/2 + 0)   +" );\n"   #here we switch to xz -y	
-	snippet = snippet+ "\t.RotationPivot ("        +" {:.6f}f,".format(-generic_x+ 0)    +" {:.6f}f,".format(ankle_L_joint.matrix_world.to_translation().z + 0)    +" {:.6f}f".format(-(ball_L_joint.matrix_world.to_translation().y+knee_L_joint.matrix_world.to_translation().y)/2 + 0)   +" );\n"   #here we switch to xz -y	
+	snippet = snippet+ "\t.ScalingPivot ("        +" {:.6g}f,".format(-generic_x+ 0)    +" {:.6g}f,".format(ankle_L_joint.matrix_world.to_translation().z + 0)    +" {:.6g}f".format(-(ball_L_joint.matrix_world.to_translation().y+knee_L_joint.matrix_world.to_translation().y)/2 + 0)   +" );\n"   #here we switch to xz -y	
+	snippet = snippet+ "\t.RotationPivot ("        +" {:.6g}f,".format(-generic_x+ 0)    +" {:.6g}f,".format(ankle_L_joint.matrix_world.to_translation().z + 0)    +" {:.6g}f".format(-(ball_L_joint.matrix_world.to_translation().y+knee_L_joint.matrix_world.to_translation().y)/2 + 0)   +" );\n"   #here we switch to xz -y	
 	#
 	#
 	snippet = snippet+ "};\n"
@@ -147,8 +149,8 @@ def export_legs_fix(exportfolderpath, bodyNo):
 	legs_fix_string=legs_fix_string + "\n"		
 	#
 	#knee_LClips1__knee_L_initSource
-	snippet = "var :mySplineVector3f :Person\" + :person + \"Anim:Model01:knee_LClips1__knee_L_initSource.Curve[1] ?;"
-	mySplineVectorString = "("+" {:.6f}f,".format(-generic_x+ 0)    +" {:.6f}f,".format(knee_L_joint.matrix_world.to_translation().z+ 0)    +" {:.6g}f".format(knee_offset + 0)   +" )"
+	snippet = "var :mySplineVector3f :Person\" + :person + \"Anim:Model01:knee_LClips1__knee_L_initSource.Curve[0] ?;"
+	mySplineVectorString = "("+" {:.6g}f,".format(-generic_x+ 0)    +" {:.6g}f,".format(knee_L_joint.matrix_world.to_translation().z+ 0)    +" {:.6g}f".format(knee_offset + 0)   +" )"
 	snippet = snippet+"\n:mySplineVector3f.KeyValue [ " + mySplineVectorString+" , "+mySplineVectorString +" ];" 
 	snippet = snippet+"\ndel :mySplineVector3f;"
 	legs_fix_string = legs_fix_string+snippet
@@ -168,7 +170,7 @@ def export_legs_fix(exportfolderpath, bodyNo):
 	plane_no = Vector ((0,0,-1))
 	calculated_intersection = mathutils.geometry.intersect_line_plane(line_b, line_a, plane_co, plane_no)
 	snippet = "var :mySplineVector3f :Person\" + :person + \"Anim:Model01:leg_LClips1__leg_L_initSource.Curve[1] ?;"
-	mySplineVectorString = "("+" {:.6f}f,".format(calculated_intersection.x+ 0)    +" {:.6f}f,".format(calculated_intersection.z+ 0)    +" {:.6g}f".format(-calculated_intersection.y+ 0)   +" )"
+	mySplineVectorString = "("+" {:.6g}f,".format(calculated_intersection.x+ 0)    +" {:.6g}f,".format(calculated_intersection.z+ 0)    +" {:.6g}f".format(-calculated_intersection.y+ 0)   +" )"
 	snippet = snippet+"\n:mySplineVector3f.KeyValue [ " + mySplineVectorString+" , "+mySplineVectorString +" ];" 
 	snippet = snippet+"\ndel :mySplineVector3f;"
 	legs_fix_string = legs_fix_string+snippet
@@ -185,7 +187,7 @@ def export_legs_fix(exportfolderpath, bodyNo):
 	snippet = snippet+"leg_R_ikEffector"
 	snippet = snippet + ".SNode? . {\n";
 	#Must use the same value than the one used by the joint linked to the TIKEffector.TranslationLink parameter. (check the sjoint of it) If the sjoint do not contain any... this mean that the translation = (0, 0, 0) and that your didn't follow the rule!
-	snippet = snippet+ "\t.Translation ("        +" {:.6f}f,".format(ankle_R_joint.location.y+ 0)    +" {:.6f}f,".format(ankle_R_joint.location.z+ 0)    +" {:.6g}f".format(ankle_R_joint.location.x+ 0)   +" );\n"  #no switch
+	snippet = snippet+ "\t.Translation ("        +" {:.6g}f,".format(ankle_R_joint.location.y+ 0)    +" {:.6g}f,".format(ankle_R_joint.location.z+ 0)    +" {:.6g}f".format(ankle_R_joint.location.x+ 0)   +" );\n"  #no switch
 	snippet = snippet+ "};\n"
 	snippet = snippet+""
 	legs_fix_string = legs_fix_string+snippet
@@ -195,7 +197,7 @@ def export_legs_fix(exportfolderpath, bodyNo):
 	snippet = snippet+"ball_R_ikEffector"
 	snippet = snippet + ".SNode? . {\n";
 	#RK: Must use the same value than the one used by the joint linked to the TIKEffector.TranslationLink parameter. (check the sjoint of it) If the sjoint do not contain any... this mean that the translation = (0, 0, 0) and that your didn't follow the rule!
-	snippet = snippet+ "\t.Translation ("        +" {:.6f}f,".format(ball_R_joint.location.y+ 0)    +" {:.6f}f,".format(ball_R_joint.location.z+ 0)    +" {:.6g}f".format(ball_R_joint.location.x+ 0)   +" );\n"  #no switch
+	snippet = snippet+ "\t.Translation ("        +" {:.6g}f,".format(ball_R_joint.location.y+ 0)    +" {:.6g}f,".format(ball_R_joint.location.z+ 0)    +" {:.6g}f".format(ball_R_joint.location.x+ 0)   +" );\n"  #no switch
 	snippet = snippet+ "};\n"
 	snippet = snippet+""
 	legs_fix_string = legs_fix_string+snippet
@@ -205,7 +207,7 @@ def export_legs_fix(exportfolderpath, bodyNo):
 	#snippet = snippet+"toe_R_ikEffector"
 	#snippet = snippet + ".SNode? . {\n";
 	#RK: Must use the same value than the one used by the joint linked to the TIKEffector.TranslationLink parameter. (check the sjoint of it) If the sjoint do not contain any... this mean that the translation = (0, 0, 0) and that your didn't follow the rule!
-	#snippet = snippet+ "\t.Translation ("        +" {:.6f}f,".format(toe_R_joint.location.y+ 0)    +" {:.6f}f,".format(toe_R_joint.location.z+ 0)    +" {:.6g}f".format(toe_R_joint.location.x+ 0)   +" );\n"  #no switch
+	#snippet = snippet+ "\t.Translation ("        +" {:.6g}f,".format(toe_R_joint.location.y+ 0)    +" {:.6g}f,".format(toe_R_joint.location.z+ 0)    +" {:.6g}f".format(toe_R_joint.location.x+ 0)   +" );\n"  #no switch
 	#snippet = snippet+ "};\n"
 	#snippet = snippet+""
 	#legs_fix_string = legs_fix_string+snippet
@@ -214,8 +216,8 @@ def export_legs_fix(exportfolderpath, bodyNo):
 	snippet = ":Person\" + :person + \"Anim:Model01:"
 	snippet = snippet+"knee_R_group"
 	snippet = snippet + ".SNode? . {\n";
-	snippet = snippet+ "\t.ScalingPivot ("        +" {:.6f}f,".format(generic_x+ 0)    +" {:.6f}f,".format(knee_R_joint.matrix_world.to_translation().z+ 0)    +" {:.6g}f".format(knee_offset + 0)   +" );\n"   #here we switch to xz -y	
-	snippet = snippet+ "\t.RotationPivot ("        +" {:.6f}f,".format(generic_x+ 0)    +" {:.6f}f,".format(knee_R_joint.matrix_world.to_translation().z+ 0)    +" {:.6g}f".format(knee_offset + 0)   +" );\n"   #here we switch to xz -y	
+	snippet = snippet+ "\t.ScalingPivot ("        +" {:.6g}f,".format(generic_x+ 0)    +" {:.6g}f,".format(knee_R_joint.matrix_world.to_translation().z+ 0)    +" {:.6g}f".format(knee_offset + 0)   +" );\n"   #here we switch to xz -y	
+	snippet = snippet+ "\t.RotationPivot ("        +" {:.6g}f,".format(generic_x+ 0)    +" {:.6g}f,".format(knee_R_joint.matrix_world.to_translation().z+ 0)    +" {:.6g}f".format(knee_offset + 0)   +" );\n"   #here we switch to xz -y	
 	snippet = snippet+ "};\n"
 	snippet = snippet+""
 	legs_fix_string = legs_fix_string+snippet
@@ -225,8 +227,8 @@ def export_legs_fix(exportfolderpath, bodyNo):
 	snippet = ":Person\" + :person + \"Anim:Model01:"
 	snippet = snippet+"tiptoe_R_rotation_group"
 	snippet = snippet + ".SNode? . {\n";
-	snippet = snippet+ "\t.ScalingPivot ("        +" {:.6f}f,".format(generic_x+ 0)    +" {:.6f}f,".format(ball_R_joint.matrix_world.to_translation().z+ 0)    +" {:.6g}f".format(-toe_R_joint.matrix_world.to_translation().y + 0)   +" );\n"   #here we switch to xz -y	
-	snippet = snippet+ "\t.RotationPivot ("        +" {:.6f}f,".format(generic_x+ 0)    +" {:.6f}f,".format(ball_R_joint.matrix_world.to_translation().z+ 0)    +" {:.6g}f".format(-toe_R_joint.matrix_world.to_translation().y + 0)   +" );\n"   #here we switch to xz -y	
+	snippet = snippet+ "\t.ScalingPivot ("        +" {:.6g}f,".format(generic_x+ 0)    +" {:.6g}f,".format(ball_R_joint.matrix_world.to_translation().z+ 0)    +" {:.6g}f".format(-toe_R_joint.matrix_world.to_translation().y + 0)   +" );\n"   #here we switch to xz -y	
+	snippet = snippet+ "\t.RotationPivot ("        +" {:.6g}f,".format(generic_x+ 0)    +" {:.6g}f,".format(ball_R_joint.matrix_world.to_translation().z+ 0)    +" {:.6g}f".format(-toe_R_joint.matrix_world.to_translation().y + 0)   +" );\n"   #here we switch to xz -y	
 	snippet = snippet+ "};\n"
 	snippet = snippet+""
 	legs_fix_string = legs_fix_string+snippet
@@ -236,8 +238,8 @@ def export_legs_fix(exportfolderpath, bodyNo):
 	snippet = ":Person\" + :person + \"Anim:Model01:"
 	snippet = snippet+"ball_R_group"
 	snippet = snippet + ".SNode? . {\n";
-	snippet = snippet+ "\t.ScalingPivot ("        +" {:.6f}f,".format(generic_x+ 0)    +" {:.6f}f,".format(ball_R_joint.matrix_world.to_translation().z+ 0)    +" {:.6g}f".format(-toe_R_joint.matrix_world.to_translation().y + 0)   +" );\n"   #here we switch to xz -y	
-	snippet = snippet+ "\t.RotationPivot ("        +" {:.6f}f,".format(generic_x+ 0)    +" {:.6f}f,".format(ball_R_joint.matrix_world.to_translation().z+ 0)    +" {:.6g}f".format(-toe_R_joint.matrix_world.to_translation().y + 0)   +" );\n"   #here we switch to xz -y	
+	snippet = snippet+ "\t.ScalingPivot ("        +" {:.6g}f,".format(generic_x+ 0)    +" {:.6g}f,".format(ball_R_joint.matrix_world.to_translation().z+ 0)    +" {:.6g}f".format(-toe_R_joint.matrix_world.to_translation().y + 0)   +" );\n"   #here we switch to xz -y	
+	snippet = snippet+ "\t.RotationPivot ("        +" {:.6g}f,".format(generic_x+ 0)    +" {:.6g}f,".format(ball_R_joint.matrix_world.to_translation().z+ 0)    +" {:.6g}f".format(-toe_R_joint.matrix_world.to_translation().y + 0)   +" );\n"   #here we switch to xz -y	
 	snippet = snippet+ "};\n"
 	snippet = snippet+""
 	legs_fix_string = legs_fix_string+snippet
@@ -247,8 +249,8 @@ def export_legs_fix(exportfolderpath, bodyNo):
 	snippet = ":Person\" + :person + \"Anim:Model01:"
 	snippet = snippet+"tiptoe_R_rotation_ikHandle"
 	snippet = snippet + ".SNode? . {\n";
-	snippet = snippet+ "\t.ScalingPivot ("        +" {:.6f}f,".format(generic_x+ 0)    +" {:.6f}f,".format(toe_R_joint.matrix_world.to_translation().z+ 0)    +" {:.6g}f".format(0.1-toe_R_joint.matrix_world.to_translation().y + 0)   +" );\n"   #here we switch to xz -y	
-	snippet = snippet+ "\t.RotationPivot ("        +" {:.6f}f,".format(generic_x+ 0)    +" {:.6f}f,".format(toe_R_joint.matrix_world.to_translation().z+ 0)    +" {:.6g}f".format(0.1-toe_R_joint.matrix_world.to_translation().y + 0)   +" );\n"   #here we switch to xz -y	
+	snippet = snippet+ "\t.ScalingPivot ("        +" {:.6g}f,".format(generic_x+ 0)    +" {:.6g}f,".format(toe_R_joint.matrix_world.to_translation().z+ 0)    +" {:.6g}f".format(0.1-toe_R_joint.matrix_world.to_translation().y + 0)   +" );\n"   #here we switch to xz -y	
+	snippet = snippet+ "\t.RotationPivot ("        +" {:.6g}f,".format(generic_x+ 0)    +" {:.6g}f,".format(toe_R_joint.matrix_world.to_translation().z+ 0)    +" {:.6g}f".format(0.1-toe_R_joint.matrix_world.to_translation().y + 0)   +" );\n"   #here we switch to xz -y	
 	snippet = snippet+ "};\n"
 	snippet = snippet+""
 	legs_fix_string = legs_fix_string+snippet
@@ -258,8 +260,8 @@ def export_legs_fix(exportfolderpath, bodyNo):
 	snippet = ":Person\" + :person + \"Anim:Model01:"
 	snippet = snippet+"tip_toe_R_group"
 	snippet = snippet + ".SNode? . {\n";
-	snippet = snippet+ "\t.ScalingPivot ("        +" {:.6f}f,".format(generic_x+ 0)    +" {:.6f}f,".format(toe_L_joint.matrix_world.to_translation().z+ 0)    +" {:.6g}f".format(0.1-toe_R_joint.matrix_world.to_translation().y + 0)   +" );\n"   #here we switch to xz -y	
-	snippet = snippet+ "\t.RotationPivot ("        +" {:.6f}f,".format(generic_x+ 0)    +" {:.6f}f,".format(toe_L_joint.matrix_world.to_translation().z+ 0)    +" {:.6g}f".format(0.1-toe_R_joint.matrix_world.to_translation().y + 0)   +" );\n"   #here we switch to xz -y	
+	snippet = snippet+ "\t.ScalingPivot ("        +" {:.6g}f,".format(generic_x+ 0)    +" {:.6g}f,".format(toe_R_joint.matrix_world.to_translation().z+ 0)    +" {:.6g}f".format(0.1-toe_R_joint.matrix_world.to_translation().y + 0)   +" );\n"   #here we switch to xz -y	
+	snippet = snippet+ "\t.RotationPivot ("        +" {:.6g}f,".format(generic_x+ 0)    +" {:.6g}f,".format(toe_R_joint.matrix_world.to_translation().z+ 0)    +" {:.6g}f".format(0.1-toe_R_joint.matrix_world.to_translation().y + 0)   +" );\n"   #here we switch to xz -y	
 	snippet = snippet+ "};\n"
 	snippet = snippet+""
 	legs_fix_string = legs_fix_string+snippet
@@ -268,8 +270,9 @@ def export_legs_fix(exportfolderpath, bodyNo):
 	snippet = ":Person\" + :person + \"Anim:Model01:"
 	snippet = snippet+"tiptoe_R_ikHandle"
 	snippet = snippet + ".SNode? . {\n";
-	snippet = snippet+ "\t.ScalingPivot ("        +" {:.6f}f,".format(generic_x+ 0)    +" {:.6f}f,".format(ball_R_joint.matrix_world.to_translation().z+ 0)    +" {:.6g}f".format(-toe_L_joint.matrix_world.to_translation().y + 0)   +" );\n"   #here we switch to xz -y	
-	snippet = snippet+ "\t.RotationPivot ("        +" {:.6f}f,".format(generic_x+ 0)    +" {:.6f}f,".format(ball_R_joint.matrix_world.to_translation().z+ 0)    +" {:.6g}f".format(-toe_L_joint.matrix_world.to_translation().y + 0)   +" );\n"   #here we switch to xz -y	
+	snippet = snippet+ "\t.PoleVector ("        +" {:.6g}f,".format(0)    +" {:.6g}f,".format(-toe_R_joint.matrix_world.to_translation().z+ 0)    +" {:.6g}f".format(-0.011754256 + 0)   +" );\n"  	
+	snippet = snippet+ "\t.ScalingPivot ("        +" {:.6g}f,".format(generic_x+ 0)    +" {:.6g}f,".format(ball_R_joint.matrix_world.to_translation().z+ 0)    +" {:.6g}f".format(-toe_R_joint.matrix_world.to_translation().y + 0)   +" );\n"   #here we switch to xz -y	
+	snippet = snippet+ "\t.RotationPivot ("        +" {:.6g}f,".format(generic_x+ 0)    +" {:.6g}f,".format(ball_R_joint.matrix_world.to_translation().z+ 0)    +" {:.6g}f".format(-toe_R_joint.matrix_world.to_translation().y + 0)   +" );\n"   #here we switch to xz -y	
 	snippet = snippet+ "};\n"
 	snippet = snippet+""
 	legs_fix_string = legs_fix_string+snippet
@@ -279,16 +282,16 @@ def export_legs_fix(exportfolderpath, bodyNo):
 	snippet = ":Person\" + :person + \"Anim:Model01:"
 	snippet = snippet+"leg_R_ikHandle"
 	snippet = snippet + ".SNode? . {\n";
-	snippet = snippet+ "\t.ScalingPivot ("        +" {:.6f}f,".format(generic_x+ 0)    +" {:.6f}f,".format(ankle_L_joint.matrix_world.to_translation().z+ 0)    +" {:.6g}f".format(-ball_R_joint.matrix_world.to_translation().y + 0)   +" );\n"   #here we switch to xz -y	
-	snippet = snippet+ "\t.RotationPivot ("        +" {:.6f}f,".format(generic_x+ 0)    +" {:.6f}f,".format(ankle_L_joint.matrix_world.to_translation().z+ 0)    +" {:.6g}f".format(-ball_R_joint.matrix_world.to_translation().y + 0)   +" );\n"   #here we switch to xz -y	
+	snippet = snippet+ "\t.ScalingPivot ("        +" {:.6g}f,".format(generic_x+ 0)    +" {:.6g}f,".format(ankle_R_joint.matrix_world.to_translation().z+ 0)    +" {:.6g}f".format(-(ball_R_joint.matrix_world.to_translation().y+knee_R_joint.matrix_world.to_translation().y)/2 + 0)   +" );\n"   #here we switch to xz -y	
+	snippet = snippet+ "\t.RotationPivot ("        +" {:.6g}f,".format(generic_x+ 0)    +" {:.6g}f,".format(ankle_R_joint.matrix_world.to_translation().z+ 0)    +" {:.6g}f".format(-(ball_R_joint.matrix_world.to_translation().y+knee_R_joint.matrix_world.to_translation().y)/2 + 0)   +" );\n"   #here we switch to xz -y	
 	snippet = snippet+ "};\n"
 	snippet = snippet+""
 	legs_fix_string = legs_fix_string+snippet
 	legs_fix_string=legs_fix_string + "\n"		
 	#	
 	#knee_RClips1__knee_R_initSource
-	snippet = "var :mySplineVector3f :Person\" + :person + \"Anim:Model01:knee_RClips1__knee_R_initSource.Curve[1] ?;"
-	mySplineVectorString = "("+" {:.6f}f,".format(generic_x+ 0)    +" {:.6f}f,".format(knee_L_joint.matrix_world.to_translation().z+ 0)    +" {:.6g}f".format(knee_offset + 0)   +" )"
+	snippet = "var :mySplineVector3f :Person\" + :person + \"Anim:Model01:knee_RClips1__knee_R_initSource.Curve[0] ?;"
+	mySplineVectorString = "("+" {:.6g}f,".format(generic_x+ 0)    +" {:.6g}f,".format(knee_R_joint.matrix_world.to_translation().z+ 0)    +" {:.6g}f".format(knee_offset + 0)   +" )"
 	snippet = snippet+"\n:mySplineVector3f.KeyValue [ " + mySplineVectorString+" , "+mySplineVectorString +" ];" 
 	snippet = snippet+"\ndel :mySplineVector3f;"
 	legs_fix_string = legs_fix_string+snippet
@@ -304,21 +307,21 @@ def export_legs_fix(exportfolderpath, bodyNo):
 	bpy.data.objects[ "_knee_R_joint"].matrix_basis *= Matrix.Translation((0.0, -10.0, 0.0))
 	bpy.context.scene.update()
 	#
-	plane_co = Vector ((0,0,0))# bpy.data.objects[ "_shoulder_L_joint"].matrix_world.to_translation()
+	plane_co = Vector ((0,0,0))# bpy.data.objects[ "_shoulder_R_joint"].matrix_world.to_translation()
 	plane_no = Vector ((0,0,-1))
 	calculated_intersection = mathutils.geometry.intersect_line_plane(line_b, line_a, plane_co, plane_no)
 	snippet = "var :mySplineVector3f :Person\" + :person + \"Anim:Model01:leg_RClips1__leg_R_initSource.Curve[1] ?;"
-	mySplineVectorString = "("+" {:.6f}f,".format(calculated_intersection.x+ 0)    +" {:.6f}f,".format(calculated_intersection.z+ 0)    +" {:.6f}f".format(-calculated_intersection.y+ 0)   +" )"
+	mySplineVectorString = "("+" {:.6g}f,".format(calculated_intersection.x+ 0)    +" {:.6g}f,".format(calculated_intersection.z+ 0)    +" {:.6g}f".format(-calculated_intersection.y+ 0)   +" )"
 	snippet = snippet+"\n:mySplineVector3f.KeyValue [ " + mySplineVectorString+" , "+mySplineVectorString +" ];" 
 	snippet = snippet+"\ndel :mySplineVector3f;"
 	legs_fix_string = legs_fix_string+snippet
 	legs_fix_string=legs_fix_string + "\n"	
 	#
 	knee_translation_default = [knee_L_joint.location.y, knee_L_joint.location.z, knee_L_joint.location.x, knee_R_joint.location.y, knee_R_joint.location.z, knee_R_joint.location.x]
-	snippet = '\n:Person" + :person + "Anim:Model01:knee_translation_poseBlend.PoseDefault ' + str([float(i) for i in knee_translation_default])+';'	
+	snippet = '\n:Person" + :person + "Anim:Model01:knee_translation_poseBlend.PoseDefault ' + str(["{:.6f}f".format(float(i)) for i in knee_translation_default])+';'	
 	legs_fix_string = legs_fix_string+snippet
 	legs_fix_string=legs_fix_string + "\n"
-	legs_fix_string = legs_fix_string.replace("-0.000000f", "0f").replace("0.000000f", "0f").replace("-1.000000f", "-1f").replace("1.000000f", "1f")
+	legs_fix_string = legs_fix_string.replace("-0.000000f", "0f").replace("0.000000f", "0f").replace("-1.000000f", "-1f").replace("1.000000f", "1f").replace("'", "")
 	print (legs_fix_string)
 	file_path = exportfolderpath+"AcBody"+bodyNo+"Collision.bs"
 	f = open(file_path, 'a')

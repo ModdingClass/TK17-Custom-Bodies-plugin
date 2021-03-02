@@ -177,6 +177,106 @@ ebones["finger05_jointEnd.R"].head = amwi * finger05_jointEnd_R_head
 ebones["finger05_jointEnd.R"].tail = amwi * finger05_jointEnd_R_head + Vector ((0,0,0.005))
 
 
+# fix right fingers on a straight line
+
+finger_joint02_length = (ebones["finger02_joint02.R"].tail - ebones["finger02_joint02.R"].head).length
+finger_joint03_length = (ebones["finger02_joint03.R"].tail - ebones["finger02_joint03.R"].head).length
+finger_joint04_length = (ebones["finger02_joint04.R"].tail - ebones["finger02_joint04.R"].head).length
+
+fingers_new_length = (ebones["finger02_jointEnd.R"].head - ebones["finger02_joint02.R"].head).length
+fingers_old_length =  finger_joint02_length + finger_joint03_length + finger_joint04_length
+finger_joint02_scale = finger_joint02_length/fingers_old_length
+finger_joint03_scale = finger_joint03_length/fingers_old_length
+finger_joint04_scale = finger_joint04_length/fingers_old_length
+
+
+
+ebones["finger02_joint02.R"].head = ebones["finger02_joint02.R"].head
+ebones["finger02_joint02.R"].tail = ebones["finger02_jointEnd.R"].head.copy()
+ebones["finger02_joint02.R"].length = fingers_new_length * finger_joint02_scale 
+
+ebones["finger02_joint03.R"].head = ebones["finger02_joint02.R"].tail
+ebones["finger02_joint03.R"].tail = ebones["finger02_jointEnd.R"].head
+ebones["finger02_joint03.R"].length = fingers_new_length * finger_joint03_scale
+
+ebones["finger02_joint04.R"].head = ebones["finger02_joint03.R"].tail
+ebones["finger02_joint04.R"].tail = ebones["finger02_jointEnd.R"].head
+ebones["finger02_joint04.R"].length = fingers_new_length * finger_joint04_scale
+
+
+finger_joint02_length = (ebones["finger03_joint02.R"].tail - ebones["finger03_joint02.R"].head).length
+finger_joint03_length = (ebones["finger03_joint03.R"].tail - ebones["finger03_joint03.R"].head).length
+finger_joint04_length = (ebones["finger03_joint04.R"].tail - ebones["finger03_joint04.R"].head).length
+
+fingers_new_length = (ebones["finger03_jointEnd.R"].head - ebones["finger03_joint02.R"].head).length
+fingers_old_length =  finger_joint02_length + finger_joint03_length + finger_joint04_length
+finger_joint02_scale = finger_joint02_length/fingers_old_length
+finger_joint03_scale = finger_joint03_length/fingers_old_length
+finger_joint04_scale = finger_joint04_length/fingers_old_length
+
+
+
+ebones["finger03_joint02.R"].head = ebones["finger03_joint02.R"].head
+ebones["finger03_joint02.R"].tail = ebones["finger03_jointEnd.R"].head.copy()
+ebones["finger03_joint02.R"].length = fingers_new_length * finger_joint02_scale 
+
+ebones["finger03_joint03.R"].head = ebones["finger03_joint02.R"].tail
+ebones["finger03_joint03.R"].tail = ebones["finger03_jointEnd.R"].head
+ebones["finger03_joint03.R"].length = fingers_new_length * finger_joint03_scale
+
+ebones["finger03_joint04.R"].head = ebones["finger03_joint03.R"].tail
+ebones["finger03_joint04.R"].tail = ebones["finger03_jointEnd.R"].head
+ebones["finger03_joint04.R"].length = fingers_new_length * finger_joint04_scale
+
+finger_joint02_length = (ebones["finger04_joint02.R"].tail - ebones["finger04_joint02.R"].head).length
+finger_joint03_length = (ebones["finger04_joint03.R"].tail - ebones["finger04_joint03.R"].head).length
+finger_joint04_length = (ebones["finger04_joint04.R"].tail - ebones["finger04_joint04.R"].head).length
+
+fingers_new_length = (ebones["finger04_jointEnd.R"].head - ebones["finger04_joint02.R"].head).length
+fingers_old_length =  finger_joint02_length + finger_joint03_length + finger_joint04_length
+finger_joint02_scale = finger_joint02_length/fingers_old_length
+finger_joint03_scale = finger_joint03_length/fingers_old_length
+finger_joint04_scale = finger_joint04_length/fingers_old_length
+
+
+
+ebones["finger04_joint02.R"].head = ebones["finger04_joint02.R"].head
+ebones["finger04_joint02.R"].tail = ebones["finger04_jointEnd.R"].head.copy()
+ebones["finger04_joint02.R"].length = fingers_new_length * finger_joint02_scale 
+
+ebones["finger04_joint03.R"].head = ebones["finger04_joint02.R"].tail
+ebones["finger04_joint03.R"].tail = ebones["finger04_jointEnd.R"].head
+ebones["finger04_joint03.R"].length = fingers_new_length * finger_joint03_scale
+
+ebones["finger04_joint04.R"].head = ebones["finger04_joint03.R"].tail
+ebones["finger04_joint04.R"].tail = ebones["finger04_jointEnd.R"].head
+ebones["finger04_joint04.R"].length = fingers_new_length * finger_joint04_scale
+
+
+finger_joint02_length = (ebones["finger05_joint02.R"].tail - ebones["finger05_joint02.R"].head).length
+finger_joint03_length = (ebones["finger05_joint03.R"].tail - ebones["finger05_joint03.R"].head).length
+finger_joint04_length = (ebones["finger05_joint04.R"].tail - ebones["finger05_joint04.R"].head).length
+
+fingers_new_length = (ebones["finger05_jointEnd.R"].head - ebones["finger05_joint02.R"].head).length
+fingers_old_length =  finger_joint02_length + finger_joint03_length + finger_joint04_length
+finger_joint02_scale = finger_joint02_length/fingers_old_length
+finger_joint03_scale = finger_joint03_length/fingers_old_length
+finger_joint04_scale = finger_joint04_length/fingers_old_length
+
+
+
+ebones["finger05_joint02.R"].head = ebones["finger05_joint02.R"].head
+ebones["finger05_joint02.R"].tail = ebones["finger05_jointEnd.R"].head.copy()
+ebones["finger05_joint02.R"].length = fingers_new_length * finger_joint02_scale 
+
+ebones["finger05_joint03.R"].head = ebones["finger05_joint02.R"].tail
+ebones["finger05_joint03.R"].tail = ebones["finger05_jointEnd.R"].head
+ebones["finger05_joint03.R"].length = fingers_new_length * finger_joint03_scale
+
+ebones["finger05_joint04.R"].head = ebones["finger05_joint03.R"].tail
+ebones["finger05_joint04.R"].tail = ebones["finger05_jointEnd.R"].head
+ebones["finger05_joint04.R"].length = fingers_new_length * finger_joint04_scale
+
 #left hand
 ebones["clavicle_joint.L"].head = amwi * clavicle_L_head
 ebones["clavicle_joint.L"].tail = amwi * shoulder_L_head
@@ -222,6 +322,11 @@ ebones["finger02_joint04.L"].tail = amwi * finger02_jointEnd_L_head
 ebones["finger02_jointEnd.L"].head = amwi * finger02_jointEnd_L_head
 ebones["finger02_jointEnd.L"].tail = amwi * finger02_jointEnd_L_head + Vector ((0,0,0.005))
 
+
+#armature_data = bpy.data.objects['Armature']
+#ebones = armature_data.data.edit_bones
+
+
 #############
 ebones["finger03_joint01.L"].head = amwi * finger03_joint01_L_head
 ebones["finger03_joint01.L"].tail = amwi * finger03_joint02_L_head
@@ -238,6 +343,7 @@ ebones["finger03_joint04.L"].tail = amwi * finger03_jointEnd_L_head
 
 ebones["finger03_jointEnd.L"].head = amwi * finger03_jointEnd_L_head
 ebones["finger03_jointEnd.L"].tail = amwi * finger03_jointEnd_L_head + Vector ((0,0,0.005))
+
 
 #############
 ebones["finger04_joint01.L"].head = amwi * finger04_joint01_L_head
@@ -256,6 +362,7 @@ ebones["finger04_joint04.L"].tail = amwi * finger04_jointEnd_L_head
 ebones["finger04_jointEnd.L"].head = amwi * finger04_jointEnd_L_head
 ebones["finger04_jointEnd.L"].tail = amwi * finger04_jointEnd_L_head + Vector ((0,0,0.005))
 
+
 #############
 ebones["finger05_joint01.L"].head = amwi * finger05_joint01_L_head
 ebones["finger05_joint01.L"].tail = amwi * finger05_joint02_L_head
@@ -273,6 +380,105 @@ ebones["finger05_joint04.L"].tail = amwi * finger05_jointEnd_L_head
 ebones["finger05_jointEnd.L"].head = amwi * finger05_jointEnd_L_head
 ebones["finger05_jointEnd.L"].tail = amwi * finger05_jointEnd_L_head + Vector ((0,0,0.005))
 
+# fix left fingers on a straight line
+
+finger_joint02_length = (ebones["finger02_joint02.L"].tail - ebones["finger02_joint02.L"].head).length
+finger_joint03_length = (ebones["finger02_joint03.L"].tail - ebones["finger02_joint03.L"].head).length
+finger_joint04_length = (ebones["finger02_joint04.L"].tail - ebones["finger02_joint04.L"].head).length
+
+fingers_new_length = (ebones["finger02_jointEnd.L"].head - ebones["finger02_joint02.L"].head).length
+fingers_old_length =  finger_joint02_length + finger_joint03_length + finger_joint04_length
+finger_joint02_scale = finger_joint02_length/fingers_old_length
+finger_joint03_scale = finger_joint03_length/fingers_old_length
+finger_joint04_scale = finger_joint04_length/fingers_old_length
+
+
+
+ebones["finger02_joint02.L"].head = ebones["finger02_joint02.L"].head
+ebones["finger02_joint02.L"].tail = ebones["finger02_jointEnd.L"].head.copy()
+ebones["finger02_joint02.L"].length = fingers_new_length * finger_joint02_scale 
+
+ebones["finger02_joint03.L"].head = ebones["finger02_joint02.L"].tail
+ebones["finger02_joint03.L"].tail = ebones["finger02_jointEnd.L"].head
+ebones["finger02_joint03.L"].length = fingers_new_length * finger_joint03_scale
+
+ebones["finger02_joint04.L"].head = ebones["finger02_joint03.L"].tail
+ebones["finger02_joint04.L"].tail = ebones["finger02_jointEnd.L"].head
+ebones["finger02_joint04.L"].length = fingers_new_length * finger_joint04_scale
+
+
+finger_joint02_length = (ebones["finger03_joint02.L"].tail - ebones["finger03_joint02.L"].head).length
+finger_joint03_length = (ebones["finger03_joint03.L"].tail - ebones["finger03_joint03.L"].head).length
+finger_joint04_length = (ebones["finger03_joint04.L"].tail - ebones["finger03_joint04.L"].head).length
+
+fingers_new_length = (ebones["finger03_jointEnd.L"].head - ebones["finger03_joint02.L"].head).length
+fingers_old_length =  finger_joint02_length + finger_joint03_length + finger_joint04_length
+finger_joint02_scale = finger_joint02_length/fingers_old_length
+finger_joint03_scale = finger_joint03_length/fingers_old_length
+finger_joint04_scale = finger_joint04_length/fingers_old_length
+
+
+
+ebones["finger03_joint02.L"].head = ebones["finger03_joint02.L"].head
+ebones["finger03_joint02.L"].tail = ebones["finger03_jointEnd.L"].head.copy()
+ebones["finger03_joint02.L"].length = fingers_new_length * finger_joint02_scale 
+
+ebones["finger03_joint03.L"].head = ebones["finger03_joint02.L"].tail
+ebones["finger03_joint03.L"].tail = ebones["finger03_jointEnd.L"].head
+ebones["finger03_joint03.L"].length = fingers_new_length * finger_joint03_scale
+
+ebones["finger03_joint04.L"].head = ebones["finger03_joint03.L"].tail
+ebones["finger03_joint04.L"].tail = ebones["finger03_jointEnd.L"].head
+ebones["finger03_joint04.L"].length = fingers_new_length * finger_joint04_scale
+
+finger_joint02_length = (ebones["finger04_joint02.L"].tail - ebones["finger04_joint02.L"].head).length
+finger_joint03_length = (ebones["finger04_joint03.L"].tail - ebones["finger04_joint03.L"].head).length
+finger_joint04_length = (ebones["finger04_joint04.L"].tail - ebones["finger04_joint04.L"].head).length
+
+fingers_new_length = (ebones["finger04_jointEnd.L"].head - ebones["finger04_joint02.L"].head).length
+fingers_old_length =  finger_joint02_length + finger_joint03_length + finger_joint04_length
+finger_joint02_scale = finger_joint02_length/fingers_old_length
+finger_joint03_scale = finger_joint03_length/fingers_old_length
+finger_joint04_scale = finger_joint04_length/fingers_old_length
+
+
+
+ebones["finger04_joint02.L"].head = ebones["finger04_joint02.L"].head
+ebones["finger04_joint02.L"].tail = ebones["finger04_jointEnd.L"].head.copy()
+ebones["finger04_joint02.L"].length = fingers_new_length * finger_joint02_scale 
+
+ebones["finger04_joint03.L"].head = ebones["finger04_joint02.L"].tail
+ebones["finger04_joint03.L"].tail = ebones["finger04_jointEnd.L"].head
+ebones["finger04_joint03.L"].length = fingers_new_length * finger_joint03_scale
+
+ebones["finger04_joint04.L"].head = ebones["finger04_joint03.L"].tail
+ebones["finger04_joint04.L"].tail = ebones["finger04_jointEnd.L"].head
+ebones["finger04_joint04.L"].length = fingers_new_length * finger_joint04_scale
+
+
+finger_joint02_length = (ebones["finger05_joint02.L"].tail - ebones["finger05_joint02.L"].head).length
+finger_joint03_length = (ebones["finger05_joint03.L"].tail - ebones["finger05_joint03.L"].head).length
+finger_joint04_length = (ebones["finger05_joint04.L"].tail - ebones["finger05_joint04.L"].head).length
+
+fingers_new_length = (ebones["finger05_jointEnd.L"].head - ebones["finger05_joint02.L"].head).length
+fingers_old_length =  finger_joint02_length + finger_joint03_length + finger_joint04_length
+finger_joint02_scale = finger_joint02_length/fingers_old_length
+finger_joint03_scale = finger_joint03_length/fingers_old_length
+finger_joint04_scale = finger_joint04_length/fingers_old_length
+
+
+
+ebones["finger05_joint02.L"].head = ebones["finger05_joint02.L"].head
+ebones["finger05_joint02.L"].tail = ebones["finger05_jointEnd.L"].head.copy()
+ebones["finger05_joint02.L"].length = fingers_new_length * finger_joint02_scale 
+
+ebones["finger05_joint03.L"].head = ebones["finger05_joint02.L"].tail
+ebones["finger05_joint03.L"].tail = ebones["finger05_jointEnd.L"].head
+ebones["finger05_joint03.L"].length = fingers_new_length * finger_joint03_scale
+
+ebones["finger05_joint04.L"].head = ebones["finger05_joint03.L"].tail
+ebones["finger05_joint04.L"].tail = ebones["finger05_jointEnd.L"].head
+ebones["finger05_joint04.L"].length = fingers_new_length * finger_joint04_scale
 
 #breast R
 

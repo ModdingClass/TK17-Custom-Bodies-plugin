@@ -46,7 +46,8 @@ def export_anus_default(exportfolderpath, bodyNo):
 	 1
 	]
 	#
-	anus_default_values_str = '\n:Person" + :person + "Anim:Model01:anus_poseBlend.PoseDefault ' + str([float(i) for i in anus_default])+';'  # + str([float("%.8f" % i) for i in anus_default])+';'
+	anus_default_values_str = '\n:Person" + :person + "Anim:Model01:anus_poseBlend.PoseDefault ' + str(["{:.6f}f".format(float(i)) for i in anus_default])+';'  # + str([float("%.8f" % i) for i in anus_default])+';'
+	anus_default_values_str = anus_default_values_str.replace("-0.000000f", "0f").replace("0.000000f", "0f").replace("-1.000000f", "-1f").replace("1.000000f", "1f").replace("'", "")
 	file_path = exportfolderpath+"AcBody"+bodyNo+"Collision.bs"
 	f = open(file_path, 'a')
 	f.write(anus_default_values_str)
