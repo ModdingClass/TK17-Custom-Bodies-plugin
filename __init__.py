@@ -420,7 +420,7 @@ class FakeBonesPanel(bpy.types.Panel):
         row.operator('tkarmature.fake',text='              ')
         row=box.row(align=True)
         row.operator('tkarmature.add_fake_axis_bones',text='Add Fake Axis Bones',icon='PMARKER')
-        row.operator('tkarmature.fake',text='              ')
+        row.operator('tkarmature.merge_fakes_in_single_object',text='Merge fakes',icon='OUTLINER_OB_GROUP_INSTANCE')
         row.operator('tkarmature.export_fake_bones',text='Export Fake Bones')
         row=box.row()
         row.separator()
@@ -746,6 +746,19 @@ class OT_add_fake_axis_bones(bpy.types.Operator):
         add_fake_bones("new_axis_bone")
         return {'FINISHED'}
 
+class OT_merge_fakes_in_single_object(bpy.types.Operator):
+    ''''''
+    bl_idname = "tkarmature.merge_fakes_in_single_object"
+    bl_label = ""
+    bl_description = "Merge fake bones into a single mesh object (for export)"
+
+    group = bpy.props.StringProperty(name="ALL")
+
+    def execute(self, context):
+        scene  = bpy.context.scene
+        tkarmature  = scene.tkarmature
+        merge_fake_bones_into_single_mesh_object(tkarmature.dontExportJointEnds)
+        return {'FINISHED'}
 
 
 

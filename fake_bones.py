@@ -172,6 +172,78 @@ def add_fake_bones(obj_name):
 
 
 
+def merge_fake_bones_into_single_mesh_object(ignoreSomeBones): 
+    if bpy.data.objects.get("_fakes") is None:
+        ShowMessageBox("Can't find object: _fakes", "Error", 'ERROR')
+        return None
+    if bpy.data.objects.get("Armature") is None:
+        ShowMessageBox("Can't find object: Armature", "Error", 'ERROR')
+        return None
+    #
+    armature_object = bpy.data.objects.get("Armature")
+    armature_object.select = True
+    bpy.context.scene.objects.active = armature_object
+    bpy.ops.object.mode_set(mode='OBJECT', toggle=False)
+    #
+    armature_object = bpy.data.objects["Armature"]
+    bpy.ops.object.mode_set(mode='EDIT', toggle=False)
+    #
+    armature_matrix_world = armature_object.matrix_world
+    #
+    my_bones = [] 
+    def print_heir(ob, levels=50):
+        def recurse(ob, parent, depth):
+            if depth > levels: 
+                return
+            #print("  " * depth, ob.name)
+            my_bones.append(ob)
+            for child in ob.children:
+                recurse(child, ob,  depth + 1)
+        recurse(ob, ob.parent, 0)
+    #
+
+    shapes=[]
+    parentBone = armature_object.data.edit_bones["root"]
+    print_heir(parentBone)
+    #
+    for bone in my_bones:
+        if ("_IK" in bone.name or "_pole" in bone.name or "_target" in bone.name or "Empty" in bone.name or "axe" in bone.name):
+            continue
+        if ignoreSomeBones == True:
+            if ("_jointEnd" in bone.name and not bone.name in ["spine_jointEnd", "neck_jointEnd", "lower_jaw_jointEnd", "forehead_jointEnd", "head_jointEnd"]):
+                continue
+            if ("toe_joint" in bone.name):
+                continue
+            if ("testicles" in bone.name):
+                continue                
+            if ("penis" in bone.name):
+                continue                         
+        pb = armature_object.pose.bones.get(bone.name)
+        shape = bpy.data.objects["cone_"+bone.name]
+        shape.parent =bpy.data.objects["Armature"]
+        shape.parent_type = 'BONE'
+        shape.parent_bone = bone.name
+        mpi = shape.matrix_parent_inverse
+        ti = mathutils.Matrix.Translation([0, bone.length, 0]).inverted()
+        shape.matrix_parent_inverse = mpi * ti
+        shapes.append(shape.name) 
+
+    bpy.ops.object.mode_set(mode='OBJECT', toggle=False)
+    bpy.ops.object.select_all(action='DESELECT')
+    for obname in shapes:
+        ob = bpy.data.objects[obname]
+        ob.select = True
+    bpy.context.scene.objects.active = bpy.data.objects[shapes[0]]
+    bpy.ops.object.join()
+    bpy.ops.object.parent_clear(type='CLEAR_KEEP_TRANSFORM')
+    bpy.ops.object.transform_apply( location=True, rotation=True, scale=True )
+    ob = bpy.context.scene.objects.active
+    ob.name = "body_fakes"
+    ob.data.name = "body_fakes"
+
+
+
+
 
 
 
