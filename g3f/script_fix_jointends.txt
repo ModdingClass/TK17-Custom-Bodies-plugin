@@ -1,0 +1,55 @@
+#lets make the nipple twice distance to get the jointEnd tail then correct it back
+ebones["nipple_joint01.R"].length *= 2
+nipple_joint01_R_tail_doubled = ebones["nipple_joint01.R"].tail.copy()
+ebones["nipple_joint01.R"].length /= 2
+
+ebones["nipple_jointEnd.R"].head = amwi * nipple_joint01_R_tail
+ebones["nipple_jointEnd.R"].tail = nipple_joint01_R_tail_doubled
+
+
+#deform01
+ebones["breast_deform01_joint01.R"].head = amwi * breast_joint_R_tail
+ebones["breast_deform01_joint01.R"].tail = amwi * breast_deform01_joint01_R_tail
+deform01_length = ebones["breast_deform01_joint01.R"].length
+ebones["breast_deform01_joint01.R"].length += 	deform01_length*0.1							#make the tail a bit longer
+breast_deform01_joint01_R_tail_longer = ebones["breast_deform01_joint01.R"].tail.copy()
+ebones["breast_deform01_joint01.R"].length -= 	deform01_length*0.1							#fix the tail
+#ebones["breast_deform01_joint01.R"].tail = amwi * breast_deform01_joint01_R_tail 	
+
+ebones["breast_deform01_jointEnd.R"].head = amwi * breast_deform01_joint01_R_tail
+ebones["breast_deform01_jointEnd.R"].tail = breast_deform01_joint01_R_tail_longer
+
+#deform02
+ebones["breast_deform02_joint01.R"].head = amwi * breast_joint_R_tail
+ebones["breast_deform02_joint01.R"].tail = amwi * breast_deform02_joint01_R_tail
+deform02_length = ebones["breast_deform02_joint01.R"].length
+ebones["breast_deform02_joint01.R"].length += 	deform02_length*0.1							#make the tail a bit longer
+breast_deform02_joint01_R_tail_longer = ebones["breast_deform02_joint01.R"].tail.copy()
+ebones["breast_deform02_joint01.R"].length -= 	deform02_length*0.1							#fix the tail
+#ebones["breast_deform02_joint01.R"].tail = amwi * breast_deform02_joint01_R_tail 	
+
+ebones["breast_deform02_jointEnd.R"].head = amwi * breast_deform02_joint01_R_tail
+ebones["breast_deform02_jointEnd.R"].tail = breast_deform02_joint01_R_tail_longer
+
+#deform03
+ebones["breast_deform03_joint01.R"].head = amwi * breast_joint_R_tail
+ebones["breast_deform03_joint01.R"].tail = amwi * breast_deform03_joint01_R_tail
+deform03_length = ebones["breast_deform03_joint01.R"].length
+ebones["breast_deform03_joint01.R"].length += 	deform03_length*0.1							#make the tail a bit longer
+breast_deform03_joint01_R_tail_longer = ebones["breast_deform03_joint01.R"].tail.copy()
+ebones["breast_deform03_joint01.R"].length -= 	deform03_length*0.1							#fix the tail
+#ebones["breast_deform03_joint01.R"].tail = amwi * breast_deform03_joint01_R_tail 	
+
+ebones["breast_deform03_jointEnd.R"].head = amwi * breast_deform03_joint01_R_tail
+ebones["breast_deform03_jointEnd.R"].tail = breast_deform03_joint01_R_tail_longer
+
+
+
+ebones["eye_socket_joint.L"].head = amwi * eye_socket_joint_L_head
+ebones["eye_socket_joint.L"].tail = amwi * eye_socket_joint_L_tail.copy()
+ebones["eye_socket_joint.L"].length /= 2;
+
+ebones["eye_socket_joint.R"].head = amwi * eye_socket_joint_R_head
+ebones["eye_socket_joint.R"].tail = amwi * eye_socket_joint_R_tail.copy()
+ebones["eye_socket_joint.R"].length /= 2;
+

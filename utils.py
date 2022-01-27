@@ -1,3 +1,4 @@
+import bpy
 
 def normalize(num, lower=0, upper=360, b=False):
 	"""Normalize number to range [lower, upper) or [lower, upper].
@@ -145,5 +146,4 @@ def normalize_fraction(d):
 	else: 
 		to_ret = normalized.quantize(1)	
 	return to_ret
-
 

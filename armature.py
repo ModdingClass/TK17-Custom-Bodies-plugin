@@ -169,6 +169,8 @@ def addBonesFromHardcodedValue():
 		addTK17Bone( (0.036600363, 0, 0 ) , ( 0,  0,  8.1867323  )  , ( 0, 0, 0 ) , 'penis_joint03','penis_joint02')
 		addTK17Bone( (0.039840519, 0, 0 ) , ( 102.99461,  -90,  0  )  , ( 0, 0, 0 ) , 'penis_jointEnd','penis_joint03')
 		addTK17Bone( (-0.020929646, 0.017115666, 0.112832 ) , ( 0,  0,  166.95436  )  , ( 0, 0, 0 ) , 'hip_L_joint','root')
+		#	
+		#
 		addTK17Bone( (0.4432528, -0.0017294659, 0 ) , ( 0,  0,  16.94171  )  , ( 0, 0, 0 ) , 'knee_L_joint','hip_L_joint')
 		addTK17Bone( (0.43836197, 0, 0 ) , ( -180,  0,  -65.026237  )  , ( -5.315916e-06, 0, 0 ) , 'ankle_L_joint','knee_L_joint')
 		addTK17Bone( (0.12638146, 0, 0 ) , ( 0,  0,  33.251144  )  , ( 3.4150946e-06, 0, 0 ) , 'ball_L_joint','ankle_L_joint')
@@ -218,7 +220,15 @@ def addBonesFromHardcodedValue():
 		addTK17Bone( (-0.06943582, 0, 0 ) , ( 0, 0, 0 ) , ( 0, 0, 0 ) , 'breast_deform03_R_jointEnd','breast_deform03_R_joint01')
 		addTK17Bone( (0.1017823145, 0, 0 ) , ( 0,  -0.19204162,  0  )  , ( 0, 0, 0 ) , 'spine_jointEnd','spine_joint04')
 		addTK17Bone( (0.076593883, 0, 0 ) , ( 0,  9.7023716,  0  )  , ( 0, 0, 0 ) , 'neck_joint01','spine_jointEnd')
+		#addTK17Bone( (-1.4987612, 0, -0.28282243) , ( 0,  0,  0  )  , ( 0, 0, 0 ) , 'neck_joint01_translation','neck_joint01')
 		#
+		#addTK17Bone( ( -0.15868729, 1.4871917, -0.19562815 ) , ( 0,0,0  )  , ( 0, 0, 0 ) , 'elbow_R_group_RotationPivot','neck_joint01_translation')
+		#addTK17Bone( ( 1.5932739, -1.645879, 0.63377309 ) , ( 0,0,0  )  , ( 0, 0, 0 ) , 'elbow_R_group_RotationPivotTranslation','elbow_R_group_RotationPivot')
+		#
+		#addTK17Bone( ( 0.16152555, 1.4867769, -0.20080836 ) , ( 0,0,0  )  , ( 0, 0, 0 ) , 'elbow_L_group_RotationPivot','neck_joint01_translation')
+		#addTK17Bone( ( 1.2717979, -1.3252515, 0.64399421 ) , ( 0,0,0  )  , ( 0, 0, 0 ) , 'elbow_L_group_RotationPivotTranslation','elbow_L_group_RotationPivot')
+		#custom_vec = Vector((0.16152555, 1.4867769, -0.20080836 )) + Vector((1.2717979, -1.3252515, 0.64399421 )) + Vector((-1.4987612, 0, -0.28282243))
+		#addTK17Bone( (custom_vec.x,custom_vec.y,custom_vec.z) , ( 0,0,0  )  , ( 0, 0, 0 ) , 'elbow_L_group_init_shortcut','neck_joint01')        
 		#
 		#-----------------addTK17Bone(   (0, 0, 0 )  ,   ( 0, 0, 0 ),  ( 0, 0, 7.1250162 )    , "root","")
 		addTK17Bone( (-0.026015548, 0.0489839, -0.055562779 ) , ( 100.778,  28.161,  -84.866  )  , ( 0, 0, 0 ) , 'clavicle_L_joint','neck_joint01')

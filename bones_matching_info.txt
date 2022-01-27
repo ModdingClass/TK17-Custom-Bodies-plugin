@@ -1,0 +1,86 @@
+bones_matching = {
+"lToe" : "ball_joint.L",
+"rToe" : "ball_joint.R",
+
+"lFoot" : "ankle_joint.L",
+"rFoot" : "ankle_joint.R",
+
+"lShin" : "knee_joint.L",
+"rShin" : "knee_joint.R",
+
+"lThighBend + lThighTwist" : " hip_joint.L",
+"rThighBend + rThighTwist" : " hip_joint.R",
+"pelvis" : "root",
+"abdomenLower" : "spine_joint02",
+
+"abdomenUpper" : "spine_joint03",
+"chestLower" : "spine_joint04", ####so and so , maybe I need a mix with joint_03
+"chestUpper" : "spine_jointEnd",
+
+"neckLower" : "neck_joint01",
+"neckUpper" : "neck_jointEnd",
+"head" : "head_joint02",
+
+"lCollar" : "clavicle_joint.L",
+"rCollar" : "clavicle_joint.R",
+"lShldrBend" : "shoulder_joint.L",  ### ????", "lShldrBend + lShldrTwist"
+"rShldrBend" : "shoulder_joint.R",  ### ????", "rShldrBend + rShldrTwist"
+
+"lForearmBend" : "elbow_joint.L",
+"rForearmBend" : "elbow_joint.R",
+"lForearmTwist" : "forearm_joint.L",
+"rForearmTwist" : "forearm_joint.R",
+
+"lHand" : "wrist_joint.L",
+"rHand" : "wrist_joint.R",
+
+"lThumb1" : "finger01_joint01.L",
+"lCarpal1" : "finger02_joint01.L",
+"lCarpal2" : "finger03_joint01.L",
+"lCarpal3" : "finger04_joint01.L",
+"lCarpal4" : "finger05_joint01.L",
+
+"lThumb2" : "finger01_joint02.L",
+"lThumb3" : "finger01_joint03.L",
+
+"lIndex1" : "finger02_joint02.L",
+"lIndex2" : "finger02_joint03.L",
+"lIndex3" : "finger02_joint04.L",
+
+"lMid1" : "finger03_joint02.L",
+"lMid2" : "finger03_joint03.L",
+"lMid3" : "finger03_joint04.L",
+
+"lRing1" : "finger04_joint02.L",
+"lRing2" : "finger04_joint03.L",
+"lRing3" : "finger04_joint04.L",
+
+"lPinky1" : "finger05_joint02.L",
+"lPinky2" : "finger05_joint03.L",
+"lPinky3" : "finger05_joint04.L",
+
+"rThumb1" : "finger01_joint01.R",
+"rCarpal1" : "finger02_joint01.R",
+"rCarpal2" : "finger03_joint01.R",
+"rCarpal3" : "finger04_joint01.R",
+"rCarpal4" : "finger05_joint01.R",
+
+"rThumb2" : "finger01_joint02.R",
+"rThumb3" : "finger01_joint03.R",
+
+"rIndex1" : "finger02_joint02.R",
+"rIndex2" : "finger02_joint03.R",
+"rIndex3" : "finger02_joint04.R",
+
+"rMid1" : "finger03_joint02.R",
+"rMid2" : "finger03_joint03.R",
+"rMid3" : "finger03_joint04.R",
+
+"rRing1" : "finger04_joint02.R",
+"rRing2" : "finger04_joint03.R",
+"rRing3" : "finger04_joint04.R",
+
+"rPinky1" : "finger05_joint02.R",
+"rPinky2" : "finger05_joint03.R",
+"rPinky3" : "finger05_joint04.R"
+}
