@@ -1,6 +1,8 @@
 import bpy
 import mathutils
 
+
+
 clone = bpy.data.objects["Armature"]
 bpy.ops.object.mode_set(mode='EDIT', toggle=False)
 #
