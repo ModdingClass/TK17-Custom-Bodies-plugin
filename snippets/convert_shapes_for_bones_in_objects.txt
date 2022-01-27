@@ -1,0 +1,40 @@
+import bpy
+import mathutils
+
+clone = bpy.data.objects["Armature"]
+bpy.ops.object.mode_set(mode='EDIT', toggle=False)
+#
+armature_matrix_world = clone.matrix_world
+#
+my_bones = [] 
+def print_heir(ob, levels=50):
+	def recurse(ob, parent, depth):
+		if depth > levels: 
+			return
+		#print("  " * depth, ob.name)
+		my_bones.append(ob)
+		for child in ob.children:
+			recurse(child, ob,  depth + 1)
+	recurse(ob, ob.parent, 0)
+
+
+
+parentBone = clone.data.edit_bones["root"]
+print_heir(parentBone)
+#
+for bone in my_bones:
+	if ("_IK" in bone.name or "_pole" in bone.name or "_target" in bone.name or "Empty" in bone.name or "axe" in bone.name):
+		continue
+	pb = clone.pose.bones.get(bone.name)
+	shape = bpy.data.objects["cone_"+bone.name]
+	shape.parent =bpy.data.objects["Armature"]
+	shape.parent_type = 'BONE'
+	shape.parent_bone = bone.name
+	#vec = bone.head - bone.tail
+	#trans = mathutils.Matrix.Translation(vec)
+	#shape.matrix_parent_inverse = bone.matrix.inverted() * trans
+	#shape.matrix_parent_inverse = (clone.matrix_world * pb.matrix).inverted() * Matrix.Translation(pb.tail - pb.head)
+	mpi = shape.matrix_parent_inverse
+	ti = mathutils.Matrix.Translation([0, bone.length, 0]).inverted()
+	shape.matrix_parent_inverse = mpi * ti
+
