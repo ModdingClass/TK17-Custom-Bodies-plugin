@@ -217,7 +217,9 @@ def merge_fake_bones_into_single_mesh_object(ignoreSomeBones):
             if ("testicles" in bone.name):
                 continue                
             if ("penis" in bone.name):
-                continue                         
+                continue 
+            if ("finger" in bone.name and "_jointEnd." in bone.name):
+                continue                        
         pb = armature_object.pose.bones.get(bone.name)
         shape = bpy.data.objects["cone_"+bone.name]
         shape.parent =bpy.data.objects["Armature"]
