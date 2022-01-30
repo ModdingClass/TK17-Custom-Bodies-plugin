@@ -7,6 +7,8 @@ from mathutils import Vector
 
 from ..tools_message_box import *
 
+from ..ik_tools import *
+
 from ..g3f.difeomorphic_workflow_dictionaries_bones import *
 from ..g3f.difeomorphic_workflow_dictionaries_vertex_groups import *
 from ..g3f.difeomorphic_workflow_init_custom_vertex_indices import *
@@ -212,6 +214,40 @@ def fixBreastJointEndsDifeomorphic(target_armature):
     breast_deform01_jointEnd_L.tail = breast_deform01_joint01_L.tail.copy()
     breast_deform01_joint01_L.length = length
 
+
+def fixHeadJointsDifeomorphic(target_armature):
+    print ("fixHeadJointsDifeomorphic")
+    bpy.ops.object.mode_set(mode='OBJECT')
+    bpy.ops.object.select_all(action='DESELECT')
+    bpy.ops.object.mode_set(mode='OBJECT')
+    bpy.data.objects[target_armature].select = True
+    bpy.context.scene.objects.active = bpy.data.objects[target_armature]
+    ob = bpy.data.objects[target_armature]
+    bpy.ops.object.editmode_toggle()
+    armature_data = bpy.data.objects[target_armature]
+    ebones = armature_data.data.edit_bones
+    #
+    ebones["head_joint02"].tail.y = ebones["head_joint02"].head.y
+    ebones["head_joint01"].tail.y = ebones["head_joint02"].head.y
+    ebones["head_joint01"].head.y = ebones["head_joint02"].head.y
+    ebones["head_joint01"].head.z = ebones["head_joint02"].head.z
+
+
+def fixSpineJointsDifeomorphic(target_armature):
+    print ("fixSpineJointsDifeomorphic")
+    bpy.ops.object.mode_set(mode='OBJECT')
+    bpy.ops.object.select_all(action='DESELECT')
+    bpy.ops.object.mode_set(mode='OBJECT')
+    bpy.data.objects[target_armature].select = True
+    bpy.context.scene.objects.active = bpy.data.objects[target_armature]
+    ob = bpy.data.objects[target_armature]
+    bpy.ops.object.editmode_toggle()
+    armature_data = bpy.data.objects[target_armature]
+    ebones = armature_data.data.edit_bones
+    #
+    ebones["spine_jointEnd"].tail = ebones["neck_joint01"].head
+    boneArray = ["spine_joint01","spine_joint02","spine_joint03","spine_joint04","spine_jointEnd"]
+    makeBonesCollinearFromBoneHeadToBoneTail("Armature", boneArray)
 
 
 def fixFingersJointEndsDifeomorphic(target_armature):

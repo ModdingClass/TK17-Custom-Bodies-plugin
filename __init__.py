@@ -50,6 +50,7 @@ from .exporter_empties_0 import *
 from .exporter_mouth_fix import *
 from .exporter_arms_fix import *
 from .exporter_legs_fix import *
+from .exporter_spine_fix import *
 from .exporter_genitals_fix import *
 from .exporter_breasts_fix import *
 from .recalculate_BindInvMatrix import *
@@ -95,6 +96,7 @@ if "bpy" in locals():
     imp.reload(exporter_mouth_fix)
     imp.reload(exporter_arms_fix)
     imp.reload(exporter_legs_fix)
+    imp.reload(exporter_spine_fix)
     imp.reload(exporter_genitals_fix)    
     imp.reload(exporter_breasts_fix)
     imp.reload(recalculate_BindInvMatrix)
@@ -131,6 +133,7 @@ else:
     from . import exporter_mouth_fix
     from . import exporter_arms_fix
     from . import exporter_legs_fix
+    from . import exporter_spine_fix
     from . import exporter_genitals_fix    
     from . import exporter_breasts_fix    
     from . import recalculate_BindInvMatrix
@@ -995,6 +998,7 @@ class OT_Export_Empties_To_Files(bpy.types.Operator):
         export_arms_fix(tkarmature.exportfolderpath, tkarmature.bodyNo)
         export_legs_fix(tkarmature.exportfolderpath, tkarmature.bodyNo)
         export_breasts_fix(tkarmature.exportfolderpath, tkarmature.bodyNo)
+        export_spine_fix(tkarmature.exportfolderpath, tkarmature.bodyNo)
         export_anus_default(tkarmature.exportfolderpath, tkarmature.bodyNo)
         export_face_default(tkarmature.exportfolderpath, tkarmature.bodyNo)
         export_values_cleanup(tkarmature.exportfolderpath, tkarmature.bodyNo)
@@ -1050,6 +1054,9 @@ class OT_Import_G3F_Rig_Difeomorphic(bpy.types.Operator):
         fixFingersJointEndsDifeomorphic("Armature")
         fixToesJointEndsDifeomorphic("Armature")
         fixJointsUsedAsEffectors("Armature")
+        fixHeadJointsDifeomorphic("Armature")
+        fixSpineJointsDifeomorphic("Armature")
+        bpy.ops.object.mode_set(mode='OBJECT')
         isCompatibleBody = check_vertices_count_of_the_body("Genesis 3 Female Mesh",17418)
         if isCompatibleBody:
             print("body is compatible")
