@@ -114,6 +114,17 @@ def regenerate_empties(armature_object):
         ob.matrix_parent_inverse.identity()    
         bpy.context.scene.objects.link( ob )
     #
+    #leg_target_R
+    if True == True and "leg_target.R" in clone.data.edit_bones.keys() :
+        bone = clone.data.edit_bones["leg_target.R"] #
+        ob = bpy.data.objects.new( "_leg_target_R", None )
+        ob.rotation_mode = 'YZX'
+        ob.parent = bpy.data.objects[ "_knee_R_joint"]  
+        ob.matrix_world = armature_matrix_world * bone.matrix
+        ob.matrix_basis = ob.matrix_parent_inverse * ob.matrix_basis
+        ob.matrix_parent_inverse.identity()    
+        bpy.context.scene.objects.link( ob )
+    #    
     #leg_pole_L
     #
     if True == True and "leg_pole.L" in clone.data.edit_bones.keys() :
@@ -126,6 +137,17 @@ def regenerate_empties(armature_object):
         ob.matrix_parent_inverse.identity()    
         bpy.context.scene.objects.link( ob )       
     #
+    #leg_pole_R    
+    if True == True and "leg_pole.R" in clone.data.edit_bones.keys() :
+        bone = clone.data.edit_bones["leg_pole.R"] #
+        ob = bpy.data.objects.new( "_leg_pole_R", None )
+        ob.rotation_mode = 'YZX'
+        ob.parent = bpy.data.objects[ "_leg_target_R"]  
+        ob.matrix_world = armature_matrix_world * bone.matrix
+        ob.matrix_basis = ob.matrix_parent_inverse * ob.matrix_basis
+        ob.matrix_parent_inverse.identity()    
+        bpy.context.scene.objects.link( ob )       
+    #    
     #
     ob = bpy.data.objects.new( "_mouth_L_fix_group", None )
     ob.rotation_mode = 'YZX'
@@ -146,6 +168,7 @@ def regenerate_empties(armature_object):
     if True == True:
         # setting up _ball_L_ikEffector
         ankle_L_joint = bpy.data.objects[ "_ankle_L_joint"]
+        ankle_R_joint = bpy.data.objects[ "_ankle_R_joint"]
         ikEffector,ikHandle = getIKValues(clone.name,"ankle_joint.L","ball_joint.L")
         #
         ob = bpy.data.objects.new( "_ball_L_ikEffector", None )
@@ -164,6 +187,7 @@ def regenerate_empties(armature_object):
         #
         #setting up PoleVector
         if True == True :
+            ikEffector,ikHandle = getIKValues(clone.name,"ankle_joint.L","ball_joint.L")
             ob = bpy.data.objects.new( "_tiptoe_L_ikHandle_pole", None )
             ob.rotation_mode = 'YZX'
             ob.parent = ankle_L_joint
@@ -177,6 +201,24 @@ def regenerate_empties(armature_object):
             # Apply the translation
             ob.matrix_world.translation += trans_world
             bpy.context.scene.objects.link( ob )
+            #
+            # 
+            ikEffector,ikHandle = getIKValues(clone.name,"ankle_joint.R","ball_joint.R")
+            ob = bpy.data.objects.new( "_tiptoe_R_ikHandle_pole", None )
+            ob.rotation_mode = 'YZX'
+            ob.parent = ankle_R_joint
+            ob.matrix_world =  ankle_R_joint.matrix_world
+            ob.matrix_basis = ob.matrix_parent_inverse * ob.matrix_basis
+            ob.matrix_parent_inverse.identity()
+            # Define the translation we want to perform in local space (after rotation) we actually move down the local Y axis of the ankle joint and down a bit
+            #this is tricky because of the flipped bone that is transffered into the empty
+            # maybe this should be calculated directly from the edit bone, not from the empty 
+            trans_local = Vector((0, -1 * ikEffector.x, 0.1))
+            # Convert the local translation to global with the 3x3 rotation matrix of our object
+            trans_world = ob.matrix_world.to_3x3() * trans_local
+            # Apply the translation
+            ob.matrix_world.translation += trans_world
+            bpy.context.scene.objects.link( ob )            
         #
         #setting up _toe_L_ikEffector
         ball_L_joint = bpy.data.objects[ "_ball_L_joint"]
@@ -207,7 +249,8 @@ def regenerate_empties(armature_object):
         ob.matrix_basis = ob.matrix_parent_inverse * ob.matrix_basis
         ob.matrix_parent_inverse.identity()       
         # Define the translation we want to perform in local space (after rotation) # we actually move down the local Y axis of the ankle joint
-        trans_local = Vector((0, ikEffector.x, 0))
+        #the bone is flipped, the empty is backwards, so we need to multiply with -1 
+        trans_local = Vector((0, -1 * ikEffector.x, 0))
         # Convert the local translation to global with the 3x3 rotation matrix of our object
         trans_world = ob.matrix_world.to_3x3() * trans_local
         # Apply the translation

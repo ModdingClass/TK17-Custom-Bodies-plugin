@@ -11,11 +11,6 @@ from mathutils import Vector
 from mathutils import Matrix
 from mathutils.geometry import intersect_point_line
 
-#//	Object.Name "Model01:knee_LClips1__knee_L_initSource";
-#//var :mySplineVector3f :Person" + :person + "Anim:Model01:leg_LClips1__leg_L_initSource.Curve[1] ?;
-#//:mySplineVector3f.KeyValue [ (0.9113f, 0f, -0.095f), (0.9113f, 0f, -0.095f)];
-
-#Model01:Sleg_L_ikEffector ->Sankle_L_joint
 
 
 
@@ -57,11 +52,8 @@ def export_legs_fix(exportfolderpath, bodyNo):
 	legs_fix_string=legs_fix_string + "\n"	
 	#	
 	#
-	#leg_L_ikEffector,leg_L_ikHandle = getIKValues("Armature","knee_joint.L","ankle_joint.L")
 	localCo,leg_L_ikHandle, distance,leg_L_ikEffector = getClosestPointFromBoneProjection("Armature","knee_joint.L","ankle_joint.L")
-	#ball_L_ikEffector,tiptoe_L_ikHandle = getIKValues("Armature","ankle_joint.L","ball_joint.L")
 	localCo,tiptoe_L_ikHandle, distance,ball_L_ikEffector = getClosestPointFromBoneProjection("Armature","ankle_joint.L","ball_joint.L")
-	#toe_L_ikEffector,tiptoe_L_rotation_ikHandle = getIKValues("Armature","ball_joint.L","toe_joint.L")
 	localCo,tiptoe_L_rotation_ikHandle, distance,toe_L_ikEffector = getClosestPointFromBoneProjection("Armature","ball_joint.L","toe_joint.L")
 	#
 	#
@@ -130,10 +122,6 @@ def export_legs_fix(exportfolderpath, bodyNo):
 	legs_fix_string=legs_fix_string + "\n"	
 	#
 	#tiptoe_L_rotation_group OK
-	#leg_init_L = Vector ((0.113, 0, -0.095))
-	#pivot_local = Vector( (ball_L_joint.matrix_world.to_translation().x, ball_L_joint.matrix_world.to_translation().z, -ball_L_joint.matrix_world.to_translation().y) ) #here we switch to xz -y
-	#pivot_local = Vector( (tiptoe_L_ikHandle.x, tiptoe_L_ikHandle.z, -tiptoe_L_ikHandle.y) ) #here we switch to xz -y	
-	#pivot_corrected = pivot_local - leg_init_L
 	pivot_corrected = tiptoe_L_ikHandle - leg_init_L
 	snippet = ":Person\" + :person + \"Anim:Model01:"
 	snippet = snippet+"tiptoe_L_rotation_group"
@@ -147,9 +135,6 @@ def export_legs_fix(exportfolderpath, bodyNo):
 	#	
 	#ball_L_group OK
 	#same values as tiptoe_L_rotation_group ?!? 
-	#pivot_local = Vector( (ball_L_joint.matrix_world.to_translation().x, ball_L_joint.matrix_world.to_translation().z, -ball_L_joint.matrix_world.to_translation().y) ) #here we switch to xz -y
-	#pivot_local = Vector( (tiptoe_L_ikHandle.x, tiptoe_L_ikHandle.z, -tiptoe_L_ikHandle.y) ) #here we switch to xz -y	
-	#pivot_corrected = pivot_local - leg_init_L
 	pivot_corrected = tiptoe_L_ikHandle - leg_init_L
 	snippet = ":Person\" + :person + \"Anim:Model01:"
 	snippet = snippet+"ball_L_group"
@@ -162,9 +147,6 @@ def export_legs_fix(exportfolderpath, bodyNo):
 	legs_fix_string=legs_fix_string + "\n"	
 	#
 	#tiptoe_L_rotation_ikHandle OK
-	#pivot_local = Vector( (toe_L_joint.matrix_world.to_translation().x, toe_L_joint.matrix_world.to_translation().z, -toe_L_joint.matrix_world.to_translation().y) ) #here we switch to xz -y
-	#pivot_local = Vector( (tiptoe_L_rotation_ikHandle.x, tiptoe_L_rotation_ikHandle.z, -tiptoe_L_rotation_ikHandle.y) ) #here we switch to xz -y	
-	#pivot_corrected = pivot_local - leg_init_L	
 	pivot_corrected = tiptoe_L_rotation_ikHandle - leg_init_L
 	snippet = ":Person\" + :person + \"Anim:Model01:"
 	snippet = snippet+"tiptoe_L_rotation_ikHandle"
@@ -175,14 +157,10 @@ def export_legs_fix(exportfolderpath, bodyNo):
 	move_down_transformation_local =    Vector([0,0,-0.2]) #+ikEffector.location 
 	move_down_transformation_world = ikEffector.matrix_world.to_3x3() * move_down_transformation_local
 	pole_world_location = ikEffector.matrix_world.translation + move_down_transformation_world
-	#bpy.context.scene.cursor_location = ikEffector.matrix_world.translation
-	#difference = pole_world_location  - ikEffector.matrix_world.translation
-	#difference = move_down_transformation_world.x, 
+	#bpy.context.scene.cursor_location = pole_world_location
 	#pole will have values transformed from Blender coordinates to in game coordinates
 	pole = Vector ( (move_down_transformation_world.x, move_down_transformation_world.z, - move_down_transformation_world.y))
-	#pole = move_down_transformation_world_ingame ##move_down_transformation_world - ikEffector.matrix_world.translation #- leg_init_L #pole_world_location - leg_init_L
 	snippet = snippet+ "\t.PoleVector ("		+" {:.6g}f,".format(pole.x + 0)    +" {:.6g}f,".format(pole.y + 0)    +" {:.6g}f".format(pole.z + 0)   +" );\n"   				
-	#snippet = snippet+ "\t.PoleVector ("   ///////some values here     +" {:.6g}f,".format(pivot_corrected.x + 0)    +" {:.6g}f,".format(pivot_corrected.y + 0)    +" {:.6g}f".format(pivot_corrected.z + 0)   +" );\n"   
 	snippet = snippet+ "};\n"
 	snippet = snippet+""
 	legs_fix_string = legs_fix_string+snippet
@@ -190,9 +168,6 @@ def export_legs_fix(exportfolderpath, bodyNo):
 	#
 	#tip_toe_L_group
 	#same pivot as tiptoe_L_rotation_ikHandle ?!?
-	#pivot_local = Vector( (toe_L_joint.matrix_world.to_translation().x, toe_L_joint.matrix_world.to_translation().z, -toe_L_joint.matrix_world.to_translation().y) ) #here we switch to xz -y
-	#pivot_local = Vector( (tiptoe_L_rotation_ikHandle.x, tiptoe_L_rotation_ikHandle.z, -tiptoe_L_rotation_ikHandle.y) ) #here we switch to xz -y	
-	#pivot_corrected = pivot_local - leg_init_L		
 	pivot_corrected = tiptoe_L_rotation_ikHandle - leg_init_L	
 	snippet = ":Person\" + :person + \"Anim:Model01:"
 	snippet = snippet+"tip_toe_L_group"
@@ -206,20 +181,31 @@ def export_legs_fix(exportfolderpath, bodyNo):
 	#
 	#tiptoe_L_ikHandle
 	#pivot matches ball_L_joint position in world space somewhere in front of the leg
-	#pivot_local = Vector( (ball_L_joint.matrix_world.to_translation().x, ball_L_joint.matrix_world.to_translation().z, -ball_L_joint.matrix_world.to_translation().y) ) #here we switch to xz -y
-	#pivot_local = Vector( (tiptoe_L_ikHandle.x, tiptoe_L_ikHandle.z, -tiptoe_L_ikHandle.y) ) #here we switch to xz -y	
-	#pivot_corrected = pivot_local - leg_init_L	
 	pivot_corrected = tiptoe_L_ikHandle - leg_init_L	
 	snippet = ":Person\" + :person + \"Anim:Model01:"
 	snippet = snippet+"tiptoe_L_ikHandle"
 	snippet = snippet + ".SNode? . {\n";
 	snippet = snippet+ "\t.ScalingPivot ("        +" {:.6g}f,".format(pivot_corrected.x + 0)    +" {:.6g}f,".format(pivot_corrected.z + 0)    +" {:.6g}f".format(-pivot_corrected.y + 0)   +" );\n"   	
 	snippet = snippet+ "\t.RotationPivot ("        +" {:.6g}f,".format(pivot_corrected.x + 0)    +" {:.6g}f,".format(pivot_corrected.z + 0)    +" {:.6g}f".format(-pivot_corrected.y + 0)   +" );\n"   
-	#snippet = snippet+ "\t.PoleVector ("   ///////some values here     +" {:.6g}f,".format(pivot_corrected.x + 0)    +" {:.6g}f,".format(pivot_corrected.y + 0)    +" {:.6g}f".format(pivot_corrected.z + 0)   +" );\n"   	
 	#pole_world_location = Vector ((0.043439, -0.897665, -0.317079))
-	pole_world_location = Vector ((0.043439, 0.317079, -0.897665))
+	#pole_world_location = Vector ((0.043439, 0.317079, -0.897665))
+	#
+	#ikWorld = Vector((0.145213, -0.068367, 0.019411))
+	#ikPivotWorld = Vector((0.158169,-0.026276,-0.070369))
+	#diff_ik= ikPivotWorld - ikWorld
+	#
+	_tiptoe_L_ikHandle_pole = bpy.data.objects[ "_tiptoe_L_ikHandle_pole"]
+	#
+	pole_world_location = _tiptoe_L_ikHandle_pole.matrix_world.translation
+	#bpy.context.scene.cursor_location = pole_world_location
+	#pole will have values transformed from Blender coordinates to in game coordinates
+	pole = Vector ( (pole_world_location.x, pole_world_location.z, - pole_world_location.y))
+	#snippet = snippet+ "\t.PoleVector ("		+" {:.6g}f,".format(pole.x + 0)    +" {:.6g}f,".format(pole.y + 0)    +" {:.6g}f".format(pole.z + 0)   +" );\n"   				
+	#	
 	#pole_corrected = pole_world_location - pivot_local
 	pole_corrected = pole_world_location - tiptoe_L_ikHandle
+	#snippet = snippet+ "\t.PoleVector pole_world_location ("		+" {:.6f}f,".format(pole_world_location.x + 0)    +" {:.6f}f,".format(pole_world_location.z + 0)    +" {:.6f}f".format(-pole_world_location.y + 0)   +" );\n"   		
+	#snippet = snippet+ "\t.PoleVector tiptoe_L_ikHandle ("		+" {:.6f}f,".format(tiptoe_L_ikHandle.x + 0)    +" {:.6f}f,".format(tiptoe_L_ikHandle.z + 0)    +" {:.6f}f".format(-tiptoe_L_ikHandle.y + 0)   +" );\n"   			
 	snippet = snippet+ "\t.PoleVector ("		+" {:.6g}f,".format(pole_corrected.x + 0)    +" {:.6g}f,".format(pole_corrected.z + 0)    +" {:.6g}f".format(-pole_corrected.y + 0)   +" );\n"   		
 	snippet = snippet+ "};\n"
 	snippet = snippet+""
@@ -238,7 +224,6 @@ def export_legs_fix(exportfolderpath, bodyNo):
 	#RK: SSimpleTransform. (SIKHandle) Your SIKHandle should use the same parameter (rotation, translation, pivot, etc.) as the one used by the transform node connected to the TNode.Parent (TIKHandle) node. If it do not contain any, it's mean that your SIKHandle only need a Object.Name parameter.
 	#in this case Model01:Sball_L_group
 	#but maybe RK was wrong, need to check again??!
-	bpy.context.scene.cursor_location = leg_L_ikHandle
 	snippet = snippet+ "\t.ScalingPivot ("        +" {:.6g}f,".format(pivot_corrected.x + 0)    +" {:.6g}f,".format(pivot_corrected.z + 0)    +" {:.6g}f".format(-pivot_corrected.y + 0)   +" );\n"   	
 	snippet = snippet+ "\t.RotationPivot ("        +" {:.6g}f,".format(pivot_corrected.x + 0)    +" {:.6g}f,".format(pivot_corrected.z + 0)    +" {:.6g}f".format(-pivot_corrected.y + 0)   +" );\n"   
 	snippet = snippet+ "};\n"
@@ -249,10 +234,8 @@ def export_legs_fix(exportfolderpath, bodyNo):
 	#knee_LClips1__knee_L_initSource
 	leg_pole_L = bpy.data.objects[ "_leg_pole_L"]
 	leg_pole_L_location = leg_pole_L.matrix_world.to_translation()
-	#pivot_local = Vector( (leg_pole_L_location.x, leg_pole_L_location.z, -leg_pole_L_location.y) ) #here we switch to xz -y	
 	pivot_corrected = leg_pole_L_location - leg_init_L		
 	snippet = "var :mySplineVector3f :Person\" + :person + \"Anim:Model01:knee_LClips1__knee_L_initSource.Curve[0] ?;"
-	#mySplineVectorString = "("+" {:.6g}f,".format(generic_x - generic_x+ 0)    +" {:.6g}f,".format(knee_L_joint.matrix_world.to_translation().z+ 0)    +" {:.6g}f".format(knee_offset + 0)   +" )"
 	mySplineVectorString = "("+" {:.6g}f,".format(pivot_corrected.x + 0)    +" {:.6g}f,".format(pivot_corrected.z+ 0)    +" {:.6g}f".format(-pivot_corrected.y + 0)   +" )"
 	snippet = snippet+"\n:mySplineVector3f.KeyValue [ " + mySplineVectorString+" , "+mySplineVectorString +" ];" 
 	snippet = snippet+"\ndel :mySplineVector3f;"
@@ -262,6 +245,7 @@ def export_legs_fix(exportfolderpath, bodyNo):
 	legs_fix_string=legs_fix_string + "\n"	
 	legs_fix_string=legs_fix_string + "\n"	
 	#
+
 
 
 
@@ -292,7 +276,7 @@ def export_legs_fix(exportfolderpath, bodyNo):
 	bpy.data.objects[ "_knee_R_joint"].matrix_basis *= Matrix.Translation((0.0, -10.0, 0.0))
 	bpy.context.scene.update()
 	#
-	plane_co = Vector ((0,0,0))# bpy.data.objects[ "_shoulder_L_joint"].matrix_world.to_translation()
+	plane_co = Vector ((0,0,0))
 	plane_no = Vector ((0,0,-1))
 	calculated_intersection = mathutils.geometry.intersect_line_plane(line_b, line_a, plane_co, plane_no)
 	leg_init_R = calculated_intersection
@@ -306,22 +290,20 @@ def export_legs_fix(exportfolderpath, bodyNo):
 	#
 	#	
 	#
-	leg_R_ikEffector,leg_R_ikHandle = getIKValues("Armature","knee_joint.R","ankle_joint.R")
-	ball_R_ikEffector,tiptoe_R_ikHandle = getIKValues("Armature","ankle_joint.R","ball_joint.R")
-	toe_R_ikEffector,tiptoe_R_rotation_ikHandle = getIKValues("Armature","ball_joint.R","toe_joint.R")
+	localCo,leg_R_ikHandle, distance,leg_R_ikEffector = getClosestPointFromBoneProjection("Armature","knee_joint.R","ankle_joint.R")
+	localCo,tiptoe_R_ikHandle, distance,ball_R_ikEffector = getClosestPointFromBoneProjection("Armature","ankle_joint.R","ball_joint.R")
+	localCo,tiptoe_R_rotation_ikHandle, distance,toe_R_ikEffector = getClosestPointFromBoneProjection("Armature","ball_joint.R","toe_joint.R")
 	#
 	#
 	#
 	#
-
-
 	legs_fix_string=legs_fix_string + "\n"
 	#effector leg_R_ikEffector
 	snippet = ":Person\" + :person + \"Anim:Model01:"
 	snippet = snippet+"leg_R_ikEffector"
 	snippet = snippet + ".SNode? . {\n";
 	#------RK: Must use the same value than the one used by the joint linked to the TIKEffector.TranslationLink parameter. (check the sjoint of it) If the sjoint do not contain any... this mean that the translation = (0, 0, 0) and that your didn't follow the rule!
-	snippet = snippet+ "\t.Translation ("        +" {:.6g}f,".format(leg_R_ikEffector.x+ 0)    +" {:.6g}f,".format(leg_R_ikEffector.y+ 0)    +" {:.6g}f".format(leg_R_ikEffector.z+ 0)   +" );\n"  #no switch
+	snippet = snippet+ "\t.Translation ("        +" {:.6g}f,".format(-1 * leg_R_ikEffector.x+ 0)    +" {:.6g}f,".format(leg_R_ikEffector.y+ 0)    +" {:.6g}f".format(leg_R_ikEffector.z+ 0)   +" );\n"  #no switch
 	snippet = snippet+ "};\n"
 	snippet = snippet+""
 	legs_fix_string = legs_fix_string+snippet
@@ -331,7 +313,7 @@ def export_legs_fix(exportfolderpath, bodyNo):
 	snippet = snippet+"ball_R_ikEffector"
 	snippet = snippet + ".SNode? . {\n";
 	#------RK: Must use the same value than the one used by the joint linked to the TIKEffector.TranslationLink parameter. (check the sjoint of it) If the sjoint do not contain any... this mean that the translation = (0, 0, 0) and that your didn't follow the rule!
-	snippet = snippet+ "\t.Translation ("        +" {:.6g}f,".format(ball_R_ikEffector.x+ 0)    +" {:.6g}f,".format(ball_R_ikEffector.y+ 0)    +" {:.6g}f".format(ball_R_ikEffector.z+ 0)   +" );\n"  #no switch
+	snippet = snippet+ "\t.Translation ("        +" {:.6g}f,".format(-1 * ball_R_ikEffector.x+ 0)    +" {:.6g}f,".format(ball_R_ikEffector.y+ 0)    +" {:.6g}f".format(ball_R_ikEffector.z+ 0)   +" );\n"  #no switch
 	snippet = snippet+ "};\n"
 	snippet = snippet+""
 	legs_fix_string = legs_fix_string+snippet
@@ -341,14 +323,14 @@ def export_legs_fix(exportfolderpath, bodyNo):
 	snippet = snippet+"toe_R_ikEffector"
 	snippet = snippet + ".SNode? . {\n";
 	#------RK: Must use the same value than the one used by the joint linked to the TIKEffector.TranslationLink parameter. (check the sjoint of it) If the sjoint do not contain any... this mean that the translation = (0, 0, 0) and that your didn't follow the rule!
-	snippet = snippet+ "\t.Translation ("        +" {:.6g}f,".format(toe_R_ikEffector.x+ 0)    +" {:.6g}f,".format(toe_R_ikEffector.y+ 0)    +" {:.6g}f".format(toe_R_ikEffector.z+ 0)   +" );\n"  #no switch
+	snippet = snippet+ "\t.Translation ("        +" {:.6g}f,".format(-1 * toe_R_ikEffector.x+ 0)    +" {:.6g}f,".format(toe_R_ikEffector.y+ 0)    +" {:.6g}f".format(toe_R_ikEffector.z+ 0)   +" );\n"  #no switch
 	snippet = snippet+ "};\n"
 	snippet = snippet+""
 	legs_fix_string = legs_fix_string+snippet
 	legs_fix_string = legs_fix_string + "\n"	
 	#knee_R_group
-	knee_pole_L = bpy.data.objects[ "_knee_pole_L"]
-	pivot_corrected = knee_pole_L.location - leg_init_L
+	knee_pole_R = bpy.data.objects[ "_knee_pole_R"]
+	pivot_corrected = knee_pole_R.location - leg_init_R
 	snippet = ":Person\" + :person + \"Anim:Model01:"
 	snippet = snippet+"knee_R_group"
 	snippet = snippet + ".SNode? . {\n";
@@ -360,7 +342,7 @@ def export_legs_fix(exportfolderpath, bodyNo):
 	legs_fix_string=legs_fix_string + "\n"	
 	#
 	#tiptoe_R_rotation_group OK
-	pivot_corrected = tiptoe_R_ikHandle - leg_init_L
+	pivot_corrected = tiptoe_R_ikHandle - leg_init_R
 	snippet = ":Person\" + :person + \"Anim:Model01:"
 	snippet = snippet+"tiptoe_R_rotation_group"
 	snippet = snippet + ".SNode? . {\n";
@@ -373,7 +355,7 @@ def export_legs_fix(exportfolderpath, bodyNo):
 	#	
 	#ball_R_group OK
 	#same values as tiptoe_R_rotation_group ?!? 
-	pivot_corrected = tiptoe_R_ikHandle - leg_init_L
+	pivot_corrected = tiptoe_R_ikHandle - leg_init_R
 	snippet = ":Person\" + :person + \"Anim:Model01:"
 	snippet = snippet+"ball_R_group"
 	snippet = snippet + ".SNode? . {\n";
@@ -385,17 +367,17 @@ def export_legs_fix(exportfolderpath, bodyNo):
 	legs_fix_string=legs_fix_string + "\n"	
 	#
 	#tiptoe_R_rotation_ikHandle OK
-	pivot_corrected = tiptoe_R_rotation_ikHandle - leg_init_L
+	pivot_corrected = tiptoe_R_rotation_ikHandle - leg_init_R
 	snippet = ":Person\" + :person + \"Anim:Model01:"
 	snippet = snippet+"tiptoe_R_rotation_ikHandle"
 	snippet = snippet + ".SNode? . {\n";
 	snippet = snippet+ "\t.ScalingPivot ("        +" {:.6g}f,".format(pivot_corrected.x + 0)    +" {:.6g}f,".format(pivot_corrected.z + 0)    +" {:.6g}f".format(-pivot_corrected.y + 0)   +" );\n"   	
 	snippet = snippet+ "\t.RotationPivot ("        +" {:.6g}f,".format(pivot_corrected.x + 0)    +" {:.6g}f,".format(pivot_corrected.z + 0)    +" {:.6g}f".format(-pivot_corrected.y + 0)   +" );\n"   
 	ikEffector = bpy.data.objects[ "_toe_R_ikEffector"]
-	move_down_transformation_local =    Vector([0,0,-0.2]) #+ikEffector.location 
+	move_down_transformation_local =    Vector([0,0,-1 * -0.2]) #+ikEffector.location 
 	move_down_transformation_world = ikEffector.matrix_world.to_3x3() * move_down_transformation_local
 	pole_world_location = ikEffector.matrix_world.translation + move_down_transformation_world
-	#bpy.context.scene.cursor_location = ikEffector.matrix_world.translation
+	bpy.context.scene.cursor_location = pole_world_location
 	pole = Vector ( (move_down_transformation_world.x, move_down_transformation_world.z, - move_down_transformation_world.y))
 	snippet = snippet+ "\t.PoleVector ("		+" {:.6g}f,".format(pole.x + 0)    +" {:.6g}f,".format(pole.y + 0)    +" {:.6g}f".format(pole.z + 0)   +" );\n"   				
 	snippet = snippet+ "};\n"
@@ -424,9 +406,19 @@ def export_legs_fix(exportfolderpath, bodyNo):
 	snippet = snippet + ".SNode? . {\n";
 	snippet = snippet+ "\t.ScalingPivot ("        +" {:.6g}f,".format(pivot_corrected.x + 0)    +" {:.6g}f,".format(pivot_corrected.z + 0)    +" {:.6g}f".format(-pivot_corrected.y + 0)   +" );\n"   	
 	snippet = snippet+ "\t.RotationPivot ("        +" {:.6g}f,".format(pivot_corrected.x + 0)    +" {:.6g}f,".format(pivot_corrected.z + 0)    +" {:.6g}f".format(-pivot_corrected.y + 0)   +" );\n"   
-	pole_world_location = Vector ((0.043439, 0.317079, -0.897665))
+	
+	
+
+
+	_tiptoe_R_ikHandle_pole = bpy.data.objects[ "_tiptoe_R_ikHandle_pole"]
+	#
+	pole_world_location = _tiptoe_R_ikHandle_pole.matrix_world.translation
+	#bpy.context.scene.cursor_location = pole_world_location
+	#pole will have values transformed from Blender coordinates to in game coordinates
 	pole_corrected = pole_world_location - tiptoe_R_ikHandle
-	snippet = snippet+ "\t.PoleVector ("		+" {:.6g}f,".format(pole_corrected.x + 0)    +" {:.6g}f,".format(pole_corrected.z + 0)    +" {:.6g}f".format(-pole_corrected.y + 0)   +" );\n"   		
+	#snippet = snippet+ "\t.PoleVector tiptoe_R_ikHandle ("		+" {:.6f}f,".format(tiptoe_R_ikHandle.x + 0)    +" {:.6f}f,".format(tiptoe_R_ikHandle.z + 0)    +" {:.6f}f".format(-tiptoe_R_ikHandle.y + 0)   +" );\n"   		
+	#snippet = snippet+ "\t.PoleVector pole_world_location ("		+" {:.6f}f,".format(pole_world_location.x + 0)    +" {:.6f}f,".format(pole_world_location.z + 0)    +" {:.6f}f".format(-pole_world_location.y + 0)   +" );\n"   		
+	snippet = snippet+ "\t.PoleVector ("		+" {:.6f}f,".format(pole_corrected.x + 0)    +" {:.6f}f,".format(pole_corrected.z + 0)    +" {:.6f}f".format(-pole_corrected.y + 0)   +" );\n"   		
 	snippet = snippet+ "};\n"
 	snippet = snippet+""
 	legs_fix_string = legs_fix_string+snippet
@@ -449,10 +441,10 @@ def export_legs_fix(exportfolderpath, bodyNo):
 	legs_fix_string=legs_fix_string + "\n"		
 	#
 	#knee_RClips1__knee_R_initSource
-	leg_pole_L = bpy.data.objects[ "_leg_pole_L"]
-	leg_pole_R_location = leg_pole_L.matrix_world.to_translation()
-	#pivot_local = Vector( (leg_pole_R_location.x, leg_pole_R_location.z, -leg_pole_R_location.y) ) #here we switch to xz -y	
-	pivot_corrected = leg_pole_R_location - leg_init_L		
+	leg_pole_R = bpy.data.objects[ "_leg_pole_R"]
+	leg_pole_R_location = leg_pole_R.matrix_world.to_translation()	
+	#bpy.context.scene.cursor_location = leg_pole_R_location
+	pivot_corrected = leg_pole_R_location - leg_init_R		
 	snippet = "var :mySplineVector3f :Person\" + :person + \"Anim:Model01:knee_RClips1__knee_R_initSource.Curve[0] ?;"
 	mySplineVectorString = "("+" {:.6g}f,".format(pivot_corrected.x + 0)    +" {:.6g}f,".format(pivot_corrected.z+ 0)    +" {:.6g}f".format(-pivot_corrected.y + 0)   +" )"
 	snippet = snippet+"\n:mySplineVector3f.KeyValue [ " + mySplineVectorString+" , "+mySplineVectorString +" ];" 
@@ -467,6 +459,11 @@ def export_legs_fix(exportfolderpath, bodyNo):
 
 
 
+
+	knee_translation_default = [knee_L_joint.location.y, knee_L_joint.location.z, knee_L_joint.location.x, knee_R_joint.location.y, knee_R_joint.location.z, knee_R_joint.location.x]
+	snippet = '\n:Person" + :person + "Anim:Model01:knee_translation_poseBlend.PoseDefault ' + str(["{:.6f}f".format(float(i)) for i in knee_translation_default])+';'	
+	legs_fix_string = legs_fix_string+snippet
+	legs_fix_string=legs_fix_string + "\n"
 
 
 	legs_fix_string=legs_fix_string + "\n"

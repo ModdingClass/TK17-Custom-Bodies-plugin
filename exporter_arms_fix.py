@@ -70,13 +70,13 @@ def export_arms_fix(exportfolderpath, bodyNo):
 	#elbow_LClips1__elbow_L_initSource + elbow_RClips1__elbow_R_initSource
 	elbow_initSource = neck_joint01.matrix_world.inverted() * Vector((0,0,0))
 	snippet = "var :mySplineVector3f :Person\" + :person + \"Anim:Model01:elbow_LClips1__elbow_L_initSource.Curve[0] ?;"
-	mySplineVectorString = "("+" {:.6g}f,".format(elbow_initSource.y+ 0)    +" {:.6g}f,".format(-elbow_initSource.z+0)    +" {:.6g}f".format(elbow_initSource.x+0)   +" )" #??? y,-z,x
+	mySplineVectorString = "("+" {:.6f}f,".format(elbow_initSource.y+ 0)    +" {:.6f}f,".format(-elbow_initSource.z+0)    +" {:.6f}f".format(elbow_initSource.x+0)   +" )" #??? y,-z,x
 	snippet = snippet+"\n:mySplineVector3f.KeyValue [ " + mySplineVectorString+" , "+mySplineVectorString +" ];" 
 	snippet = snippet+"\ndel :mySplineVector3f;"
 	arms_fix_string = arms_fix_string+snippet
 	arms_fix_string=arms_fix_string + "\n"		
 	snippet = "var :mySplineVector3f :Person\" + :person + \"Anim:Model01:elbow_RClips1__elbow_R_initSource.Curve[0] ?;"
-	mySplineVectorString = "("+" {:.6g}f,".format(elbow_initSource.y+ 0)    +" {:.6g}f,".format(-elbow_initSource.z+0)    +" {:.6g}f".format(elbow_initSource.x+0)   +" )" # y,-z,x
+	mySplineVectorString = "("+" {:.6f}f,".format(elbow_initSource.y+ 0)    +" {:.6f}f,".format(-elbow_initSource.z+0)    +" {:.6f}f".format(elbow_initSource.x+0)   +" )" # y,-z,x
 	snippet = snippet+"\n:mySplineVector3f.KeyValue [ " + mySplineVectorString+" , "+mySplineVectorString +" ];" 
 	snippet = snippet+"\ndel :mySplineVector3f;"
 	arms_fix_string = arms_fix_string+snippet
