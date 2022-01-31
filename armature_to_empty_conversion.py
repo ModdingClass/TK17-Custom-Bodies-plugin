@@ -195,6 +195,24 @@ def regenerate_empties(armature_object):
         # Apply the translation
         ob.matrix_world.translation += trans_world
         bpy.context.scene.objects.link( ob )
+        #
+        #setting up _toe_R_ikEffector
+        ball_R_joint = bpy.data.objects[ "_ball_R_joint"]
+        ikEffector,ikHandle = getIKValues(clone.name,"ball_joint.R","toe_joint.R")
+        #
+        ob = bpy.data.objects.new( "_toe_R_ikEffector", None )
+        ob.rotation_mode = 'YZX'
+        ob.parent = ball_R_joint
+        ob.matrix_world =  ball_R_joint.matrix_world
+        ob.matrix_basis = ob.matrix_parent_inverse * ob.matrix_basis
+        ob.matrix_parent_inverse.identity()       
+        # Define the translation we want to perform in local space (after rotation) # we actually move down the local Y axis of the ankle joint
+        trans_local = Vector((0, ikEffector.x, 0))
+        # Convert the local translation to global with the 3x3 rotation matrix of our object
+        trans_world = ob.matrix_world.to_3x3() * trans_local
+        # Apply the translation
+        ob.matrix_world.translation += trans_world
+        bpy.context.scene.objects.link( ob )        
     #
     #    
     #

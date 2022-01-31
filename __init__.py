@@ -998,7 +998,7 @@ class OT_Export_Empties_To_Files(bpy.types.Operator):
         export_arms_fix(tkarmature.exportfolderpath, tkarmature.bodyNo)
         export_legs_fix(tkarmature.exportfolderpath, tkarmature.bodyNo)
         export_breasts_fix(tkarmature.exportfolderpath, tkarmature.bodyNo)
-        export_spine_fix(tkarmature.exportfolderpath, tkarmature.bodyNo)
+        #export_spine_fix(tkarmature.exportfolderpath, tkarmature.bodyNo)
         export_anus_default(tkarmature.exportfolderpath, tkarmature.bodyNo)
         export_face_default(tkarmature.exportfolderpath, tkarmature.bodyNo)
         export_values_cleanup(tkarmature.exportfolderpath, tkarmature.bodyNo)
@@ -1055,7 +1055,7 @@ class OT_Import_G3F_Rig_Difeomorphic(bpy.types.Operator):
         fixToesJointEndsDifeomorphic("Armature")
         fixJointsUsedAsEffectors("Armature")
         fixHeadJointsDifeomorphic("Armature")
-        fixSpineJointsDifeomorphic("Armature")
+        #fixSpineJointsDifeomorphic("Armature")
         bpy.ops.object.mode_set(mode='OBJECT')
         isCompatibleBody = check_vertices_count_of_the_body("Genesis 3 Female Mesh",17418)
         if isCompatibleBody:
