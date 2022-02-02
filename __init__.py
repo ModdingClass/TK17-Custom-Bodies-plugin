@@ -51,7 +51,7 @@ from .exporter_mouth_fix import *
 from .exporter_arms_fix import *
 from .exporter_legs_fix import *
 from .exporter_spine_fix import *
-from .exporter_genitals_fix import *
+from .exporter_gens_fix import *
 from .exporter_breasts_fix import *
 from .recalculate_BindInvMatrix import *
 from .recalculate_BindInvMatrix_CTK import *
@@ -97,7 +97,7 @@ if "bpy" in locals():
     imp.reload(exporter_arms_fix)
     imp.reload(exporter_legs_fix)
     imp.reload(exporter_spine_fix)
-    imp.reload(exporter_genitals_fix)    
+    imp.reload(exporter_gens_fix)    
     imp.reload(exporter_breasts_fix)
     imp.reload(recalculate_BindInvMatrix)
     imp.reload(recalculate_BindInvMatrix_CTK)
@@ -134,7 +134,7 @@ else:
     from . import exporter_arms_fix
     from . import exporter_legs_fix
     from . import exporter_spine_fix
-    from . import exporter_genitals_fix    
+    from . import exporter_gens_fix    
     from . import exporter_breasts_fix    
     from . import recalculate_BindInvMatrix
     from . import recalculate_BindInvMatrix_CTK
@@ -235,7 +235,7 @@ class TKARMATURE_vars(bpy.types.PropertyGroup) :
     exportfolderpath =  bpy.props.StringProperty(name="exportfolderpath", default='',subtype='DIR_PATH', update=update_func_exportfolderpath)
     bodyNo = bpy.props.StringProperty(name="bodyNo",description="Body No", default="01")
     dontExportJointEnds = bpy.props.BoolProperty(name="dontExportJointEnds", description="Weightless jointEnds are not exported",    default=True)
-
+    dontExportMaleJoints = bpy.props.BoolProperty(name="dontExportMaleJoints", description="Male specific joints are not exported",    default=True)
 
 
 
@@ -429,6 +429,7 @@ class FakeBonesPanel(bpy.types.Panel):
         row.separator()
         #row.operator('test.open_filebrowser',text='Import Blenda body',icon='OBJECT_DATA')    
         row.prop(tkarmature,'dontExportJointEnds',text="Dont export jointEnds")
+        row.prop(tkarmature,'dontExportMaleJoints',text="Dont export male joints")
         row=box.row(align=True)
         row.operator('tkarmature.fake',text='              ')
         row.operator('tkarmature.fake',text='              ')
@@ -760,7 +761,7 @@ class OT_merge_fakes_in_single_object(bpy.types.Operator):
     def execute(self, context):
         scene  = bpy.context.scene
         tkarmature  = scene.tkarmature
-        merge_fake_bones_into_single_mesh_object(tkarmature.dontExportJointEnds)
+        merge_fake_bones_into_single_mesh_object(tkarmature.dontExportJointEnds, tkarmature.dontExportMaleJoints)
         return {'FINISHED'}
 
 
@@ -784,7 +785,7 @@ class OT_export_fake_bones(bpy.types.Operator):
         else:
             ShowMessageBox("Missing the export folder", "Error", 'ERROR')
             return {'FINISHED'}        
-        export_fake_bones(tkarmature.exportfolderpath,tkarmature.bodyNo, tkarmature.dontExportJointEnds)
+        export_fake_bones(tkarmature.exportfolderpath,tkarmature.bodyNo, tkarmature.dontExportJointEnds, tkarmature.dontExportMaleJoints)
         return {'FINISHED'}
 
 
@@ -1117,6 +1118,10 @@ class OT_Merge_G3F_Toes_Groups(bpy.types.Operator):
             "head_joint02": ['head', 'upperTeeth', 'lowerJaw', 'lEye', 'rEye', 'lEar', 'rEar','rBrowInner', 'rBrowMid', 'rBrowOuter', 'lBrowInner', 'lBrowMid', 'lBrowOuter', 'CenterBrow', 'MidNoseBridge', 'lEyelidInner', 'lEyelidUpperInner', 'lEyelidUpper', 'lEyelidUpperOuter', 'lEyelidOuter', 'lEyelidLowerOuter', 'lEyelidLower', 'lEyelidLowerInner', 'rEyelidInner', 'rEyelidUpperInner', 'rEyelidUpper', 'rEyelidUpperOuter', 'rEyelidOuter', 'rEyelidLowerOuter', 'rEyelidLower', 'rEyelidLowerInner', 'lSquintInner', 'lSquintOuter', 'rSquintInner', 'rSquintOuter', 'lCheekUpper', 'rCheekUpper', 'Nose', 'lNostril', 'rNostril', 'lLipBelowNose', 'rLipBelowNose', 'lLipUpperOuter', 'lLipUpperInner', 'LipUpperMiddle', 'rLipUpperInner', 'rLipUpperOuter', 'lLipNasolabialCrease', 'rLipNasolabialCrease', 'lNasolabialUpper', 'rNasolabialUpper', 'lNasolabialMiddle', 'rNasolabialMiddle', 'tongue01', 'lNasolabialLower', 'rNasolabialLower', 'lNasolabialMouthCorner', 'rNasolabialMouthCorner', 'lLipCorner', 'lLipLowerOuter', 'lLipLowerInner', 'LipLowerMiddle', 'rLipLowerInner', 'rLipLowerOuter', 'rLipCorner', 'LipBelow', 'Chin', 'lCheekLower', 'rCheekLower', 'BelowJaw', 'lJawClench', 'rJawClench']
         }
 
+
+
+
+
         genesis3Toes = {
             "lFoot" : ["lMetatarsals"],
             "rFoot" : ["rMetatarsals"],
@@ -1140,6 +1145,44 @@ class OT_Merge_G3F_Toes_Groups(bpy.types.Operator):
         mergeSubgroupsIntoGroup(obj_object, shoulder_joint_L)  
         mergeSubgroupsIntoGroup(obj_object, shoulder_joint_R)  
         mergeSubgroupsIntoGroup(obj_object, head_joint02)  
+        #
+        head_weights_matching = [
+        ["head", "head", "head_joint02"],
+        ["Chin", "Chin", "chin_joint01"],
+        ["LipBelow", "BelowJaw", "lower_jaw_jointEnd"],
+        ["lowerJaw","lJawClench","rJawClench","lower_jaw_joint01"],
+        ["Nose","MidNoseBridge","lNostril","rNostril","nose_joint02"],
+        ["lNasolabialUpper","lNasolabialMiddle","lCheekUpper","lCheekLower","cheek_joint01.L"],
+        ["rNasolabialUpper","rNasolabialMiddle","rCheekUpper","rCheekLower","cheek_joint01.R"],
+        ["rNasolabialLower","lower_lip_joint01.R"],
+        ["lNasolabialLower","lower_lip_joint01.L"],
+        ["lLipCorner","lLipLowerOuter","lower_lip_joint02.L"],
+        ["rLipCorner","rLipLowerOuter","lower_lip_joint02.R"],
+        ["lLipLowerInner","lower_lip_joint03.L"],
+        ["rLipLowerInner","lower_lip_joint03.R"],
+        ["LipLowerMiddle","lower_lip_jointEnd.L"],
+        ["LipLowerMiddle","lower_lip_jointEnd.R"],
+        ["lNasolabialMiddle","upper_lip_joint01.L"],
+        ["rNasolabialMiddle","upper_lip_joint01.R"],
+        ["lLipUpperOuter","lLipNasolabialCrease","upper_lip_joint02.L"],
+        ["rLipUpperOuter","rLipNasolabialCrease","upper_lip_joint02.R"],
+        ["lLipBelowNose","lLipUpperInner","upper_lip_joint03.L"],
+        ["rLipBelowNose","rLipUpperInner","upper_lip_joint03.R"],
+        ["LipUpperMiddle","upper_lip_jointEnd.L"],
+        ["LipUpperMiddle","upper_lip_jointEnd.R"],
+        ["lBrowInner","eye_brow_joint01.L"],
+        ["rBrowInner","eye_brow_joint01.R"],
+        ["lBrowMid","eye_brow_joint02.L"],
+        ["rBrowMid","eye_brow_joint02.R"],
+        ["lBrowOuter","eye_brow_jointEnd.L"],
+        ["rBrowOuter","eye_brow_jointEnd.R"],
+        ["CenterBrow","forehead_jointEnd"],
+        ["lEar","ear_joint01.L"],
+        ["rEar","ear_joint01.R"]
+        ]        
+        for row in head_weights_matching:
+            param = {row[-1]:row[:-1]} #row[-1] - get last element (vx bone)   ------   row[:-1] returns the list without the last element (daz bones)
+            mergeSubgroupsIntoGroup(obj_object, param)  
         #
         #obj_object = bpy.context.active_object
         modifierVertexWeightMixL = obj_object.modifiers.new("modifierVertexWeightMixL", type='VERTEX_WEIGHT_MIX')

@@ -172,7 +172,7 @@ def add_fake_bones(obj_name):
 
 
 
-def merge_fake_bones_into_single_mesh_object(ignoreSomeBones): 
+def merge_fake_bones_into_single_mesh_object(ignoreSomeBones, ignoreMaleBones): 
     if bpy.data.objects.get("_fakes") is None:
         ShowMessageBox("Can't find object: _fakes", "Error", 'ERROR')
         return None
@@ -210,7 +210,7 @@ def merge_fake_bones_into_single_mesh_object(ignoreSomeBones):
         if ("_IK" in bone.name or "_pole" in bone.name or "_target" in bone.name or "Empty" in bone.name or "axe" in bone.name):
             continue
         if ignoreSomeBones == True:
-            if ("_jointEnd" in bone.name and not bone.name in ["spine_jointEnd", "neck_jointEnd", "lower_jaw_jointEnd", "forehead_jointEnd", "head_jointEnd"]):
+            if ("_jointEnd" in bone.name and not bone.name in ["vagina_jointEnd.L","vagina_jointEnd.R", "spine_jointEnd", "neck_jointEnd", "lower_jaw_jointEnd", "forehead_jointEnd", "head_jointEnd"]):
                 continue
             if ("toe_joint" in bone.name):
                 continue
@@ -219,7 +219,10 @@ def merge_fake_bones_into_single_mesh_object(ignoreSomeBones):
             if ("penis" in bone.name):
                 continue 
             if ("finger" in bone.name and "_jointEnd." in bone.name):
-                continue                        
+                continue 
+        if ignoreMaleBones == True:
+            if  "penis_joint" in bone.name or "testicles_joint" in bone.name:
+                continue                                   
         pb = armature_object.pose.bones.get(bone.name)
         shape = bpy.data.objects["cone_"+bone.name]
         shape.parent =bpy.data.objects["Armature"]

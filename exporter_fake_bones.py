@@ -56,7 +56,7 @@ def get_fake_mesh_datablocks(mesh_name):
     return len(me.polygons),vertex_array,normal_array,uv_array,prim_length_array,index_array
 
 
-def export_fake_bones(exportfolderpath, bodyNo, ignoreSomeBones):
+def export_fake_bones(exportfolderpath, bodyNo, ignoreSomeBones, ignoreMaleBones):
     meshes = [ob for ob in bpy.data.objects if ob.type == 'MESH']
     
     text = ""
@@ -67,14 +67,17 @@ def export_fake_bones(exportfolderpath, bodyNo, ignoreSomeBones):
         if mesh.parent == None or not "cone_" in mesh.name:
             continue
         if ignoreSomeBones == True:
-            if ("_jointEnd" in mesh.name and not mesh.name in ["spine_jointEnd", "neck_jointEnd", "lower_jaw_jointEnd", "forehead_jointEnd", "head_jointEnd"]):
+            if ("_jointEnd" in mesh.name and not mesh.name in ["cone_vagina_jointEnd.L", "cone_vagina_jointEnd.R", "cone_spine_jointEnd", "cone_neck_jointEnd", "cone_lower_jaw_jointEnd", "cone_forehead_jointEnd", "cone_head_jointEnd"]):
                 continue
             if ("toe_joint" in mesh.name):
                 continue
             if ("testicles" in mesh.name):
                 continue                
             if ("penis" in mesh.name):
-                continue                                
+                continue
+        if ignoreMaleBones == True:
+            if  "penis_joint" in mesh.name or "testicles_joint" in mesh.name:
+                continue
         acceptedName = mesh.name.replace(".","_")
         localmat = mesh.matrix_local
         decomposed = localmat.decompose()

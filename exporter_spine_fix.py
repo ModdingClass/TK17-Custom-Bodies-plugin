@@ -342,6 +342,18 @@ def export_spine_fix(exportfolderpath, bodyNo):
     snippet = snippet+ "};\n"
     spine_fix_string = spine_fix_string+snippet + "\n"  
 
+    _stomach_joint01 = bpy.data.objects[ "_stomach_joint01"] 
+    snippet = "var :mySplineVector3f :Person\" + :person + \"Anim:Model01:stomachClips1__stomach_initSource.Curve[0] ?;"
+    mySplineVectorString = "("+" {:.6f}f,".format(_stomach_joint01.location.y + 0)    +" {:.6f}f,".format(_stomach_joint01.location.z  + 0)    +" {:.6f}f".format(_stomach_joint01.location.x  + 0)   +" )" #yzx ?
+    snippet = snippet+"\n:mySplineVector3f.KeyValue [ " + mySplineVectorString+" , "+mySplineVectorString +" ];" 
+    snippet = snippet+"\ndel :mySplineVector3f;"
+    spine_fix_string = spine_fix_string+snippet + "\n"  
+
+    #Model01:ribsClips1__ribs_initSource
+    #we need to set the ribs location
+    #Srib_R_joint01 , Srib_L_joint01
+    #Curve[1] , Curve[3]   
+
     print (spine_fix_string)
     file_path = exportfolderpath+"AcBody"+bodyNo+"Collision.bs"
     f = open(file_path, 'a')

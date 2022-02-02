@@ -1,6 +1,59 @@
 vertexGroupsForRemoval = ['lIndex3', 'lMid3', 'lRing3', 'lPinky3', 'rIndex3', 'rMid3', 'rRing3', 'rPinky3', 'lThumb3', 'lIndex2', 'lMid2', 'lRing2', 'lPinky2', 'rThumb3', 'rIndex2', 'rMid2', 'rRing2', 'rPinky2', 'tongue04', 'lThumb2', 'lIndex1', 'lMid1', 'lRing1', 'lPinky1', 'rThumb2', 'rIndex1', 'rMid1', 'rRing1', 'rPinky1', 'tongue03', 'lThumb1', 'lCarpal1', 'lCarpal2', 'lCarpal3', 'lCarpal4', 'rThumb1', 'rCarpal1', 'rCarpal2', 'rCarpal3', 'rCarpal4', 'tongue02', 'lHand', 'rHand', 'tongue01', 'lNasolabialLower', 'rNasolabialLower', 'lNasolabialMouthCorner', 'rNasolabialMouthCorner', 'lLipCorner', 'lLipLowerOuter', 'lLipLowerInner', 'LipLowerMiddle', 'rLipLowerInner', 'rLipLowerOuter', 'rLipCorner', 'LipBelow', 'Chin', 'lCheekLower', 'rCheekLower', 'BelowJaw', 'lJawClench', 'rJawClench', 'lForearmTwist', 'rForearmTwist', 'lowerTeeth', 'rBrowInner', 'rBrowMid', 'rBrowOuter', 'lBrowInner', 'lBrowMid', 'lBrowOuter', 'CenterBrow', 'MidNoseBridge', 'lEyelidInner', 'lEyelidUpperInner', 'lEyelidUpper', 'lEyelidUpperOuter', 'lEyelidOuter', 'lEyelidLowerOuter', 'lEyelidLower', 'lEyelidLowerInner', 'rEyelidInner', 'rEyelidUpperInner', 'rEyelidUpper', 'rEyelidUpperOuter', 'rEyelidOuter', 'rEyelidLowerOuter', 'rEyelidLower', 'rEyelidLowerInner', 'lSquintInner', 'lSquintOuter', 'rSquintInner', 'rSquintOuter', 'lCheekUpper', 'rCheekUpper', 'Nose', 'lNostril', 'rNostril', 'lLipBelowNose', 'rLipBelowNose', 'lLipUpperOuter', 'lLipUpperInner', 'LipUpperMiddle', 'rLipUpperInner', 'rLipUpperOuter', 'lLipNasolabialCrease', 'rLipNasolabialCrease', 'lNasolabialUpper', 'rNasolabialUpper', 'lNasolabialMiddle', 'rNasolabialMiddle', 'lSmallToe4_2', 'lSmallToe3_2', 'lSmallToe2_2', 'lSmallToe1_2', 'lBigToe_2', 'rSmallToe4_2', 'rSmallToe3_2', 'rSmallToe2_2', 'rSmallToe1_2', 'rBigToe_2', 'lForearmBend', 'rForearmBend', 'upperTeeth', 'lowerJaw', 'lEye', 'rEye', 'lEar', 'rEar', 'lSmallToe4', 'lSmallToe3', 'lSmallToe2', 'lSmallToe1', 'lBigToe', 'rSmallToe4', 'rSmallToe3', 'rSmallToe2', 'rSmallToe1', 'rBigToe', 'lShldrTwist', 'rShldrTwist', 'head', 'lMetatarsals', 'lHeel', 'rMetatarsals', 'rHeel', 'lShldrBend', 'rShldrBend', 'neckUpper', 'lFoot', 'rFoot', 'lCollar', 'rCollar', 'neckLower', 'lShin', 'rShin', 'chestUpper', 'lPectoral', 'rPectoral', 'lThighTwist', 'rThighTwist', 'chestLower', 'lThighBend', 'rThighBend', 'abdomenUpper', 'pelvis', 'abdomenLower']
 jaw = ["lowerTeeth"]
 head_weights = ['head', 'upperTeeth', 'lowerJaw', 'lEye', 'rEye', 'lEar', 'rEar','rBrowInner', 'rBrowMid', 'rBrowOuter', 'lBrowInner', 'lBrowMid', 'lBrowOuter', 'CenterBrow', 'MidNoseBridge', 'lEyelidInner', 'lEyelidUpperInner', 'lEyelidUpper', 'lEyelidUpperOuter', 'lEyelidOuter', 'lEyelidLowerOuter', 'lEyelidLower', 'lEyelidLowerInner', 'rEyelidInner', 'rEyelidUpperInner', 'rEyelidUpper', 'rEyelidUpperOuter', 'rEyelidOuter', 'rEyelidLowerOuter', 'rEyelidLower', 'rEyelidLowerInner', 'lSquintInner', 'lSquintOuter', 'rSquintInner', 'rSquintOuter', 'lCheekUpper', 'rCheekUpper', 'Nose', 'lNostril', 'rNostril', 'lLipBelowNose', 'rLipBelowNose', 'lLipUpperOuter', 'lLipUpperInner', 'LipUpperMiddle', 'rLipUpperInner', 'rLipUpperOuter', 'lLipNasolabialCrease', 'rLipNasolabialCrease', 'lNasolabialUpper', 'rNasolabialUpper', 'lNasolabialMiddle', 'rNasolabialMiddle', 'tongue01', 'lNasolabialLower', 'rNasolabialLower', 'lNasolabialMouthCorner', 'rNasolabialMouthCorner', 'lLipCorner', 'lLipLowerOuter', 'lLipLowerInner', 'LipLowerMiddle', 'rLipLowerInner', 'rLipLowerOuter', 'rLipCorner', 'LipBelow', 'Chin', 'lCheekLower', 'rCheekLower', 'BelowJaw', 'lJawClench', 'rJawClench']
+
+head_weights_matching = [
+# source bone used for head, source bone used for tail, target bone
+
+["head", "head", "head_joint02"],
+["Chin", "Chin", "chin_joint01"]
+["LipBelow",  "BelowJaw", "lower_jaw_jointEnd"],
+["lowerJaw","lJawClench","rJawClench","lower_jaw_joint01"],
+["Nose","MidNoseBridge","lNostril","rNostril","nose_joint02"],
+["lNasolabialUpper","lNasolabialMiddle","lCheekUpper","lCheekLower","cheek_joint01.L"],
+["rNasolabialUpper","rNasolabialMiddle","rCheekUpper","rCheekLower","cheek_joint01.R"],
+
+["rNasolabialLower","lower_lip_joint01.R"],
+["lNasolabialLower","lower_lip_joint01.L"],
+
+["lLipCorner","lLipLowerOuter","lower_lip_joint02.L"],
+["rLipCorner","rLipLowerOuter","lower_lip_joint02.R"],
+
+["lLipLowerInner","lower_lip_joint03.L"],
+["rLipLowerInner","lower_lip_joint03.R"],
+
+["LipLowerMiddle","lower_lip_jointEnd.L"],
+["LipLowerMiddle","lower_lip_jointEnd.R"],
+
+["lNasolabialMiddle","upper_lip_joint01.L"],
+["rNasolabialMiddle","upper_lip_joint01.R"],
+
+["lLipUpperOuter","lLipNasolabialCrease","upper_lip_joint02.L"],
+["rLipUpperOuter","rLipNasolabialCrease","upper_lip_joint02.R"],
+
+["lLipBelowNose","lLipUpperInner","upper_lip_joint03.L"],
+["rLipBelowNose","rLipUpperInner","upper_lip_joint03.R"],
+
+["LipUpperMiddle","upper_lip_jointEnd.L"],
+["LipUpperMiddle","upper_lip_jointEnd.R"],
+
+["lBrowInner","eye_brow_joint01.L"],
+["rBrowInner","eye_brow_joint01.R"],
+
+["lBrowMid","eye_brow_joint02.L"],
+["rBrowMid","eye_brow_joint02.R"],
+
+["lBrowOuter","eye_brow_jointEnd.L"],
+["rBrowOuter","eye_brow_jointEnd.R"],
+
+["CenterBrow","forehead_jointEnd"],
+
+["lEar","ear_joint01.L"],
+["rEar","ear_joint01.R"],
+
+]
+
+
 leg_weights_matching = [
 # source bone used for head, source bone used for tail, target bone
 #["lThighBend", "lThighTwist", "hip_joint.L"], ###"lThighBend + lThighTwist"
