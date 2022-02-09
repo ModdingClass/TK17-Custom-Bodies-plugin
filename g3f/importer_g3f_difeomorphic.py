@@ -329,14 +329,14 @@ def import_g3f_difeomorphic() :
 
     shape_keys = [
     'bbb_asian02_morph',
-    'bbb_vaginafix_morph',
+    'bbb_vagfix_morph',
     'bbb_eye_L_morph',
     'bbb_asian01_morph',
     'bbb_atomic01',
     'bbb_hentai01_morph',
     'bbb_eye_R_morph',
     'bbb_african01_morph',
-    'bbb_vagina_morph',
+    'bbb_vag_morph',
     'bbb_jenna01_morph',
     'bbb_capelli01_morph',
     'bbb_ear01',

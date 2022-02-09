@@ -6,7 +6,7 @@ head_weights_matching = [
 # source bone used for head, source bone used for tail, target bone
 
 ["head", "head", "head_joint02"],
-["Chin", "Chin", "chin_joint01"]
+["Chin", "Chin", "chin_joint01"],
 ["LipBelow",  "BelowJaw", "lower_jaw_jointEnd"],
 ["lowerJaw","lJawClench","rJawClench","lower_jaw_joint01"],
 ["Nose","MidNoseBridge","lNostril","rNostril","nose_joint02"],
@@ -49,7 +49,7 @@ head_weights_matching = [
 ["CenterBrow","forehead_jointEnd"],
 
 ["lEar","ear_joint01.L"],
-["rEar","ear_joint01.R"],
+["rEar","ear_joint01.R"]
 
 ]
 
