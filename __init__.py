@@ -70,6 +70,7 @@ from .helper_vgroups import *
 from .g3f.importer_g3f_difeomorphic import *
 from .g3f.difeomorphic_workflow import *
 from .tools_import_export_vertex_groups_json import *
+from .tools_import_export_shape_keys_json import *
 from .ik_tools import *
 
 from bpy.app.handlers import persistent
@@ -117,6 +118,8 @@ if "bpy" in locals():
     imp.reload(g3f.difeomorphic_workflow)
     imp.reload(g3f.difeomorphic_workflow_init_custom_vertex_indices)
     imp.reload(tools_import_export_vertex_groups_json)
+    imp.reload(tools_import_export_shape_keys_json)
+
     imp.reload(ik_tools)
     print("Reloaded multifiles")
 else:
@@ -153,6 +156,7 @@ else:
     from .g3f import difeomorphic_workflow
     from .g3f import difeomorphic_workflow_init_custom_vertex_indices
     from . import tools_import_export_vertex_groups_json
+    from . import tools_import_export_shape_keys_json
     from . import ik_tools
     print("Imported multifiles")
 
@@ -376,7 +380,10 @@ class ToolsPanel(bpy.types.Panel):
         row.operator('tkarmature.fake',text='              ')
         row.operator('tkarmature.export_weights_to_json',text='Export weights',icon='GROUP_VERTEX')
         row.operator('tkarmature.import_weights_from_json',text='Import weights',icon='GROUP_VERTEX')
-        
+        row=box.row(align=True)
+        row.operator('tkarmature.fake',text='              ')
+        row.operator('tkarmature.export_shapekeys_to_json',text='Export shapekeys',icon='SHAPEKEY_DATA')
+        row.operator('tkarmature.import_shapekeys_from_json',text='Import shapekeys',icon='SHAPEKEY_DATA')        
         #row.operator('tkarmature.fake',text='              ')
         #row=box.row(align=True)
         #row.operator('tkarmature.fake',text='              ') 
@@ -598,9 +605,9 @@ class OT_Exports_Weights_To_Json(Operator, ExportHelper):
     bl_label = "Export weights"
     bl_description = "Exports weights to a custom json file"
 
-    filename_ext = ".json_weights"  # ExportHelper mixin class uses this
+    filename_ext = ".json"  # ExportHelper mixin class uses this
     filter_glob = StringProperty(
-        default='*.json_weights',
+        default='*.json',
         options={'HIDDEN'}
     )
     
@@ -624,7 +631,7 @@ class OT_Import_Weights_From_Json(Operator, ImportHelper):
     bl_description = "Import weights from a custom json file"
 
     filter_glob = StringProperty(
-        default='*.json_weights',
+        default='*.json',
         options={'HIDDEN'}
     )
     
@@ -639,6 +646,50 @@ class OT_Import_Weights_From_Json(Operator, ImportHelper):
         importVertexGroupsFromJsonFile(ob, path_to_file)
         return {'FINISHED'}
     
+
+#        row.operator('tkarmature.export_shapekeys_to_json',text='Export shapekeys',icon='SHAPEKEY_DATA')
+#        row.operator('tkarmature.import_shapekeys_from_json',text='Import shapekeys',icon='SHAPEKEY_DATA')  
+
+# this class extends ExportHelper !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+class OT_Exports_Shapekeys_To_Json(Operator, ExportHelper):
+    ''''''
+    bl_idname = "tkarmature.export_shapekeys_to_json"
+    bl_label = "Export shapekeys"
+    bl_description = "Exports shapekeys to a custom json file"
+
+    filename_ext = ".json"  # ExportHelper mixin class uses this
+    filter_glob = StringProperty(
+        default='*.json',
+        options={'HIDDEN'}
+    )
+    
+    def execute(self, context):
+        print('Selected file:', self.filepath)
+        path_to_file = self.filepath
+        ob = bpy.context.object
+        exportShapeKeysToJsonFile(ob, path_to_file)
+        return {'FINISHED'}
+    
+
+# this class extends ImportHelper !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+class OT_Import_Shapekeys_From_Json(Operator, ImportHelper):
+    ''''''
+    bl_idname = "tkarmature.import_shapekeys_from_json"
+    bl_label = "Import shapekeys"
+    bl_description = "Import shapekeys from a custom json file"
+    filename_ext = ".json"  # ExportHelper mixin class uses this
+    filter_glob = StringProperty(
+        default='*.json',
+        options={'HIDDEN'}
+    )
+    
+    def execute(self, context):
+        print('Selected file:', self.filepath)
+        path_to_file = self.filepath
+        ob = bpy.context.object
+        importShapeKeysFromJsonFile(ob, path_to_file)
+        return {'FINISHED'}
+
 
 class OT_clone_as_weighted_object(bpy.types.Operator):
     ''''''
