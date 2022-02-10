@@ -118,7 +118,7 @@ def importShapeKeysFromJsonFile(ob, filename):
             return 
     #
     #check to see if we have the Basis Shapekey, otherwise create it
-    if len(ob.data.shape_keys.key_blocks)==0:
+    if ( ob.data.shape_keys == None or len(ob.data.shape_keys.key_blocks)==0 ):
         sk_basis = ob.shape_key_add(name='Basis',from_mix=False)
         sk_basis.interpolation = 'KEY_LINEAR'
         # must set relative to false here
