@@ -409,7 +409,7 @@ class ConstraintsPanel(bpy.types.Panel):
         row.operator('tkarmature.add_finger_hand_close_constraints',text='Finger Constraints',icon='CONSTRAINT_BONE')
         row=box.row(align=True)
         row.operator('tkarmature.fake',text='              ')
-        row.operator('tkarmature.add_custom_legs_ik',text='Custom Legs IK('+u'β'+')',icon='OUTLINER_DATA_POSE')
+        row.operator('tkarmature.add_custom_ik_bones',text='Custom IK('+u'β'+')',icon='OUTLINER_DATA_POSE')
         row.operator('tkarmature.fake',text='              ')
 
 class FakeBonesPanel(bpy.types.Panel):
@@ -498,13 +498,13 @@ class OT_fake(bpy.types.Operator):
 
 
 
-class OT_add_custom_legs_ik(bpy.types.Operator):
+class OT_add_custom_ik_bones(bpy.types.Operator):
     ''''''
-    bl_idname = "tkarmature.add_custom_legs_ik"
+    bl_idname = "tkarmature.add_custom_ik_bones"
     bl_label = ""
     u = u'β'
     s = u.encode('utf8')
-    bl_description = "Temporary Add IK to the legs (beta)"
+    bl_description = "Temporary Add IK to the body (beta)"
 
     group = bpy.props.StringProperty(name="ALL")
 
