@@ -363,6 +363,8 @@ def import_g3f_difeomorphic() :
 
 
     ob.data.uv_layers[0].name = "UVMap"
+    #lets add this property
+    ob.data["json_sk_exporter"] = "bbb_eye_L_morph,bbb_eye_R_morph,bbb_vagfix_morph"
 
 
 
