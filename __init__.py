@@ -288,10 +288,9 @@ class ImporterPanelDifeomorphic(bpy.types.Panel):
         row.operator('difeomorphic.adjust_rig_to_shape_difeomorphic',text='Adjust Rig to Difeomorphic',icon_value=custom_icons["wand_icon"].icon_id)
         row=box.row(align=True)
         row.operator('tkarmature.fake',text='              ')
-        row.operator('difeomorphic.merge_g3f_toes_groups',text='Merge G3F toes',icon='OBJECT_DATA')    
+        row.operator('difeomorphic.switch_to_vx_vertex_groups',text='Switch Vertex Groups',icon='OBJECT_DATA')    
         row.operator('tkarmature.fake',text='              ')   
         
-
 
 
 class QuickPanel(bpy.types.Panel):
@@ -1117,9 +1116,9 @@ class OT_Import_G3F_Rig_Difeomorphic(bpy.types.Operator):
             ShowMessageBox("Body vertex count is not matching, need to abort", "Warning", 'INFO')
         return {'FINISHED'}
 
-class OT_Merge_G3F_Toes_Groups(bpy.types.Operator):
+class OT_Switch_To_VX_Vertex_Groups(bpy.types.Operator):
     ''''''
-    bl_idname = "difeomorphic.merge_g3f_toes_groups"
+    bl_idname = "difeomorphic.switch_to_vx_vertex_groups"
     bl_label = ""
     bl_description = "Merge G3F toes"    
     def execute(self, context):
