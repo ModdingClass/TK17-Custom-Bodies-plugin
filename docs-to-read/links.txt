@@ -1,0 +1,5 @@
+https://docs.blender.org/api/htmlI/c3627.html#BSG.CUR.F.S68.103
+https://help.autodesk.com/cloudhelp/2018/ENU/Maya-SDK/files-to-wrap/Appendices_Appendix_A_NURBS_Geometry.htm
+https://stackoverflow.com/questions/24612626/b-spline-interpolation-with-python
+https://nbviewer.org/github/empet/geom_modeling/blob/master/FP-Bezier-Bspline.ipynb
+https://stackoverflow.com/questions/28279060/splines-with-python-using-control-knots-and-endpoints
