@@ -38,6 +38,18 @@ def import_g3f_difeomorphic() :
         bodyMeshCloned = bpy.context.scene.objects.active
         bodyMeshCloned.parent = None
     #
+    
+    
+    # no, we are not going to merge yet... we need to do that later
+    #activateObject(gensMeshCloned) # activate this to maybe deselect all in scene first?
+    #gensMeshCloned.select = True
+    #bodyMeshCloned.select = True
+    #setActiveObject(bodyMeshCloned)
+    #if (True == False):
+    #    return  
+    #bpy.ops.daz.merge_geografts()
+    activateObject(bodyMeshCloned)
+    setActiveObject(bodyMeshCloned)
     """     #
     #setActiveObject(gensMesh)
     setActiveObject(bodyMesh)
@@ -78,16 +90,23 @@ def import_g3f_difeomorphic() :
             bpy.ops.object.material_slot_select()
 
 
-    bpy.ops.object.mode_set(mode='EDIT')
+    # this is the part where we should delete the selected vertices based on unwanted materials, but not going to do that because we are going to scale to zero and hide those unwanted vertices for now
+    if (True == False):
+        bpy.ops.object.mode_set(mode='EDIT')
+        #
+        #
+        bpy.ops.mesh.delete(type='VERT')
+        bpy.ops.mesh.select_all(action='DESELECT')
+        #
+        bpy.ops.object.editmode_toggle()  #back in object mode
+    #
+    #instead, lets try and scale them
+    if (True == True):
+        bpy.ops.object.mode_set(mode='EDIT')
+        bpy.ops.transform.resize(value=(0.0, 0.0, 0.0))
+        bpy.ops.object.editmode_toggle()  #back in object mode
     #
     #
-    bpy.ops.mesh.delete(type='VERT')
-    bpy.ops.mesh.select_all(action='DESELECT')
-    #
-    bpy.ops.object.editmode_toggle()  #back in object mode
-    #
-
-
     #delete unused materials
     bpy.ops.object.mode_set(mode='OBJECT')
     ob = bpy.context.active_object
@@ -319,36 +338,6 @@ def import_g3f_difeomorphic() :
 
     bpy.data.materials["body_teeth01"]["localname"]="local_custommouth_RS"
     bpy.data.materials["body_teeth01"]["objectname"]="body_teeth01_SG"
-
-    #add fake shapekeys
-
-    verts = ob.data.vertices
-
-    sk_basis = ob.shape_key_add('Basis')
-    ob.data.shape_keys.use_relative = True
-
-    shape_keys = [
-    'bbb_asian02_morph',
-    'bbb_vagfix_morph',
-    'bbb_eye_L_morph',
-    'bbb_asian01_morph',
-    'bbb_atomic01',
-    'bbb_hentai01_morph',
-    'bbb_eye_R_morph',
-    'bbb_african01_morph',
-    'bbb_vag_morph',
-    'bbb_jenna01_morph',
-    'bbb_capelli01_morph',
-    'bbb_ear01',
-    'bbb_pregnant',
-    'bbb_ear02'
-    ]
-
-    # Create 10 sequential deformations
-    for shape_key in shape_keys: 
-        # Create new shape key
-        sk = ob.shape_key_add(shape_key)
-        sk.slider_min = -1
 
 
 

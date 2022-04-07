@@ -284,11 +284,11 @@ class ImporterPanelDifeomorphic(bpy.types.Panel):
         #
         row=box.row(align=True)
         row.operator('tkarmature.fake',text='              ')
-        row.operator('difeomorphic.import_g3f_body_difeomorphic',text='Import G3F body',icon='OBJECT_DATA')      
+        row.operator('difeomorphic.import_g3f_body_difeomorphic',text='G3F'+u'→'+'VX body',icon='OBJECT_DATA')      
         row.operator('difeomorphic.adjust_rig_to_shape_difeomorphic',text='Adjust Rig to Difeomorphic',icon_value=custom_icons["wand_icon"].icon_id)
         row=box.row(align=True)
         row.operator('tkarmature.fake',text='              ')
-        row.operator('difeomorphic.switch_to_vx_vertex_groups',text='Switch Vertex Groups',icon='OBJECT_DATA')    
+        row.operator('difeomorphic.switch_to_vx_vertex_groups',text='Switch Vertex Groups',icon='GROUP_VERTEX')    
         row.operator('tkarmature.fake',text='              ')   
         
 
@@ -383,6 +383,10 @@ class ToolsPanel(bpy.types.Panel):
         row.operator('tkarmature.fake',text='              ')
         row.operator('tkarmature.export_shapekeys_to_json',text='Export shapekeys',icon='SHAPEKEY_DATA')
         row.operator('tkarmature.import_shapekeys_from_json',text='Import shapekeys',icon='SHAPEKEY_DATA')        
+        row=box.row(align=True)
+        row.operator('tkarmature.fake',text='              ')
+        row.operator('tkarmature.add_empty_shapekeys',text='Add empty shapekeys',icon='SHAPEKEY_DATA')
+        row.operator('tkarmature.fake',text='              ')
         #row.operator('tkarmature.fake',text='              ')
         #row=box.row(align=True)
         #row.operator('tkarmature.fake',text='              ') 
@@ -457,7 +461,7 @@ class ExporterPanel(bpy.types.Panel):
         tkarmature  = scene.tkarmature
         row=box.row(align=True)
         #row.operator('tkarmature.correct_final_rolls',text='Correct Rolls',icon='MODIFIER')
-        row.operator('tkarmature.export_armature_to_empties',text='Armature to Empties',icon='OUTLINER_OB_EMPTY')
+        row.operator('tkarmature.export_armature_to_empties',text='Armature to Empties',icon='OUTLINER_OB_EMPTY') #use_mirror_x
         row.operator('tkarmature.fake',text='              ')
         row.operator('tkarmature.export_empties_to_files',text='Export Empties',icon='EXPORT')        
         #box.row().separator()
@@ -689,6 +693,20 @@ class OT_Import_Shapekeys_From_Json(Operator, ImportHelper):
         importShapeKeysFromJsonFile(ob, path_to_file)
         return {'FINISHED'}
 
+
+class OT_add_empty_shapekeys(bpy.types.Operator):
+    ''''''
+    bl_idname = "tkarmature.add_empty_shapekeys"
+    bl_label = ""
+    bl_description = "Add empty shapekeys for VX body."
+
+    group = bpy.props.StringProperty(name="ALL")
+
+    def execute(self, context):
+        scene  = bpy.context.scene
+        tkarmature  = scene.tkarmature
+        add_empty_shapekeys_for_vx_body()
+        return {'FINISHED'}        
 
 class OT_clone_as_weighted_object(bpy.types.Operator):
     ''''''
@@ -982,16 +1000,21 @@ class OT_Export_Armature_To_Empties(bpy.types.Operator):
             print("_root_object: "+_root_object.name)
             delete_hierarchy("_root")
         except: 
-            print("_root object missing")
+            print("_root object missing, nothing to delete...")
         #if 1==1:
         #    return {'FINISHED'}
         bpy.ops.object.select_all(action='DESELECT')            
         armature_object = bpy.data.objects["Armature"]
+        #we need to disable mirroring when exporting the armature values, as this is going to mess up values
+        mirror_option = armature_object.data.use_mirror_x
+        armature_object.data.use_mirror_x = False
         armature_object.select = True
         bpy.context.scene.objects.active = armature_object
         regenerate_empties(armature_object)
         regenerate_empties_hands(armature_object)
         regenerate_empties_ik(armature_object)
+        #we need to restore mirroring settings back
+        armature_object.data.use_mirror_x = mirror_option
         return {'FINISHED'}
         
         
@@ -1082,7 +1105,7 @@ class OT_Import_G3F_Body_Difeomorphic(bpy.types.Operator):
     ''''''
     bl_idname = "difeomorphic.import_g3f_body_difeomorphic"
     bl_label = ""
-    bl_description = "Import G3F body from Difeomorphic"    
+    bl_description = "Convert G3F body from Difeomorphic into a VX body"    
     def execute(self, context):
         obj_object = bpy.context.selected_objects[0] ####<--Fix
         bpy.context.scene.objects.active = obj_object
@@ -1095,7 +1118,7 @@ class OT_Import_G3F_Rig_Difeomorphic(bpy.types.Operator):
     ''''''
     bl_idname = "difeomorphic.adjust_rig_to_shape_difeomorphic"
     bl_label = ""
-    bl_description = "Adjust Rig to Difeomorphic"    
+    bl_description = "Adjust object rig \"Armature\" to a Difeomorphic imported armature/body"    
     def execute(self, context):
         #obj_object = bpy.context.selected_objects[0] ####<--Fix
         #bpy.context.scene.objects.active = obj_object
@@ -1120,7 +1143,7 @@ class OT_Switch_To_VX_Vertex_Groups(bpy.types.Operator):
     ''''''
     bl_idname = "difeomorphic.switch_to_vx_vertex_groups"
     bl_label = ""
-    bl_description = "Merge G3F toes"    
+    bl_description = "Convert vertex groups from Daz to VX"    
     def execute(self, context):
         toe_deform01_joint01_L = {
             "toe_deform01_joint01.L" : ["lBigToe", "lBigToe_2"]

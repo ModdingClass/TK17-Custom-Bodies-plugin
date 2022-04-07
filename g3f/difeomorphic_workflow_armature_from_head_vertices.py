@@ -100,8 +100,11 @@ def getArmatureBonesDictFromHeadVertices(bones_dict):
     upper_lip_joint01_L_head.x -= 0.001
     upper_lip_joint02_L_head = getCenter (upper_lip_joint02_base_L, obj)
     upper_lip_joint03_L_head = getCenter (upper_lip_joint03_base_L, obj)
-    upper_lip_jointEnd_L_head = getCenter (upper_lip_jointEnd_center, obj)
-    upper_lip_jointEnd_L_head.x += 0.001 #slight adjust
+    
+    #upper_lip_jointEnd_L_head = getCenter (upper_lip_jointEnd_center, obj)
+    #upper_lip_jointEnd_L_head.x += 0.001 #slight adjust
+    upper_lip_jointEnd_L_head = getCenter (upper_lip_jointEnd_L, obj)
+
 
     upper_lip_joint01_L_tail = upper_lip_joint02_L_head.copy()
     upper_lip_joint02_L_tail = upper_lip_joint03_L_head.copy()
@@ -113,8 +116,9 @@ def getArmatureBonesDictFromHeadVertices(bones_dict):
     upper_lip_joint01_R_head.x += 0.001
     upper_lip_joint02_R_head = getCenter (upper_lip_joint02_base_R, obj)
     upper_lip_joint03_R_head = getCenter (upper_lip_joint03_base_R, obj)
-    upper_lip_jointEnd_R_head = getCenter (upper_lip_jointEnd_center, obj)
-    upper_lip_jointEnd_R_head.x -= 0.001 #slight adjust
+    #upper_lip_jointEnd_R_head = getCenter (upper_lip_jointEnd_center, obj)
+    #upper_lip_jointEnd_R_head.x -= 0.001 #slight adjust
+    upper_lip_jointEnd_R_head = getCenter (upper_lip_jointEnd_R, obj)
 
     upper_lip_joint01_R_tail = upper_lip_joint02_R_head.copy()
     upper_lip_joint02_R_tail = upper_lip_joint03_R_head.copy()
@@ -207,34 +211,34 @@ def getArmatureBonesDictFromHeadVertices(bones_dict):
     bones_dict["forehead_joint01"]= {"head" : amwi * forehead_joint01_head, "tail" : amwi * forehead_joint01_tail, "roll" : 0, "rollOffset" : 0, "connected" : False }
     bones_dict["forehead_jointEnd"]= {"head" : amwi * forehead_jointEnd_head, "tail" : amwi * forehead_jointEnd_tail, "roll" : 0, "rollOffset" : 0, "connected" : False }
 
-    bones_dict["upper_lip_joint01.L"]= {"head" : amwi * upper_lip_joint01_L_head, "tail" : amwi * upper_lip_joint01_L_tail, "roll" : 0, "rollOffset" : 0, "connected" : False }
-    bones_dict["upper_lip_joint02.L"]= {"head" : amwi * upper_lip_joint02_L_head, "tail" : amwi * upper_lip_joint02_L_tail, "roll" : 0, "rollOffset" : 0, "connected" : False }
+    bones_dict["upper_lip_joint01.L"]= {"head" : amwi * upper_lip_joint01_L_head, "tail" : amwi * upper_lip_joint01_L_tail, "roll" : 38, "rollOffset" : 0, "connected" : False }
+    bones_dict["upper_lip_joint02.L"]= {"head" : amwi * upper_lip_joint02_L_head, "tail" : amwi * upper_lip_joint02_L_tail, "roll" : 122, "rollOffset" : 0, "connected" : False }
     
-    bones_dict["upper_lip_joint03.L"]= {"head" : amwi * upper_lip_joint03_L_head, "tail" : amwi * upper_lip_joint03_L_tail, "roll" : 0, "rollOffset" : 0, "connected" : False }
-    bones_dict["upper_lip_jointEnd.L"]= {"head" : amwi * upper_lip_jointEnd_L_head, "tail" : amwi * upper_lip_jointEnd_L_tail, "roll" : 0, "rollOffset" : 0, "connected" : False }
+    bones_dict["upper_lip_joint03.L"]= {"head" : amwi * upper_lip_joint03_L_head, "tail" : amwi * upper_lip_joint03_L_tail, "roll" : 94, "rollOffset" : 0, "connected" : False }
+    bones_dict["upper_lip_jointEnd.L"]= {"head" : amwi * upper_lip_jointEnd_L_head, "tail" : amwi * upper_lip_jointEnd_L_tail, "roll" : -180, "rollOffset" : 0, "connected" : False }
 
-    bones_dict["lower_lip_joint01.L"]= {"head" : amwi * lower_lip_joint01_L_head, "tail" : amwi * lower_lip_joint01_L_tail, "roll" : 0, "rollOffset" : 0, "connected" : False }
-    bones_dict["lower_lip_joint02.L"]= {"head" : amwi * lower_lip_joint02_L_head, "tail" : amwi * lower_lip_joint02_L_tail, "roll" : 0, "rollOffset" : 0, "connected" : False }
-    bones_dict["lower_lip_joint03.L"]= {"head" : amwi * lower_lip_joint03_L_head, "tail" : amwi * lower_lip_joint03_L_tail, "roll" : 0, "rollOffset" : 0, "connected" : False }
+    bones_dict["lower_lip_joint01.L"]= {"head" : amwi * lower_lip_joint01_L_head, "tail" : amwi * lower_lip_joint01_L_tail, "roll" : 97, "rollOffset" : 0, "connected" : False }
+    bones_dict["lower_lip_joint02.L"]= {"head" : amwi * lower_lip_joint02_L_head, "tail" : amwi * lower_lip_joint02_L_tail, "roll" : 84, "rollOffset" : 0, "connected" : False }
+    bones_dict["lower_lip_joint03.L"]= {"head" : amwi * lower_lip_joint03_L_head, "tail" : amwi * lower_lip_joint03_L_tail, "roll" : 82, "rollOffset" : 0, "connected" : False }
 
-    bones_dict["lower_lip_jointEnd.L"]= {"head" : amwi * lower_lip_jointEnd_L_head, "tail" : amwi * lower_lip_jointEnd_L_tail, "roll" : 0, "rollOffset" : 0, "connected" : False }
+    bones_dict["lower_lip_jointEnd.L"]= {"head" : amwi * lower_lip_jointEnd_L_head, "tail" : amwi * lower_lip_jointEnd_L_tail, "roll" : -180, "rollOffset" : 0, "connected" : False }
 
-    bones_dict["upper_lip_joint01.R"]= {"head" : amwi * upper_lip_joint01_R_head, "tail" : amwi * upper_lip_joint01_R_tail, "roll" : 0, "rollOffset" : 0, "connected" : False }
-    bones_dict["upper_lip_joint02.R"]= {"head" : amwi * upper_lip_joint02_R_head, "tail" : amwi * upper_lip_joint02_R_tail, "roll" : 0, "rollOffset" : 0, "connected" : False }
+    bones_dict["upper_lip_joint01.R"]= {"head" : amwi * upper_lip_joint01_R_head, "tail" : amwi * upper_lip_joint01_R_tail, "roll" : -38, "rollOffset" : 0, "connected" : False }
+    bones_dict["upper_lip_joint02.R"]= {"head" : amwi * upper_lip_joint02_R_head, "tail" : amwi * upper_lip_joint02_R_tail, "roll" : -122, "rollOffset" : 0, "connected" : False }
 
-    bones_dict["upper_lip_joint03.R"]= {"head" : amwi * upper_lip_joint03_R_head, "tail" : amwi * upper_lip_joint03_R_tail, "roll" : 0, "rollOffset" : 0, "connected" : False }
-    bones_dict["upper_lip_jointEnd.R"]= {"head" : amwi * upper_lip_jointEnd_R_head, "tail" : amwi * upper_lip_jointEnd_R_tail, "roll" : 0, "rollOffset" : 0, "connected" : False }
+    bones_dict["upper_lip_joint03.R"]= {"head" : amwi * upper_lip_joint03_R_head, "tail" : amwi * upper_lip_joint03_R_tail, "roll" : -94, "rollOffset" : 0, "connected" : False }
+    bones_dict["upper_lip_jointEnd.R"]= {"head" : amwi * upper_lip_jointEnd_R_head, "tail" : amwi * upper_lip_jointEnd_R_tail, "roll" : 180, "rollOffset" : 0, "connected" : False }
 
-    bones_dict["lower_lip_joint01.R"]= {"head" : amwi * lower_lip_joint01_R_head, "tail" : amwi * lower_lip_joint01_R_tail, "roll" : 0, "rollOffset" : 0, "connected" : False }
-    bones_dict["lower_lip_joint02.R"]= {"head" : amwi * lower_lip_joint02_R_head, "tail" : amwi * lower_lip_joint02_R_tail, "roll" : 0, "rollOffset" : 0, "connected" : False }
-    bones_dict["lower_lip_joint03.R"]= {"head" : amwi * lower_lip_joint03_R_head, "tail" : amwi * lower_lip_joint03_R_tail, "roll" : 0, "rollOffset" : 0, "connected" : False }
+    bones_dict["lower_lip_joint01.R"]= {"head" : amwi * lower_lip_joint01_R_head, "tail" : amwi * lower_lip_joint01_R_tail, "roll" : -97, "rollOffset" : 0, "connected" : False }
+    bones_dict["lower_lip_joint02.R"]= {"head" : amwi * lower_lip_joint02_R_head, "tail" : amwi * lower_lip_joint02_R_tail, "roll" : -84, "rollOffset" : 0, "connected" : False }
+    bones_dict["lower_lip_joint03.R"]= {"head" : amwi * lower_lip_joint03_R_head, "tail" : amwi * lower_lip_joint03_R_tail, "roll" : -82, "rollOffset" : 0, "connected" : False }
 
-    bones_dict["lower_lip_jointEnd.R"]= {"head" : amwi * lower_lip_jointEnd_R_head, "tail" : amwi * lower_lip_jointEnd_R_tail, "roll" : 0, "rollOffset" : 0, "connected" : False }
+    bones_dict["lower_lip_jointEnd.R"]= {"head" : amwi * lower_lip_jointEnd_R_head, "tail" : amwi * lower_lip_jointEnd_R_tail, "roll" : 180, "rollOffset" : 0, "connected" : False }
 
     bones_dict["lower_jaw_joint01"]= {"head" : amwi * lower_jaw_joint01_head, "tail" : amwi * lower_jaw_joint01_tail, "roll" : 0, "rollOffset" : 0, "connected" : False }
-    bones_dict["lower_jaw_jointEnd"]= {"head" : amwi * lower_jaw_jointEnd_head, "tail" : amwi * lower_jaw_jointEnd_tail, "roll" : 0, "rollOffset" : 0, "connected" : False }
+    bones_dict["lower_jaw_jointEnd"]= {"head" : amwi * lower_jaw_jointEnd_head, "tail" : amwi * lower_jaw_jointEnd_tail, "roll" : -180, "rollOffset" : 0, "connected" : False }
 
-    bones_dict["chin_joint01"]= {"head" : amwi * chin_joint01_head, "tail" : amwi * chin_joint01_tail, "roll" : 0, "rollOffset" : 0, "connected" : False }
+    bones_dict["chin_joint01"]= {"head" : amwi * chin_joint01_head, "tail" : amwi * chin_joint01_tail, "roll" : -180, "rollOffset" : 0, "connected" : False }
 
     bones_dict["chin_jointEnd"]= {"head" : amwi * chin_jointEnd_head, "tail" : amwi * chin_jointEnd_tail, "roll" : 0, "rollOffset" : 0, "connected" : False }
     

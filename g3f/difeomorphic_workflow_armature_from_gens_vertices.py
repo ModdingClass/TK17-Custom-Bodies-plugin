@@ -28,7 +28,7 @@ def getArmatureBonesDictFromGensVertices(bones_dict):
     
     vagina_jointEnd_R_head = vagina_joint01_R_tail.copy()
     vagina_jointEnd_R_tail = vagina_joint01_R_tail.copy()
-    vagina_jointEnd_R_tail.x -= 0.02
+    vagina_jointEnd_R_tail.x += 0.02
     
     vagina_joint01_L_tail = getCenter (vagina_L, obj )
     vagina_joint01_L_head = getCenter (vagina_center, obj )
@@ -36,7 +36,7 @@ def getArmatureBonesDictFromGensVertices(bones_dict):
     
     vagina_jointEnd_L_head = vagina_joint01_L_tail.copy()
     vagina_jointEnd_L_tail = vagina_joint01_L_tail.copy()
-    vagina_jointEnd_L_tail.x += 0.02
+    vagina_jointEnd_L_tail.x -= 0.02
     
     
     
@@ -46,11 +46,11 @@ def getArmatureBonesDictFromGensVertices(bones_dict):
     
     
     
-    bones_dict["vagina_joint01.R"]= {"head" : amwi * vagina_joint01_R_head, "tail" : amwi * vagina_joint01_R_tail, "roll" : 0, "rollOffset" : 0, "connected" : False }
-    bones_dict["vagina_joint01.L"]= {"head" : amwi * vagina_joint01_L_head, "tail" : amwi * vagina_joint01_L_tail, "roll" : 0, "rollOffset" : 0, "connected" : False }
+    bones_dict["vagina_joint01.R"]= {"head" : amwi * vagina_joint01_R_head, "tail" : amwi * vagina_joint01_R_tail, "roll" : 90, "rollOffset" : 0, "connected" : False }
+    bones_dict["vagina_joint01.L"]= {"head" : amwi * vagina_joint01_L_head, "tail" : amwi * vagina_joint01_L_tail, "roll" : -90, "rollOffset" : 0, "connected" : False }
     
     bones_dict["vagina_jointEnd.R"]= {"head" : amwi * vagina_jointEnd_R_head, "tail" : amwi * vagina_jointEnd_R_tail, "roll" : 0, "rollOffset" : 0, "connected" : False }
     bones_dict["vagina_jointEnd.L"]= {"head" : amwi * vagina_jointEnd_L_head, "tail" : amwi * vagina_jointEnd_L_tail, "roll" : 0, "rollOffset" : 0, "connected" : False }
     
     
-    bones_dict["anus_joint"]= {"head" : amwi * anus_head, "tail" : amwi * anus_tail, "roll" : 0, "rollOffset" : 0, "connected" : False }
+    bones_dict["anus_joint"]= {"head" : amwi * anus_head, "tail" : amwi * anus_tail, "roll" : 7.1, "rollOffset" : 0, "connected" : False }

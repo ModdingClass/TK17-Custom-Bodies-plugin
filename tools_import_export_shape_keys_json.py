@@ -133,3 +133,45 @@ def importShapeKeysFromJsonFile(ob, filename):
             key.data[i].co = basis_verts.data[i].co + Vector( tuple(e for e in arr[i])  )
 
 
+def add_empty_shapekeys_for_vx_body():
+    bpy.ops.object.mode_set(mode='OBJECT')
+    ob = bpy.context.active_object
+
+    #add fake shapekeys
+
+    verts = ob.data.vertices
+
+    #check to see if we have the Basis Shapekey, otherwise create it
+    if ( ob.data.shape_keys == None or len(ob.data.shape_keys.key_blocks)==0 ):
+        sk_basis = ob.shape_key_add(name='Basis',from_mix=False)
+        sk_basis.interpolation = 'KEY_LINEAR'
+        # must set relative to false here
+        ob.data.shape_keys.use_relative = False
+    #
+    #
+    shape_keys_dict = [
+    'bbb_asian02_morph',
+    'bbb_vagfix_morph',
+    'bbb_eye_L_morph',
+    'bbb_asian01_morph',
+    'bbb_atomic01',
+    'bbb_hentai01_morph',
+    'bbb_eye_R_morph',
+    'bbb_african01_morph',
+    'bbb_vag_morph',
+    'bbb_jenna01_morph',
+    'bbb_capelli01_morph',
+    'bbb_ear01',
+    'bbb_pregnant',
+    'bbb_ear02'
+    ]
+
+    # Create 10 sequential deformations
+    for key in shape_keys_dict: 
+        if 	key not in ob.data.shape_keys.key_blocks:
+            # Create new shape key
+            sk = ob.shape_key_add(key)
+            sk.slider_min = -1
+            sk.interpolation = 'KEY_LINEAR'
+            ob.data.shape_keys.use_relative = True
+
