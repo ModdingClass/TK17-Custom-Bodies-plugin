@@ -71,6 +71,7 @@ from .g3f.importer_g3f_difeomorphic import *
 from .g3f.difeomorphic_workflow import *
 from .tools_import_export_vertex_groups_json import *
 from .tools_import_export_shape_keys_json import *
+from .tools_import_export_materials_json import *
 from .ik_tools import *
 
 from bpy.app.handlers import persistent
@@ -119,6 +120,7 @@ if "bpy" in locals():
     imp.reload(g3f.difeomorphic_workflow_init_custom_vertex_indices)
     imp.reload(tools_import_export_vertex_groups_json)
     imp.reload(tools_import_export_shape_keys_json)
+    imp.reload(tools_import_export_materials_json)
 
     imp.reload(ik_tools)
     print("Reloaded multifiles")
@@ -157,6 +159,7 @@ else:
     from .g3f import difeomorphic_workflow_init_custom_vertex_indices
     from . import tools_import_export_vertex_groups_json
     from . import tools_import_export_shape_keys_json
+    from . import tools_import_export_materials_json
     from . import ik_tools
     print("Imported multifiles")
 
@@ -375,6 +378,10 @@ class ToolsPanel(bpy.types.Panel):
         row.operator('tkarmature.fake',text='              ')
         row.operator('tkarmature.clone_as_weighted_object',text='Make Weighted Obj')
         row.operator('tkarmature.adjust_rig_to_shape',text='Adjust Rig to G3F Body',icon_value=custom_icons["wand_icon"].icon_id)
+        row=box.row(align=True)
+        row.operator('tkarmature.fake',text='              ')
+        row.operator('tkarmature.export_materials_to_json',text='Export materials',icon='MATERIAL_DATA')
+        row.operator('tkarmature.import_materials_from_json',text='Import materials',icon='MATERIAL_DATA')
         row=box.row(align=True)
         row.operator('tkarmature.fake',text='              ')
         row.operator('tkarmature.export_weights_to_json',text='Export weights',icon='GROUP_VERTEX')
@@ -596,6 +603,54 @@ class OT_adjust_rig_to_shape(bpy.types.Operator):
         return {'FINISHED'}        
 
 
+# this class extends ExportHelper !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+class OT_Exports_Materials_To_Json(Operator, ExportHelper):
+    ''''''
+    bl_idname = "tkarmature.export_materials_to_json"
+    bl_label = "Export materials"
+    bl_description = "Exports materials to a custom json file"
+
+    filename_ext = ".json"  # ExportHelper mixin class uses this
+    filter_glob = StringProperty(
+        default='*.json',
+        options={'HIDDEN'}
+    )
+    
+    def execute(self, context):
+        #bpy.context.scene.objects.active = None
+        #for obj in bpy.data.objects:
+        #    obj.select = False        
+        #bpy.ops.object.select_all(action='DESELECT')
+        print('Selected file:', self.filepath)
+        path_to_file = self.filepath
+        ob = bpy.context.object
+        exportMaterialsToJsonFile(ob, path_to_file)
+        return {'FINISHED'}
+    
+
+# this class extends ImportHelper !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+class OT_Import_Materials_From_Json(Operator, ImportHelper):
+    ''''''
+    bl_idname = "tkarmature.import_materials_from_json"
+    bl_label = "Import materials"
+    bl_description = "Import materials from a custom json file"
+
+    filter_glob = StringProperty(
+        default='*.json',
+        options={'HIDDEN'}
+    )
+    
+    def execute(self, context):
+        #bpy.context.scene.objects.active = None
+        #for obj in bpy.data.objects:
+        #    obj.select = False        
+        #bpy.ops.object.select_all(action='DESELECT')
+        print('Selected file:', self.filepath)
+        path_to_file = self.filepath
+        ob = bpy.context.object
+        importMaterialsFromJsonFile(ob, path_to_file)
+        return {'FINISHED'}
+    
 
 
 #        row.operator('tkarmature.export_weights_to_json',text='Export weights')
