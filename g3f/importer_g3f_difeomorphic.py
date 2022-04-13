@@ -350,6 +350,19 @@ def import_g3f_difeomorphic() :
         ob.name= "body_subdiv_cage"
         ob.data.name = "M_body_subdiv_cage"
 
+    
+    #lets flip eyelashes normals
+    eyelashes_faces_that_needs_to_have_flipped_normals = [20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 126, 127, 128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191, 192, 193, 194, 195, 196, 197]
+    
+    bpy.ops.object.mode_set(mode='EDIT')
+    bpy.ops.mesh.select_all(action='DESELECT')
+    bpy.ops.mesh.select_mode(type="FACE")
+    bpy.ops.object.mode_set(mode='OBJECT')
+    for i in eyelashes_faces_that_needs_to_have_flipped_normals:
+        ob.data.polygons[i].select = True
+    bpy.ops.object.mode_set(mode='EDIT')
+    bpy.ops.mesh.flip_normals() 
+    bpy.ops.object.mode_set(mode='OBJECT')
 
     ob.data.uv_layers[0].name = "UVMap"
     #lets add this property
