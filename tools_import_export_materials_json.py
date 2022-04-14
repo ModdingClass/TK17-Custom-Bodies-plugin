@@ -58,9 +58,9 @@ def exportMaterialsToJsonFile(ob, filename):
     # ensure we got the latest assignments and materials?!? (do we realy need that?!?)
     ob.update_from_editmode()
     #
-    #mats = ob.material_slots
-    #materialsExport = {mat.name:[ ] for mat in mats}
-    materialsExport = ob.material_slots.keys()
+    mats = ob.material_slots
+    materialsExport = {mat.name:[ ] for mat in mats}
+    #materialsExport = ob.material_slots.keys()   <-TypeError: list indices must be integers or slices, not str
     for f in ob.data.polygons:
         materialsExport[ob.material_slots[:][f.material_index].name].append(f.index)
     with open(filename, 'w') as outfile:
@@ -85,7 +85,6 @@ def importMaterialsFromJsonFile(ob, filename):
     # ensure we got the latest assignments and weights
     ob.update_from_editmode()
     #
-    vgs = ob.vertex_groups
     f = open(filename,)
     # returns JSON object as a dictionary
     data = json.load(f)

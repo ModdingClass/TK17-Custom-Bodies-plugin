@@ -242,8 +242,8 @@ def getArmatureBonesDictFromHeadVertices(bones_dict):
 
     bones_dict["chin_jointEnd"]= {"head" : amwi * chin_jointEnd_head, "tail" : amwi * chin_jointEnd_tail, "roll" : 0, "rollOffset" : 0, "connected" : False }
     
-    bones_dict["head_joint01"]= {"head" : amwi * head01_head, "tail" : amwi * head01_tail, "roll" : 0, "rollOffset" : 0, "connected" : False }
-    bones_dict["head_joint02"]= {"head" : amwi * head02_head, "tail" : amwi * head02_tail, "roll" : 0, "rollOffset" : 0, "connected" : False }
+    bones_dict["head_joint01"]= {"head" : amwi * head01_head, "tail" : amwi * head01_tail, "roll" : 90, "rollOffset" : 0, "connected" : False }
+    bones_dict["head_joint02"]= {"head" : amwi * head02_head, "tail" : amwi * head02_tail, "roll" : 90, "rollOffset" : 0, "connected" : False }
     bones_dict["head_jointEnd"]= {"head" : amwi * head_jointEnd_head, "tail" : amwi * head_jointEnd_tail, "roll" : 0, "rollOffset" : 0, "connected" : False }
     
     bones_dict["head_joint01"]["roll"]=90

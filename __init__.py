@@ -248,7 +248,7 @@ class TKARMATURE_vars(bpy.types.PropertyGroup) :
 
 class ImporterPanel(bpy.types.Panel):
     """Creates a Panel in the Tool Shelf"""
-    bl_label = "Importer"
+    bl_label = "Importer Armature"
     bl_idname = "Importer Panel"
     bl_space_type = 'VIEW_3D'
     bl_region_type = 'TOOLS'
@@ -263,6 +263,20 @@ class ImporterPanel(bpy.types.Panel):
         row.operator('tkarmature.create_armature',text='New Hardcoded Armature(F)',icon='OUTLINER_OB_ARMATURE')
         row.operator('tkarmature.import_armature',text='Import CTK Armature',icon='OUTLINER_OB_ARMATURE')
         row.operator('tkarmature.fake',text='              ')
+        
+class ImporterPanelFromObj(bpy.types.Panel):
+    """Creates a Panel in the Tool Shelf"""
+    bl_label = "Importer .Obj"
+    bl_idname = "Importer Panel Obj Workflow"
+    bl_space_type = 'VIEW_3D'
+    bl_region_type = 'TOOLS'
+    bl_category = "TK17 Body"
+    def draw(self,context):
+        layout=self.layout
+        box = layout.box()
+        scene=context.scene
+        tkarmature  = scene.tkarmature
+        #
         row=box.row(align=True)
         row.operator('tkarmature.fake',text='              ')
         row.operator('test.import_g3f_body',text='Import G3F body',icon='OBJECT_DATA')    
@@ -272,10 +286,11 @@ class ImporterPanel(bpy.types.Panel):
         row.operator('test.import_generic_body',text='Import generic body',icon='OBJECT_DATA')    
         row.operator('tkarmature.fake',text='              ')
         
+
 class ImporterPanelDifeomorphic(bpy.types.Panel):
     """Creates a Panel in the Tool Shelf"""
-    bl_label = "Importer Difeomorphic"
-    bl_idname = "Importer Panel Difeomorphic"
+    bl_label = "Importer Difeomorphic "
+    bl_idname = "Importer Panel Difeomorphic Workflow"
     bl_space_type = 'VIEW_3D'
     bl_region_type = 'TOOLS'
     bl_category = "TK17 Body"
@@ -445,8 +460,11 @@ class FakeBonesPanel(bpy.types.Panel):
         row=box.row()
         row.separator()
         #row.operator('test.open_filebrowser',text='Import Blenda body',icon='OBJECT_DATA')    
-        row.prop(tkarmature,'dontExportJointEnds',text="Dont export jointEnds")
-        row.prop(tkarmature,'dontExportMaleJoints',text="Dont export male joints")
+        new_box = row.box()
+        new_box.label(text="Don't Export")
+        row=new_box.row(align=True)
+        row.prop(tkarmature,'dontExportJointEnds',text="Weightless jointEnds")
+        row.prop(tkarmature,'dontExportMaleJoints',text="Male specific joints")
         row=box.row(align=True)
         row.operator('tkarmature.fake',text='              ')
         row.operator('tkarmature.fake',text='              ')
