@@ -401,7 +401,7 @@ def export_body(exportfolderpath, bodyNo) :
 	fileout.flush()
 	fileout.close()
 
-	fileout = open(exportfolderpath+'bsBlocks/part3_1_content_MeshDataVertexData_2_morphs.bs_block', 'w')
+	fileout = open(exportfolderpath+'bsBlocks/part3.0_1_content_MeshDataVertexData_2_morphs.bs_block', 'w')
 	fileout.write( " , ".join(pyBlock_MeshData_VertexData) )
 	fileout.flush()
 	fileout.close()
