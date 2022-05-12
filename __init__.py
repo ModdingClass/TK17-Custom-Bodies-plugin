@@ -308,6 +308,10 @@ class ImporterPanelDifeomorphic(bpy.types.Panel):
         row.operator('tkarmature.fake',text='              ')
         row.operator('difeomorphic.switch_to_vx_vertex_groups',text='Switch Vertex Groups',icon='GROUP_VERTEX')    
         row.operator('tkarmature.fake',text='              ')   
+        row=box.row(align=True)
+        row.operator('tkarmature.fake',text='              ')
+        row.operator('tkarmature.fake',text='              ')
+        row.operator('difeomorphic.armature_friendly_ik',text='Force friendly IK joints',icon_value=custom_icons["wand_icon"].icon_id)
         
 
 
@@ -781,6 +785,8 @@ class OT_add_empty_shapekeys(bpy.types.Operator):
         add_empty_shapekeys_for_vx_body()
         return {'FINISHED'}        
 
+
+
 class OT_clone_as_weighted_object(bpy.types.Operator):
     ''''''
     bl_idname = "tkarmature.clone_as_weighted_object"
@@ -1185,6 +1191,21 @@ class OT_Import_G3F_Body_Difeomorphic(bpy.types.Operator):
         print('Imported name: ', obj_object.name)        
         import_g3f_difeomorphic()
         return {'FINISHED'}
+
+
+
+
+class OT_Armature_Friendly_IK(bpy.types.Operator):
+    ''''''
+    bl_idname = "difeomorphic.armature_friendly_ik"
+    bl_label = ""
+    bl_description = "Make armature bones to be friendly/maximum compatibility with IK systems. For example straight legs."
+    def execute(self, context):
+        scene  = bpy.context.scene
+        #tkarmature  = scene.tkarmature
+        armature_make_friendly_ik_joints(bpy.data.objects['Armature'])
+        return {'FINISHED'}        
+
 
 
 class OT_Import_G3F_Rig_Difeomorphic(bpy.types.Operator):

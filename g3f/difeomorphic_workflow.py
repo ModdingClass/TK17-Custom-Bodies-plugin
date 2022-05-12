@@ -656,3 +656,58 @@ def check_vertices_count_of_the_body(mesh_name, number_of_vertices_the_object_sh
         # print(f.index)
 
 
+
+#knee_centerX_L=[3410, 4675]
+#knee_centerX_R=[10293, 11533]
+
+def armature_make_friendly_ik_joints(ob):
+    assert ob is not None and ob.type == 'ARMATURE', "active object invalid"
+    #Must make armature active and in edit mode to create a bone
+    bpy.context.scene.objects.active = ob
+    bpy.ops.object.mode_set(mode='EDIT', toggle=False)
+    amw = ob.matrix_world
+    amwi = amw.inverted()
+
+    armature = bpy.data.armatures[ob.name]
+    
+    center=dict()
+    k = 1
+    list_of_bones = ["hip_joint","knee_joint","ankle_joint","ball_joint"]
+
+    
+    difeomorphic_body = "Genesis 3 Female Mesh"
+    if difeomorphic_body in bpy.data.objects:
+        obj = bpy.data.objects[difeomorphic_body]
+        center["centerX.L"]= getCenter (knee_centerX_L, obj )[0]
+        center["centerX.R"]= getCenter (knee_centerX_R, obj )[0]
+    else:
+        center["centerX.L"]= armature.edit_bones["knee_joint.L"].head.x
+        center["centerX.R"]= armature.edit_bones["knee_joint.R"].head.x
+        #for suffix in [".L",".R"]:
+        #    for bonename in list_of_bones:
+        #        ebone = armature.edit_bones[bonename+suffix]
+    
+    for suffix in [".L",".R"]:
+        if suffix == ".R":
+            k = -1
+        for bonename in list_of_bones:
+            ebone = armature.edit_bones[bonename+suffix]
+            ebone.head.x = center["centerX"+suffix]
+            ebone.tail.x = center["centerX"+suffix]
+
+
+        armature.edit_bones["hip_joint"+suffix].tail = armature.edit_bones["knee_joint"+suffix].head
+        armature.edit_bones["knee_joint"+suffix].tail = armature.edit_bones["ankle_joint"+suffix].head
+        armature.edit_bones["ankle_joint"+suffix].tail = armature.edit_bones["ball_joint"+suffix].head
+        armature.edit_bones["toe_joint"+suffix].head =  armature.edit_bones["ball_joint"+suffix].tail
+
+        armature.edit_bones["hip_joint"+suffix].roll = radians(0)
+        armature.edit_bones["knee_joint"+suffix].roll = radians(0)
+        armature.edit_bones["ankle_joint"+suffix].roll = radians(180) * k
+        armature.edit_bones["ball_joint"+suffix].roll = radians(180) * k
+
+
+        armature.edit_bones["toe_joint"+suffix].length =  0.025
+        armature.edit_bones["toe_joint"+suffix].roll = radians(0) 
+
+
