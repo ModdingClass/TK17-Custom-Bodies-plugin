@@ -68,11 +68,14 @@ def exportShapeKeysToJsonFile(ob, filename):
 
     skKeysExport = {keyName:[ ] for keyName in skKeys}
 
+    epsilon = 0.000001
     for keyName in skKeys:
         key = ob.data.shape_keys.key_blocks[keyName]
         data = []
         for i in range(len(me.vertices)):
             delta = (key.data[i].co - basis_verts.data[i].co)
+            if ( delta.x < epsilon and delta.y < epsilon and delta.z < epsilon ):
+                delta = Vector((0,0,0))
             data.append( [delta.x,delta.y,delta.z] )
         skKeysExport[keyName] = data
 
