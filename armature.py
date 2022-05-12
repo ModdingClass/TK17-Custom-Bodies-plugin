@@ -98,10 +98,10 @@ def addTK17Bone(translation, orientation,rotation, name, parent) :
 	else:
 		pass
 	scene = bpy.context.scene
-	empty = bpy.data.objects.new(name, None)
+	empty = bpy.data.objects.new("_ie_"+name, None)
 	empty.show_axis = True
 	if parent !="":
-		empty.parent = bpy.data.objects[parent]
+		empty.parent = bpy.data.objects["_ie_"+parent]
 	#if name != "root" :
 	#	empty.parent = bpy.data.objects[parent]
 	empty.rotation_mode = 'YZX'
@@ -455,7 +455,7 @@ def pre_import_armature():
 	if armature is not None:
 		armature.select = True
 	#
-	root_empty = bpy.context.scene.objects.get("root")
+	root_empty = bpy.context.scene.objects.get("_ie_"+"root")
 	select_children(root_empty)
 	bpy.ops.object.delete()
 	#
@@ -484,10 +484,11 @@ def post_import_armature():
 	bpy.ops.object.mode_set(mode='EDIT', toggle=False)
 	armature_matrix_world = armature_data.matrix_world
 	#
+	prefix = "_ie_"
 	for ob in bpy.data.objects:
 		#print ("object: " + ob.name)
-		if ob.type == 'EMPTY' and "corrector" not in ob.name:
-			editBone = bpy.context.object.data.edit_bones.new(ob.name)
+		if ob.type == 'EMPTY' and ob.name.startswith(prefix) and "corrector" not in ob.name:
+			editBone = bpy.context.object.data.edit_bones.new(ob.name[len(prefix):])
 			parentsArray  = parentsForNode(ob)
 			head_joint01_child = len([i for i in parentsArray if "head_joint01" in i]) > 0
 			ankles_child = len([i for i in parentsArray if "ankle" in i]) > 0
@@ -522,17 +523,17 @@ def post_import_armature():
 				length=0.065			
 			if "penis" in ob.name or "testicles" in ob.name or "vagina" in ob.name:
 				length = 0.03		
-			if ob.name in  ["upper_lip_R_joint01", "lower_lip_R_joint01", "upper_lip_L_joint01", "lower_lip_L_joint01", "cheek_R_joint01", "cheek_L_joint01" ]:
+			if ob.name[len(prefix):] in  ["upper_lip_R_joint01", "lower_lip_R_joint01", "upper_lip_L_joint01", "lower_lip_L_joint01", "cheek_R_joint01", "cheek_L_joint01" ]:
 				length = 0.03			
 			if upper_lip_R_joint01_child or lower_lip_R_joint01_child or upper_lip_L_joint01_child or lower_lip_L_joint01_child:
 				length = 0.015
-			if ob.name in ["neck_joint01", "neck_jointEnd", "spine_jointEnd", "head_joint01"]:
+			if ob.name[len(prefix):] in ["neck_joint01", "neck_jointEnd", "spine_jointEnd", "head_joint01"]:
 				length = 0.05
-			if ob.name in ["nose_joint01"]:
+			if ob.name[len(prefix):] in ["nose_joint01"]:
 				length = 0.035
-			if ob.name in ["butt_L_joint01","butt_R_joint01","rib_R_joint01","rib_L_joint01", "stomach_joint01" ]:
+			if ob.name[len(prefix):] in ["butt_L_joint01","butt_R_joint01","rib_R_joint01","rib_L_joint01", "stomach_joint01" ]:
 				length = 0.06			
-			if ob.name in ["nipple_R_joint01","nipple_R_jointEnd","nipple_L_joint01","nipple_L_jointEnd", "breast_deform03_R_jointEnd","breast_deform03_L_jointEnd","breast_deform02_R_jointEnd","breast_deform02_L_jointEnd","breast_deform01_L_jointEnd","breast_deform01_R_jointEnd" ]:
+			if ob.name[len(prefix):] in ["nipple_R_joint01","nipple_R_jointEnd","nipple_L_joint01","nipple_L_jointEnd", "breast_deform03_R_jointEnd","breast_deform03_L_jointEnd","breast_deform02_R_jointEnd","breast_deform02_L_jointEnd","breast_deform01_L_jointEnd","breast_deform01_R_jointEnd" ]:
 				length = 0.01						
 			if "tongue" in ob.name:
 				length = 0.012			
@@ -547,7 +548,7 @@ def post_import_armature():
 				editBone.length = -editBone.length;
 			editBone["iRoll"] = math.degrees(editBone.roll)
 			if "_jointEnd" in ob.name:
-				if ob.name in ["spine_jointEnd", "neck_jointEnd", "lower_jaw_jointEnd", "forehead_jointEnd", "head_jointEnd"] :
+				if ob.name[len(prefix):] in ["spine_jointEnd", "neck_jointEnd", "lower_jaw_jointEnd", "forehead_jointEnd", "head_jointEnd"] :
 					pass
 				else:
 					editBone.use_deform = False
@@ -560,11 +561,11 @@ def post_import_armature():
 	# lets create the parenting, we need to loop again
 	for ob in bpy.data.objects:
 		#print ("object: " + ob.name)
-		if ob.type == 'EMPTY':
-			editBone = bpy.context.object.data.edit_bones[ob.name]
+		if ob.type == 'EMPTY' and ob.name.startswith(prefix):
+			editBone = bpy.context.object.data.edit_bones[ob.name[len(prefix):]]
 			parent = ob.parent
 			if parent is not None:
-				editBone.parent = bpy.context.object.data.edit_bones[parent.name]
+				editBone.parent = bpy.context.object.data.edit_bones[parent.name[len(prefix):]]
 				#print ("object none: " + ob.name)
 	#
 	#TK17 to blender axis conversion	
@@ -577,12 +578,12 @@ def post_import_armature():
 			to_up='Z'
 			).to_4x4()
 	#
-	root_empty_object = bpy.data.objects["root"]
+	root_empty_object = bpy.data.objects[prefix+"root"]
 	#root_empty_object.matrix_world = m * root_empty_object.matrix_world
 	#armature_object.matrix_world = m * armature_object.matrix_world
 	#
 	#hide all children of a node, including the node 
-	hide_children(bpy.data.objects["root"])
+	hide_children(bpy.data.objects[prefix+"root"])
 	#
 	#lets show back some nodes
 	#bpy.data.objects["root"].hide = False
@@ -595,16 +596,16 @@ def post_import_armature():
 	#elbow = bpy.context.object.data.edit_bones["elbow_L_joint"]
 	#bpy.data.objects["hip_L_joint"].hide = False
 	#
-	bpy.data.objects["root"].location.z= 0.98419
-	bpy.data.objects["root"].location.y= 0.031404294
+	bpy.data.objects["_ie_"+"root"].location.z= 0.98419
+	bpy.data.objects["_ie_"+"root"].location.y= 0.031404294
 	bpy.data.objects["Armature"].location.z= 0.98419
 	bpy.data.objects["Armature"].location.y= 0.031404294
 	#bpy.data.objects["Armature"].rotation_euler.x += math.radians(7.1250162)
 	#
 	bpy.data.objects["Armature"].rotation_euler.z= math.radians(-90)
-	bpy.data.objects["root"].rotation_euler.x= math.radians(90 + 7.1250162)
-	bpy.data.objects["root"].rotation_euler.y= 0
-	bpy.data.objects["root"].rotation_euler.z= 0
+	bpy.data.objects[prefix+"root"].rotation_euler.x= math.radians(90 + 7.1250162)
+	bpy.data.objects[prefix+"root"].rotation_euler.y= 0
+	bpy.data.objects[prefix+"root"].rotation_euler.z= 0
 	#armature.z = -90
 	#root.x= 90 + 7.1250162
 	bpy.ops.object.mode_set(mode='OBJECT', toggle=False)
