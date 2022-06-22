@@ -1,7 +1,10 @@
 import bpy
 import json
 from mathutils import Vector
+from decimal import Decimal
 from .tools_message_box import *
+import re
+
 
 
 def prnDict(aDict, br='\n', html=0, keyAlign='l',   sortKey=0,  keyPrefix='',   keySuffix='',  valuePrefix='', valueSuffix='', leftMargin=0,   indent=1 ):
@@ -44,6 +47,13 @@ def prnDict(aDict, br='\n', html=0, keyAlign='l',   sortKey=0,  keyPrefix='',   
 
 
 def exportShapeKeysToJsonFile(ob, filename):
+    
+    def round_floats(o):
+        if isinstance(o, float): return "~{:.8f}~".format(o)
+        if isinstance(o, dict): return {k: round_floats(v) for k, v in o.items()}
+        if isinstance(o, (list, tuple)): return [round_floats(x) for x in o]
+        return o    
+    #
     ob = bpy.context.object
     assert ob is not None and ob.type == 'MESH', "active object invalid"
     # ensure we got the latest assignments and weights
@@ -76,11 +86,21 @@ def exportShapeKeysToJsonFile(ob, filename):
             delta = (key.data[i].co - basis_verts.data[i].co)
             if ( delta.x < epsilon and delta.y < epsilon and delta.z < epsilon ):
                 delta = Vector((0,0,0))
-            data.append( [delta.x,delta.y,delta.z] )
+            data.append( [ delta.x,  delta.y,  delta.z ] )
         skKeysExport[keyName] = data
 
+   
+    
+    outStr= json.dumps(round_floats(skKeysExport))
+    outStr = outStr.replace("{", "{\n\t").replace("}","\n}" )               #split arrays on rows 
+    outStr = outStr.replace("]], ","] ],\n\t").replace("[[","[ [")          #add a space between main brackets
+    outStr = outStr.replace("\"~","").replace("~\"","")                     # convert from strings with prefix/suffix back to readable floats
+    outStr = outStr.replace("-0.00000000","0").replace("0.00000000","0")        #replace long zeros
     with open(filename, 'w') as outfile:
-        outfile.write(prnDict(skKeysExport).replace("'", "\""))
+        outfile.write( outStr )
+    
+    #with open(filename, 'w') as outfile:
+    #    outfile.write(prnDict(skKeysExport).replace("'", "\""))        
 
 
 
