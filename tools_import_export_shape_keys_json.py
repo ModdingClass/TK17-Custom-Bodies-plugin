@@ -84,7 +84,7 @@ def exportShapeKeysToJsonFile(ob, filename):
         data = []
         for i in range(len(me.vertices)):
             delta = (key.data[i].co - basis_verts.data[i].co)
-            if ( delta.x < epsilon and delta.y < epsilon and delta.z < epsilon ):
+            if ( abs(delta.x) < epsilon and abs(delta.y) < epsilon and abs(delta.z) < epsilon ):
                 delta = Vector((0,0,0))
             data.append( [ delta.x,  delta.y,  delta.z ] )
         skKeysExport[keyName] = data
@@ -153,6 +153,7 @@ def importShapeKeysFromJsonFile(ob, filename):
         checkIfShapekeyExistAndRecreateIt(ob,skName)
         key = ob.data.shape_keys.key_blocks[skName]
         for i in range(len(me.vertices)):
+            #here we should check if arr is already (0,0,0)
             key.data[i].co = basis_verts.data[i].co + Vector( tuple(e for e in arr[i])  )
 
 
