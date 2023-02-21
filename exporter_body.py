@@ -420,8 +420,15 @@ def export_body(exportfolderpath, bodyNo) :
 			realname = SKGroups[usage]["realname"]
 			SKGroup = SKGroups[usage]
 			#SKGroup = SKGroups["655360"] 
-			print(usage, localname)    
-			fileout.write("BlendControl :"+blendname + " Object.Name \""+realname+"\";\n")
+			print(usage, localname)
+			#if realname.startswith('jcm_'):
+			if realname.startswith('aa_'):
+				fileout.write("BlendControl :"+blendname +" . {\n");
+				fileout.write("\tBlendControl.Weight F32(1);\n");
+				fileout.write("\tBlendControl.StaticBlend I32(2);\n");
+				fileout.write("\tObject.Name \""+realname+"\";\n};\n");
+			else:
+				fileout.write("BlendControl :"+blendname + " Object.Name \""+realname+"\";\n")
 	fileout.flush()
 	fileout.close()
 
