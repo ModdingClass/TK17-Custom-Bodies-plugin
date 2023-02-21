@@ -45,8 +45,8 @@ def import_g3f() :
 	#bpy.context.object.active_material_index = mat_index
 	#bpy.ops.object.material_slot_select()
 
-
-	bpy.ops.mesh.delete(type='VERT')
+	# actually we are not going to delete unwanted vertices, we are going to keep them and hide them using an AA (Auto Applied) shapekey
+	#bpy.ops.mesh.delete(type='VERT')
 
 	bpy.ops.mesh.select_all(action='DESELECT')
 	bpy.ops.object.editmode_toggle()

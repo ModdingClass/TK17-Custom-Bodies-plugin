@@ -142,7 +142,8 @@ def import_g3f_difeomorphic() :
     selectByMaterials(bodyMeshCloned, working_mats)
     bpy.ops.object.mode_set(mode='EDIT')
     #lets try and scale them, the selected vertices should be hidden inside head 
-    bpy.ops.transform.resize(value=(0.0, 0.0, 0.0)) 
+    #actually we are going to fix those vertices using an aa (auto apply) shapekey
+    #bpy.ops.transform.resize(value=(0.0, 0.0, 0.0)) 
     bpy.ops.object.editmode_toggle()  #back in object mode
     #
     bpy.ops.object.mode_set(mode='EDIT')

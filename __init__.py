@@ -434,7 +434,8 @@ class ConstraintsPanel(bpy.types.Panel):
         tkarmature  = scene.tkarmature
         row=box.row(align=True)
         row.operator('tkarmature.fake',text='              ')
-        row.operator('tkarmature.add_legs_ik',text='Legs IK',icon='POSE_DATA')
+        row.operator('tkarmature.fake',text='              ')
+        #row.operator('tkarmature.add_legs_ik',text='Ignore this',icon='POSE_DATA')
         row.operator('tkarmature.add_finger_hand_close_constraints',text='Finger Constraints',icon='CONSTRAINT_BONE')
         row=box.row(align=True)
         row.operator('tkarmature.fake',text='              ')
