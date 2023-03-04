@@ -258,18 +258,23 @@ def export_body(exportfolderpath, bodyNo) :
 		pyBlock_MeshData_BlendControl.insert(0,"BlendControl :" + blendControl_local)
 		#	
 		data = []
+		epsilon = 0.000001
 		#
 		if isDefined:
 			print ("Found key: " + current_key+ " exported as stock object: "+stock_key_name)
 			processed_SK[current_key] = True
 			key = ob.data.shape_keys.key_blocks[current_key]
 			for i in range(len(me.vertices)):
-				delta = (key.data[i].co - basis_verts.data[i].co) * tk_conversion_matrix
-				data.append("( "+"{:0.10f}".format(delta.x)+", "+"{:0.10f}".format(delta.y)+", "+"{:0.10f}".format(delta.z)+")")
+				delta = (key.data[i].co - basis_verts.data[i].co) 
+				if ( abs(delta.x) < epsilon and abs(delta.y) < epsilon and abs(delta.z) < epsilon ) : 
+					data.append("(0, 0, 0)")
+				else:
+					delta = delta * tk_conversion_matrix
+					data.append("( "+"{:0.10f}".format(delta.x)+", "+"{:0.10f}".format(delta.y)+", "+"{:0.10f}".format(delta.z)+")")
 		else:
 			print ("Missing key: " + stock_key_shortname + " exported as zeroed object: "+stock_key_name)
 			for i in range(len(me.vertices)):
-				data.append("( 0, 0, 0)")
+				data.append("(0, 0, 0)")
 		#
 		SKGroups[usage]["data"] = ",".join(data)		
 		#
@@ -295,12 +300,16 @@ def export_body(exportfolderpath, bodyNo) :
 			SKGroups[usage]["blendname"] = "bc_"+processed_key_pretty;
 			SKGroups[usage]["realname"] = processed_key_pretty;
 			data = []
+			epsilon = 0.000001
 			key = ob.data.shape_keys.key_blocks[processed_key]
 			for i in range(len(me.vertices)):
-				delta = (key.data[i].co - basis_verts.data[i].co) * tk_conversion_matrix
-				data.append("( "+"{:0.10f}".format(delta.x)+", "+"{:0.10f}".format(delta.y)+", "+"{:0.10f}".format(delta.z)+")")
+				delta = (key.data[i].co - basis_verts.data[i].co) 
+				if ( abs(delta.x) < epsilon and abs(delta.y) < epsilon and abs(delta.z) < epsilon ) : 
+					data.append("(0, 0, 0)")
+				else:
+					delta = delta * tk_conversion_matrix
+					data.append("( "+"{:0.10f}".format(delta.x)+", "+"{:0.10f}".format(delta.y)+", "+"{:0.10f}".format(delta.z)+")")
 			SKGroups[usage]["data"] = ",".join(data)		
-
 
 
 		
@@ -381,7 +390,9 @@ def export_body(exportfolderpath, bodyNo) :
 		#print("sending output: "+key)
 		VGroup = VGroups[key]
 		fileout.write("VertexDataF32 :"+VGroup["localname"]+" . {\n")
-		fileout.write("\tVertexDataF32.DataArray Array_F32 [ "+', '.join(["{:0.10f}".format(VGroup["weights"][i]) for i in range(len(VGroup["weights"]))])+"];\n")
+		weights_data_out = ', '.join(["{:0.10f}".format(VGroup["weights"][i]) for i in range(len(VGroup["weights"]))])
+		weights_data_out = weights_data_out.replace("-0.0000000000","0").replace("0.0000000000","0")        #replace long zeros
+		fileout.write("\tVertexDataF32.DataArray Array_F32 [ "+ weights_data_out +"];\n")
 		fileout.write("\tVertexData.Usage U32("+str(key)+");\n")
 		fileout.write("};\n")
 	
