@@ -139,7 +139,7 @@ def create_legs_IKs(armature_object):
         # target creation
         difference = result - bone_ankle_joint.head
         editBone_target = ob.data.edit_bones.new(joints[3]) #"leg_target.L"
-        editBone_target.parent = bone_knee_joint
+        editBone_target.parent = None
         editBone_target.head= result
         editBone_target.tail = result + Vector((0,0.1,0))
         editBone_target.matrix = bone_ankle_joint.matrix
