@@ -72,6 +72,7 @@ from .g3f.difeomorphic_workflow import *
 from .tools_import_export_vertex_groups_json import *
 from .tools_import_export_shape_keys_json import *
 from .tools_import_export_materials_json import *
+from .tools_import_export_edit_bones_json import *
 from .ik_tools import *
 
 from bpy.app.handlers import persistent
@@ -413,6 +414,10 @@ class ToolsPanel(bpy.types.Panel):
         row.operator('tkarmature.fake',text='              ')
         row.operator('tkarmature.add_empty_shapekeys',text='Add empty shapekeys',icon='SHAPEKEY_DATA')
         row.operator('tkarmature.fake',text='              ')
+        row=box.row(align=True)
+        row.operator('tkarmature.fake',text='              ')
+        row.operator('tkarmature.export_edit_bones_to_json',text='Export Edit Bones',icon='OUTLINER_DATA_ARMATURE')
+        row.operator('tkarmature.import_edit_bones_from_json',text='Import Edit Bones',icon='OUTLINER_DATA_ARMATURE')        
         #row.operator('tkarmature.fake',text='              ')
         #row=box.row(align=True)
         #row.operator('tkarmature.fake',text='              ') 
@@ -674,6 +679,79 @@ class OT_Import_Materials_From_Json(Operator, ImportHelper):
         importMaterialsFromJsonFile(ob, path_to_file)
         return {'FINISHED'}
     
+
+
+
+
+#        row.operator('tkarmature.export_edit_bones_to_json',text='Export Edit Bones',icon='OUTLINER_DATA_ARMATURE')
+#        row.operator('tkarmature.import_edit_bones_from_json',text='Import Edit Bones',icon='OUTLINER_DATA_ARMATURE')      
+# this class extends ExportHelper !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+class OT_Exports_Edit_Bones_To_Json(Operator, ExportHelper):
+    ''''''
+    bl_idname = "tkarmature.export_edit_bones_to_json"
+    bl_label = "Export Edit Bones"
+    bl_description = "Exports Edit Bones data to a custom json file"
+
+    filename_ext = ".json"  # ExportHelper mixin class uses this
+    filter_glob = StringProperty(
+        default='*.json',
+        options={'HIDDEN'}
+    )
+    
+    def execute(self, context):
+        #bpy.context.scene.objects.active = None
+        #for obj in bpy.data.objects:
+        #    obj.select = False        
+        #bpy.ops.object.select_all(action='DESELECT')
+        print('Selected file:', self.filepath)
+        path_to_file = self.filepath
+        ob = bpy.context.object
+        exportEditBonesToJsonFile(ob, path_to_file)
+        return {'FINISHED'}
+    
+
+# this class extends ImportHelper !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+class OT_Import_Edit_Bones_From_Json(Operator, ImportHelper):
+    ''''''
+    bl_idname = "tkarmature.import_edit_bones_from_json"
+    bl_label = "Import Edit Bones"
+    bl_description = "Import Edit Bones data from a custom json file"
+
+    filter_glob = StringProperty(
+        default='*.json',
+        options={'HIDDEN'}
+    )
+    
+    def execute(self, context):
+        #bpy.context.scene.objects.active = None
+        #for obj in bpy.data.objects:
+        #    obj.select = False        
+        #bpy.ops.object.select_all(action='DESELECT')
+        print('Selected file:', self.filepath)
+        path_to_file = self.filepath
+        ob = bpy.context.object
+        importEditBonesFromJsonFile(ob, path_to_file)
+        return {'FINISHED'}
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 #        row.operator('tkarmature.export_weights_to_json',text='Export weights')

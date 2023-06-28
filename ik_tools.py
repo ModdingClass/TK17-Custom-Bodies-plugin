@@ -9,6 +9,7 @@ from mathutils.geometry import intersect_point_line
 
 from .dictionaries import *
 from .correct_final_rolls import *
+from .utils import *
 
 def create_foot_IKs(armature_object):
     ob = armature_object
@@ -67,6 +68,7 @@ def create_arms_IKs(armature_object):
         editBone_target.parent = bone_wrist_joint
         editBone_target.head= result
         editBone_target.tail = result + Vector((0,0.1,0))
+        editBone_target.use_deform = False
         bpy.context.scene.update()
         editBone_target.parent = None
         # lets make the real target for blender IK
@@ -74,6 +76,7 @@ def create_arms_IKs(armature_object):
         editBone_target.parent = bone_elbow_joint
         editBone_target.head= bone_elbow_joint.tail
         editBone_target.tail = editBone_target.head + Vector((0,0.1,0))
+        editBone_target.use_deform = False
         bpy.context.scene.update()
         editBone_target.parent = None        
         # 
@@ -88,6 +91,7 @@ def create_arms_IKs(armature_object):
         editBone_pole.length *= -1
         editBone_pole.tail = editBone_pole.head + Vector([0, 0, 0.1])
         editBone_pole.roll = 0
+        editBone_pole.use_deform = False
         #
         bpy.ops.object.mode_set(mode='OBJECT')
         bpy.context.scene.objects.active = ob
@@ -145,6 +149,7 @@ def create_legs_IKs(armature_object):
         editBone_target.matrix = bone_ankle_joint.matrix
         editBone_target.translate(difference)
         editBone_target.length *= -1
+        editBone_target.use_deform = False
         bpy.context.scene.update()
         #difference = editBone_target.head - result
         #print("difference: ")
@@ -163,6 +168,7 @@ def create_legs_IKs(armature_object):
         editBone_pole.length *= -1
         editBone_pole.tail = editBone_pole.head + Vector([0, 0, 0.1])
         editBone_pole.roll = 0
+        editBone_pole.use_deform = False
         #
         bpy.ops.object.mode_set(mode='OBJECT')
         bpy.context.scene.objects.active = ob
@@ -277,10 +283,10 @@ def create_IKs(armature_object):
     #
     for bone in my_bones:
         #print ("bone: " + bone.name)
-        ob = bpy.data.objects.new( "_"+ctkToVillaDict[bone.name], None )
+        ob = bpy.data.objects.new( "_"+villafyname(bone.name), None )
         ob.rotation_mode = 'YZX'
         if bone.name != "root":
-            ob.parent = bpy.data.objects[ "_"+ctkToVillaDict[bone.parent.name]]    
+            ob.parent = bpy.data.objects[ "_"+villafyname(bone.parent.name)]    
             print (ob.name+ " "+ob.parent.name)
         #if "wrist_joint.L" in bone.name :
         #    bone.length *= -1    
@@ -293,7 +299,7 @@ def create_IKs(armature_object):
         #    bone.length *= -1            
         ob.matrix_basis = ob.matrix_parent_inverse * ob.matrix_basis
         ob.matrix_parent_inverse.identity()
-        if ctkToVillaDict[bone.name] in center_list:
+        if villafyname(bone.name) in center_list:
             ob.location.x    = 0
         #ob.show_axis = True        
         bpy.context.scene.objects.link( ob )

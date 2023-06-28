@@ -147,3 +147,39 @@ def normalize_fraction(d):
 		to_ret = normalized.quantize(1)	
 	return to_ret
 
+
+
+
+def blendifyname(bonename) :
+	if '_L_' in bonename :
+		rem = '_L_'
+		ext = '.L'
+	elif '_R_' in bonename :
+		rem = '_R_'
+		ext = '.R'
+	else : return bonename
+	realname = bonename
+	i = realname.index(rem)
+	bonename = realname[0:i]+'_'+realname[i+3:] + ext
+	return bonename
+
+def villafyname(bonename) :
+    mid = ''
+    ext =''
+    if bonename.endswith(".L") or bonename.endswith(".l"):
+        #print("ends with .L")
+        ext = '.L'
+        mid = '_L'   
+    elif bonename.endswith(".R") or bonename.endswith(".r"):
+        #print("ends with .R")
+        ext = '.R'
+        mid = '_R'    
+    else:
+        return bonename
+    #
+    i = bonename.index("_joint")
+    if ext in ['.L','.R']:
+        #print ("Left: "+bonename[0:i])
+        #print ("Right: "+bonename[i:-2])
+        bonename = bonename[0:i]+mid+bonename[i:-2] 
+    return bonename

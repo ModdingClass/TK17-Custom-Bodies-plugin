@@ -455,10 +455,18 @@ def export_legs_fix(exportfolderpath, bodyNo):
 
 
 
+	knee_rotation_limit_snippet=''
+	knee_rotation_limit_snippet +='\n:Person" + :person + "Anim:Model01:knee_L_joint.SNode?.RotationLimitEnableMask (0u);'
+	knee_rotation_limit_snippet +='\n:Person" + :person + "Anim:Model01:knee_R_joint.SNode?.RotationLimitEnableMask (0u);'
+	knee_rotation_limit_snippet +='\n'
+	legs_fix_string = legs_fix_string+knee_rotation_limit_snippet
 
 
-
-
+	knee_preffered_angle_snippet =''
+	knee_preffered_angle_snippet +='\n:Person" + :person + "Anim:Model01:knee_L_joint.SNode?.PreferredAngle (0.0f, 0.0f, 90.0f);'
+	knee_preffered_angle_snippet +='\n:Person" + :person + "Anim:Model01:knee_R_joint.SNode?.PreferredAngle (0.0f, 0.0f, 90.0f);'
+	knee_preffered_angle_snippet +='\n'
+	legs_fix_string = legs_fix_string+knee_preffered_angle_snippet
 
 	knee_translation_default = [knee_L_joint.location.y, knee_L_joint.location.z, knee_L_joint.location.x, knee_R_joint.location.y, knee_R_joint.location.z, knee_R_joint.location.x]
 	snippet = '\n:Person" + :person + "Anim:Model01:knee_translation_poseBlend.PoseDefault ' + str(["{:.6f}f".format(float(i)) for i in knee_translation_default])+';'	

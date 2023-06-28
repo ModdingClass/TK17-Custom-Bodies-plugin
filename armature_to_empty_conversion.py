@@ -20,11 +20,16 @@ from math import radians
 from .dictionaries import *
 from .correct_final_rolls import *
 from .ik_tools import *
+from .utils import *
+from collections import OrderedDict
 
+from .globals import *
 
 def regenerate_empties(armature_object):
     center_list = ["spine_joint01","spine_joint02","spine_joint03","spine_joint04","spine_jointEnd","neck_joint01","neck_jointEnd","head_joint01","head_joint02","head_jointEnd"]
     #
+    #sharedGlobals.animSkeletonValues = animSkeletonValues
+    #.animSkeletonValuesExtra = OrderedDict()
     #
     bpy.context.scene.objects.active = armature_object
     bpy.ops.object.duplicate(linked=False)
@@ -56,10 +61,10 @@ def regenerate_empties(armature_object):
         #print ("bone: " + bone.name)
         if "_target" in bone.name or "_pole" in bone.name or "axe" == bone.name:
             continue
-        ob = bpy.data.objects.new( "_"+ctkToVillaDict[bone.name], None )
+        ob = bpy.data.objects.new( "_"+villafyname(bone.name), None )
         ob.rotation_mode = 'YZX'
         if bone.name != "root":
-            ob.parent = bpy.data.objects[ "_"+ctkToVillaDict[bone.parent.name]]    
+            ob.parent = bpy.data.objects[ "_"+villafyname(bone.parent.name)]    
             print (ob.name+ " "+ob.parent.name)
         #if "wrist_joint.L" in bone.name :
         #    bone.length *= -1    
@@ -72,11 +77,31 @@ def regenerate_empties(armature_object):
         #    bone.length *= -1            
         ob.matrix_basis = ob.matrix_parent_inverse * ob.matrix_basis
         ob.matrix_parent_inverse.identity()
+        ob["exportAsVillaJoint"] = True
+        if (villafyname(bone.name) in animSkeletonValues):
+            ob["localName"] = joint_to_local_dict[villafyname(bone.name)] 
+            pass
+        else :
+            if bone.use_deform == True:
+                ob["isCustomVillaJoint"] = True
+                ob["localName"] = "custom_"+villafyname(bone.name)
         #if (bone.name == "root"):
         #    ob.location.x    = 0    
         #if ctkToVillaDict[bone.name] in center_list:
         #    ob.location.x    = 0
-        #ob.show_axis = True        
+        #ob.show_axis = True
+        """         
+        if (villafyname(bone.name) in animSkeletonValues):
+            pass
+        else :
+            if bone.use_deform == True:
+                villaname = villafyname(bone.name)
+                villaparentname = villafyname(bone.parent.name)
+                sharedGlobals.animSkeletonValues.append(villaname)
+                sharedGlobals.animSkeletonParenting[villaname] = villaparentname
+                #globals.animSkeletonValuesExtra[villaname] = villaparentname
+
+        """        
         bpy.context.scene.objects.link( ob )
     #  
     #localCo, worldCo, distance = getClosestPointFromBoneProjection("Armature", "elbow_joint.R", "wrist_joint.R")

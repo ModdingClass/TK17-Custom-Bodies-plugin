@@ -4,8 +4,8 @@ import mathutils
 from math import radians
 from math import degrees
 from .dictionaries import *
-
-
+from .utils import *
+from . import globals
 
 def get_fake_mesh_datablocks(mesh_name):
     ob = bpy.data.objects[mesh_name]
@@ -71,7 +71,12 @@ def remove_fake_bones():
 
 
 
-    
+
+def getLocalNameForJoint(villaJointName):
+    if villaJointName in joint_to_local_dict:
+        return joint_to_local_dict[villaJointName]
+    return "custom_"+ villaJointName
+
 
 def add_fake_bones(obj_name):
     if bpy.data.objects.get("Armature") is None:
@@ -87,9 +92,24 @@ def add_fake_bones(obj_name):
     bpy.ops.object.mode_set(mode='EDIT', toggle=False)
     boneSizeDict = {}  
     boneFlippedDict = {} 
+
     #we need to save edit bone length in boneSizeDict
     for editBone in bpy.data.armatures['Armature'].edit_bones:
         boneName = editBone.name
+        #
+        if ( ("_IK" in boneName) or ("_pole" in boneName) or ("_target" in boneName) or ("Empty" in boneName) or ("_fakes" == boneName) or ("_fake_target" in boneName) or ("axe" == boneName)):
+            continue        
+        if (villafyname(boneName) in animSkeletonValues):
+            pass
+        else :
+            pass
+            """
+            if editBone.use_deform == True :
+                villaname = villafyname(editBone.name)
+                villaparentname = villafyname(editBone.parent.name)
+                extraBones[villaname] = "custom_"+ villaname
+            """
+        #
         boneSizeDict[boneName] = editBone.length
         if editBone.get("isFlipped") is not None and editBone["isFlipped"] == True :
             boneFlippedDict[boneName] = True
@@ -129,6 +149,8 @@ def add_fake_bones(obj_name):
     for key in sorted(boneSizeDict.keys()):
         if ( ("_IK" in key) or ("_pole" in key) or ("_target" in key) or ("Empty" in key) or ("_fakes" == key) or ("_fake_target" in key) or ("axe" == key)):
             continue
+        if (key in 'tail_joint'):
+            print("key: "+key)
         print (key, boneSizeDict[key])
         src_obj = bpy.data.objects[imported.name]
         new_obj = src_obj.copy()
@@ -138,9 +160,12 @@ def add_fake_bones(obj_name):
         new_obj.scale = new_obj.scale * boneSizeDict[key]
         new_obj["scale"] = new_obj.scale
         print("key {0}".format(key))
-        print("key {0}".format(ctkToVillaDict[key]))
-        print("key {0}".format(joint_to_local_dict[ctkToVillaDict[key]]))
-        new_obj["localTJoint"] = joint_to_local_dict[ctkToVillaDict[key]]
+        print("key {0}".format(villafyname(key)))
+        localTJoint = getLocalNameForJoint(villafyname(key))
+        #print("key {0}".format(joint_to_local_dict[villafyname(key)]))
+        #new_obj["localTJoint"] = joint_to_local_dict[villafyname(key)]
+        print("key {0}".format(localTJoint))
+        new_obj["localTJoint"] = localTJoint        
         new_obj.parent = parent
         scn.objects.link(new_obj)
         bpy.ops.object.select_all(action='DESELECT')

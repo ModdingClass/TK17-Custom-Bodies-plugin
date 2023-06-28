@@ -1,5 +1,6 @@
 import bpy
 import mathutils
+
 #
 #
 villaToCtkDict  = {
@@ -177,6 +178,9 @@ villaToCtkDict  = {
 'wrist_R_joint' : 'wrist_joint.R',
 }
 #
+
+
+
 ctkToVillaDict = {
 'ankle_joint.L' : 'ankle_L_joint',
 'ankle_joint.R' : 'ankle_R_joint',
@@ -283,6 +287,7 @@ ctkToVillaDict = {
 'head_joint02' : 'head_joint02',
 'head_jointEnd' : 'head_jointEnd',
 'hip_joint.L' : 'hip_L_joint',
+#'hipp_joint.L' : 'hipp_L_joint',
 'hip_joint.R' : 'hip_R_joint',
 'knee_joint.L' : 'knee_L_joint',
 'knee_joint.R' : 'knee_R_joint',
@@ -350,6 +355,7 @@ ctkToVillaDict = {
 'vagina_jointEnd.R' : 'vagina_R_jointEnd',
 'wrist_joint.L' : 'wrist_L_joint',
 'wrist_joint.R' : 'wrist_R_joint',
+
 }
 
 
@@ -493,6 +499,7 @@ animSkeletonValues = [
 "stomach_joint01",
 "stomach_jointEnd",
 "hip_L_joint",
+#"hipp_L_joint",
 "knee_L_joint",
 "ankle_L_joint",
 "ball_L_joint",
@@ -525,7 +532,7 @@ animSkeletonValues = [
 "butt_L_jointEnd",
 "butt_R_joint01",
 "butt_R_jointEnd",
-"anus_joint"
+"anus_joint",
 #"tongue_joint01",
 #"tongue_joint02",
 #"tongue_joint03",
@@ -533,6 +540,9 @@ animSkeletonValues = [
 #"tongue_joint05",	
 #"tongue_jointEnd"
 ]
+
+
+
 
 joint_to_local_dict = {
 #"tongue_joint01" : "local_8",
