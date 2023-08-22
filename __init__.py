@@ -245,6 +245,8 @@ class TKARMATURE_vars(bpy.types.PropertyGroup) :
     dontExportJointEnds = bpy.props.BoolProperty(name="dontExportJointEnds", description="Weightless jointEnds are not exported",    default=True)
     dontExportMaleJoints = bpy.props.BoolProperty(name="dontExportMaleJoints", description="Male specific joints are not exported",    default=True)
 
+    includeGeograftsOnExport = bpy.props.BoolProperty(name="includeGeograftsOnExport", description="Bake Geografts when exporting",    default=True)
+
 
 
 class ImporterPanel(bpy.types.Panel):
@@ -439,7 +441,7 @@ class ConstraintsPanel(bpy.types.Panel):
         tkarmature  = scene.tkarmature
         row=box.row(align=True)
         row.operator('tkarmature.fake',text='              ')
-        row.operator('tkarmature.fake',text='              ')
+        row.operator('tkarmature.hh_pose_ik',text='HH Pose IK',icon='OUTLINER_DATA_POSE')
         #row.operator('tkarmature.add_legs_ik',text='Ignore this',icon='POSE_DATA')
         row.operator('tkarmature.add_finger_hand_close_constraints',text='Finger Constraints',icon='CONSTRAINT_BONE')
         row=box.row(align=True)
@@ -510,8 +512,25 @@ class ExporterPanel(bpy.types.Panel):
         row.operator('tkarmature.fake',text='              ')
         row.operator('tkarmature.export_body',text='Export (F)Body Mesh', icon='TIME')            
         row=box.row()
+        
+        #row.separator()
+        
+        #row.operator('test.open_filebrowser',text='Import Blenda body',icon='OBJECT_DATA')    
+        new_box = row.box()
+        new_box.label(text="Extra Export")
+        row_extra=new_box.row(align=True)
+        row_extra.alignment = 'RIGHT'
+        col_extra =row_extra.column()
+        col_extra.alignment = 'RIGHT'
+        col_extra.scale_x = 1
+        #above is a hack to align the column to the right
+        col_extra.prop(tkarmature,'includeGeograftsOnExport',text="Include Geografts")
+
+
+        row=box.row(align=True)
         subbox_exporter=row.box()
         subbox_row = subbox_exporter.row()
+        
         icon='FILE_FOLDER'
         subbox_row.label(text='Folder location:',icon=icon)
         subbox_row = subbox_exporter.row()
@@ -519,7 +538,6 @@ class ExporterPanel(bpy.types.Panel):
         subbox_row = subbox_exporter.row()
         #subbox_row.label(text='Body#:',icon='QUESTION')
         subbox_row.prop(tkarmature,'bodyNo',text='Body#')
-
 
 
             
@@ -533,6 +551,21 @@ class OT_fake(bpy.types.Operator):
 
     def execute(self, context):
         return {'FINISHED'}
+
+
+class OT_hh_pose_ik(bpy.types.Operator):
+    ''''''
+    bl_idname = "tkarmature.hh_pose_ik"
+    bl_label = ""
+    bl_description = "High Heels Pose IK"
+
+    group = bpy.props.StringProperty(name="ALL")
+
+    def execute(self, context):
+        scene  = bpy.context.scene
+        tkarmature  = scene.tkarmature
+        create_HHPoseIk(bpy.context.scene.objects["Armature"])
+        return {'FINISHED'}        
 
 
 
@@ -1224,6 +1257,11 @@ class OT_Export_Empties_To_Files(bpy.types.Operator):
         else:
             ShowMessageBox("Missing the export folder", "Error", 'ERROR')
             return {'FINISHED'}
+        ob = bpy.data.objects[ "Armature"]
+        if ob.get("HHPoseValuesL") is None:
+            ob["HHPoseValuesL"] = {}
+        if ob.get("HHPoseValuesR") is None:
+            ob["HHPoseValuesR"] = {}            
         export_boilerplate_header(tkarmature.exportfolderpath, tkarmature.bodyNo)
         export_joints_fix(tkarmature.exportfolderpath, tkarmature.bodyNo)
         export_mouth_fix(tkarmature.exportfolderpath, tkarmature.bodyNo)
@@ -1255,7 +1293,7 @@ class OT_Export_Body(bpy.types.Operator):
         else:
             ShowMessageBox("Missing the export folder", "Error", 'ERROR')
             return {'FINISHED'}        
-        export_body(tkarmature.exportfolderpath, tkarmature.bodyNo)
+        export_body(tkarmature.exportfolderpath, tkarmature.bodyNo, tkarmature.includeGeograftsOnExport)
         return {'FINISHED'}
         
 

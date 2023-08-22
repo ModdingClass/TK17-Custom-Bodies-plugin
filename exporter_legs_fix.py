@@ -16,6 +16,7 @@ from mathutils.geometry import intersect_point_line
 
 def export_legs_fix(exportfolderpath, bodyNo):
 	#
+	oba = bpy.data.objects["Armature"]
 	#
 	legs_fix_string = "";
 	#
@@ -44,6 +45,7 @@ def export_legs_fix(exportfolderpath, bodyNo):
 	plane_no = Vector ((0,0,-1))
 	calculated_intersection = mathutils.geometry.intersect_line_plane(line_b, line_a, plane_co, plane_no)
 	leg_init_L = calculated_intersection
+	oba["HHPoseValuesL"]["foot_L_target01"] = leg_init_L
 	snippet = "var :mySplineVector3f :Person\" + :person + \"Anim:Model01:leg_LClips1__leg_L_initSource.Curve[1] ?;"
 	mySplineVectorString = "("+" {:.6g}f,".format(leg_init_L.x + 0)    +" {:.6g}f,".format(leg_init_L.z  + 0)    +" {:.6g}f".format(-leg_init_L.y  + 0)   +" )" #x z -y
 	snippet = snippet+"\n:mySplineVector3f.KeyValue [ " + mySplineVectorString+" , "+mySplineVectorString +" ];" 
@@ -111,6 +113,7 @@ def export_legs_fix(exportfolderpath, bodyNo):
 	#knee_L_group
 	knee_pole_L = bpy.data.objects[ "_knee_pole_L"]
 	pivot_corrected = knee_pole_L.location - leg_init_L
+	oba["HHPoseValuesL"]["knee_L_group_pivot"] = pivot_corrected
 	snippet = ":Person\" + :person + \"Anim:Model01:"
 	snippet = snippet+"knee_L_group"
 	snippet = snippet + ".SNode? . {\n";
@@ -123,6 +126,7 @@ def export_legs_fix(exportfolderpath, bodyNo):
 	#
 	#tiptoe_L_rotation_group OK
 	pivot_corrected = tiptoe_L_ikHandle - leg_init_L
+	oba["HHPoseValuesL"]["tiptoe_L_rotation_group_pivot"] = pivot_corrected
 	snippet = ":Person\" + :person + \"Anim:Model01:"
 	snippet = snippet+"tiptoe_L_rotation_group"
 	snippet = snippet + ".SNode? . {\n";
@@ -136,6 +140,7 @@ def export_legs_fix(exportfolderpath, bodyNo):
 	#ball_L_group OK
 	#same values as tiptoe_L_rotation_group ?!? 
 	pivot_corrected = tiptoe_L_ikHandle - leg_init_L
+	oba["HHPoseValuesL"]["ball_L_group_pivot"] = pivot_corrected
 	snippet = ":Person\" + :person + \"Anim:Model01:"
 	snippet = snippet+"ball_L_group"
 	snippet = snippet + ".SNode? . {\n";
@@ -148,6 +153,10 @@ def export_legs_fix(exportfolderpath, bodyNo):
 	#
 	#tiptoe_L_rotation_ikHandle OK
 	pivot_corrected = tiptoe_L_rotation_ikHandle - leg_init_L
+	#oba["HHPoseValuesL"]["tiptoe_L_rotation_ikHandle_pivot"] = pivot_corrected
+	oba["HHPoseValuesL"]["tiptoe_L_rotation_ikHandle_pivot"] = oba["HHPoseValuesL"]["tiptoe_L_rotation_group_pivot"]
+	oba_temp_loc = Vector  ( ( oba["HHPoseValuesL"]["tiptoe_L_rotation_ikHandle_pivot"][0],oba["HHPoseValuesL"]["tiptoe_L_rotation_ikHandle_pivot"][1],oba["HHPoseValuesL"]["tiptoe_L_rotation_ikHandle_pivot"][2] ))
+	oba["HHPoseValuesL"]["tiptoe_L_rotation_ikHandle_target"] = pivot_corrected - oba_temp_loc 
 	snippet = ":Person\" + :person + \"Anim:Model01:"
 	snippet = snippet+"tiptoe_L_rotation_ikHandle"
 	snippet = snippet + ".SNode? . {\n";
@@ -160,6 +169,7 @@ def export_legs_fix(exportfolderpath, bodyNo):
 	#bpy.context.scene.cursor_location = pole_world_location
 	#pole will have values transformed from Blender coordinates to in game coordinates
 	pole = Vector ( (move_down_transformation_world.x, move_down_transformation_world.z, - move_down_transformation_world.y))
+	oba["HHPoseValuesL"]["tiptoe_L_rotation_ikHandle_pole"] = Vector( (move_down_transformation_world.x, move_down_transformation_world.y, move_down_transformation_world.z) )
 	snippet = snippet+ "\t.PoleVector ("		+" {:.6g}f,".format(pole.x + 0)    +" {:.6g}f,".format(pole.y + 0)    +" {:.6g}f".format(pole.z + 0)   +" );\n"   				
 	snippet = snippet+ "};\n"
 	snippet = snippet+""
@@ -168,7 +178,8 @@ def export_legs_fix(exportfolderpath, bodyNo):
 	#
 	#tip_toe_L_group
 	#same pivot as tiptoe_L_rotation_ikHandle ?!?
-	pivot_corrected = tiptoe_L_rotation_ikHandle - leg_init_L	
+	pivot_corrected = tiptoe_L_rotation_ikHandle - leg_init_L
+	oba["HHPoseValuesL"]["tip_toe_L_group_pivot"] = pivot_corrected
 	snippet = ":Person\" + :person + \"Anim:Model01:"
 	snippet = snippet+"tip_toe_L_group"
 	snippet = snippet + ".SNode? . {\n";
@@ -181,7 +192,8 @@ def export_legs_fix(exportfolderpath, bodyNo):
 	#
 	#tiptoe_L_ikHandle
 	#pivot matches ball_L_joint position in world space somewhere in front of the leg
-	pivot_corrected = tiptoe_L_ikHandle - leg_init_L	
+	pivot_corrected = tiptoe_L_ikHandle - leg_init_L
+	oba["HHPoseValuesL"]["tiptoe_L_ikHandle_pivot"] = pivot_corrected		
 	snippet = ":Person\" + :person + \"Anim:Model01:"
 	snippet = snippet+"tiptoe_L_ikHandle"
 	snippet = snippet + ".SNode? . {\n";
@@ -204,6 +216,7 @@ def export_legs_fix(exportfolderpath, bodyNo):
 	#	
 	#pole_corrected = pole_world_location - pivot_local
 	pole_corrected = pole_world_location - tiptoe_L_ikHandle
+	oba["HHPoseValuesL"]["tiptoe_L_ikHandle_pole"] = pivot_corrected + pole_corrected
 	#snippet = snippet+ "\t.PoleVector pole_world_location ("		+" {:.6f}f,".format(pole_world_location.x + 0)    +" {:.6f}f,".format(pole_world_location.z + 0)    +" {:.6f}f".format(-pole_world_location.y + 0)   +" );\n"   		
 	#snippet = snippet+ "\t.PoleVector tiptoe_L_ikHandle ("		+" {:.6f}f,".format(tiptoe_L_ikHandle.x + 0)    +" {:.6f}f,".format(tiptoe_L_ikHandle.z + 0)    +" {:.6f}f".format(-tiptoe_L_ikHandle.y + 0)   +" );\n"   			
 	snippet = snippet+ "\t.PoleVector ("		+" {:.6g}f,".format(pole_corrected.x + 0)    +" {:.6g}f,".format(pole_corrected.z + 0)    +" {:.6g}f".format(-pole_corrected.y + 0)   +" );\n"   		
@@ -217,7 +230,8 @@ def export_legs_fix(exportfolderpath, bodyNo):
 	#pivot_local = Vector( (ankle_L_joint.matrix_world.to_translation().x, ankle_L_joint.matrix_world.to_translation().z, -ankle_L_joint.matrix_world.to_translation().y) ) #here we switch to xz -y
 	#pivot_local = Vector( (leg_L_ikHandle.x, leg_L_ikHandle.z, -leg_L_ikHandle.y) ) #here we switch to xz -y	
 	#pivot_corrected = pivot_local - leg_init_L		
-	pivot_corrected = leg_L_ikHandle - leg_init_L		
+	pivot_corrected = leg_L_ikHandle - leg_init_L	
+	oba["HHPoseValuesL"]["leg_L_ikHandle_pivot"] = pivot_corrected	
 	snippet = ":Person\" + :person + \"Anim:Model01:"
 	snippet = snippet+"leg_L_ikHandle"
 	snippet = snippet + ".SNode? . {\n";
@@ -280,6 +294,7 @@ def export_legs_fix(exportfolderpath, bodyNo):
 	plane_no = Vector ((0,0,-1))
 	calculated_intersection = mathutils.geometry.intersect_line_plane(line_b, line_a, plane_co, plane_no)
 	leg_init_R = calculated_intersection
+	oba["HHPoseValuesR"]["foot_R_target01"] = leg_init_R
 	snippet = "var :mySplineVector3f :Person\" + :person + \"Anim:Model01:leg_RClips1__leg_R_initSource.Curve[1] ?;"
 	mySplineVectorString = "("+" {:.6g}f,".format(leg_init_R.x + 0)    +" {:.6g}f,".format(leg_init_R.z  + 0)    +" {:.6g}f".format(-leg_init_R.y  + 0)   +" )" #x z -y
 	snippet = snippet+"\n:mySplineVector3f.KeyValue [ " + mySplineVectorString+" , "+mySplineVectorString +" ];" 
@@ -331,6 +346,7 @@ def export_legs_fix(exportfolderpath, bodyNo):
 	#knee_R_group
 	knee_pole_R = bpy.data.objects[ "_knee_pole_R"]
 	pivot_corrected = knee_pole_R.location - leg_init_R
+	oba["HHPoseValuesR"]["knee_R_group_pivot"] = pivot_corrected
 	snippet = ":Person\" + :person + \"Anim:Model01:"
 	snippet = snippet+"knee_R_group"
 	snippet = snippet + ".SNode? . {\n";
@@ -343,6 +359,7 @@ def export_legs_fix(exportfolderpath, bodyNo):
 	#
 	#tiptoe_R_rotation_group OK
 	pivot_corrected = tiptoe_R_ikHandle - leg_init_R
+	oba["HHPoseValuesR"]["tiptoe_R_rotation_group_pivot"] = pivot_corrected
 	snippet = ":Person\" + :person + \"Anim:Model01:"
 	snippet = snippet+"tiptoe_R_rotation_group"
 	snippet = snippet + ".SNode? . {\n";
@@ -356,6 +373,7 @@ def export_legs_fix(exportfolderpath, bodyNo):
 	#ball_R_group OK
 	#same values as tiptoe_R_rotation_group ?!? 
 	pivot_corrected = tiptoe_R_ikHandle - leg_init_R
+	oba["HHPoseValuesR"]["ball_R_group_pivot"] = pivot_corrected
 	snippet = ":Person\" + :person + \"Anim:Model01:"
 	snippet = snippet+"ball_R_group"
 	snippet = snippet + ".SNode? . {\n";
@@ -368,6 +386,9 @@ def export_legs_fix(exportfolderpath, bodyNo):
 	#
 	#tiptoe_R_rotation_ikHandle OK
 	pivot_corrected = tiptoe_R_rotation_ikHandle - leg_init_R
+	oba["HHPoseValuesR"]["tiptoe_R_rotation_ikHandle_pivot"] = oba["HHPoseValuesR"]["tiptoe_R_rotation_group_pivot"]
+	oba_temp_loc = Vector  ( ( oba["HHPoseValuesR"]["tiptoe_R_rotation_ikHandle_pivot"][0],oba["HHPoseValuesR"]["tiptoe_R_rotation_ikHandle_pivot"][1],oba["HHPoseValuesR"]["tiptoe_R_rotation_ikHandle_pivot"][2] ))
+	oba["HHPoseValuesR"]["tiptoe_R_rotation_ikHandle_target"] = pivot_corrected - oba_temp_loc 
 	snippet = ":Person\" + :person + \"Anim:Model01:"
 	snippet = snippet+"tiptoe_R_rotation_ikHandle"
 	snippet = snippet + ".SNode? . {\n";
@@ -379,6 +400,7 @@ def export_legs_fix(exportfolderpath, bodyNo):
 	pole_world_location = ikEffector.matrix_world.translation + move_down_transformation_world
 	bpy.context.scene.cursor_location = pole_world_location
 	pole = Vector ( (move_down_transformation_world.x, move_down_transformation_world.z, - move_down_transformation_world.y))
+	oba["HHPoseValuesR"]["tiptoe_R_rotation_ikHandle_pole"] = Vector( (move_down_transformation_world.x, move_down_transformation_world.y, move_down_transformation_world.z) )
 	snippet = snippet+ "\t.PoleVector ("		+" {:.6g}f,".format(pole.x + 0)    +" {:.6g}f,".format(pole.y + 0)    +" {:.6g}f".format(pole.z + 0)   +" );\n"   				
 	snippet = snippet+ "};\n"
 	snippet = snippet+""
@@ -387,7 +409,8 @@ def export_legs_fix(exportfolderpath, bodyNo):
 	#
 	#tip_toe_R_group
 	#same pivot as tiptoe_R_rotation_ikHandle ?!?
-	pivot_corrected = tiptoe_R_rotation_ikHandle - leg_init_R	
+	pivot_corrected = tiptoe_R_rotation_ikHandle - leg_init_R
+	oba["HHPoseValuesR"]["tip_toe_R_group_pivot"] = pivot_corrected
 	snippet = ":Person\" + :person + \"Anim:Model01:"
 	snippet = snippet+"tip_toe_R_group"
 	snippet = snippet + ".SNode? . {\n";
@@ -401,6 +424,7 @@ def export_legs_fix(exportfolderpath, bodyNo):
 	#tiptoe_R_ikHandle
 	#pivot matches ball_R_joint position in world space somewhere in front of the leg
 	pivot_corrected = tiptoe_R_ikHandle - leg_init_R	
+	oba["HHPoseValuesR"]["tiptoe_R_ikHandle_pivot"] = pivot_corrected		
 	snippet = ":Person\" + :person + \"Anim:Model01:"
 	snippet = snippet+"tiptoe_R_ikHandle"
 	snippet = snippet + ".SNode? . {\n";
@@ -416,6 +440,7 @@ def export_legs_fix(exportfolderpath, bodyNo):
 	#bpy.context.scene.cursor_location = pole_world_location
 	#pole will have values transformed from Blender coordinates to in game coordinates
 	pole_corrected = pole_world_location - tiptoe_R_ikHandle
+	oba["HHPoseValuesR"]["tiptoe_R_ikHandle_pole"] = pole_corrected
 	#snippet = snippet+ "\t.PoleVector tiptoe_R_ikHandle ("		+" {:.6f}f,".format(tiptoe_R_ikHandle.x + 0)    +" {:.6f}f,".format(tiptoe_R_ikHandle.z + 0)    +" {:.6f}f".format(-tiptoe_R_ikHandle.y + 0)   +" );\n"   		
 	#snippet = snippet+ "\t.PoleVector pole_world_location ("		+" {:.6f}f,".format(pole_world_location.x + 0)    +" {:.6f}f,".format(pole_world_location.z + 0)    +" {:.6f}f".format(-pole_world_location.y + 0)   +" );\n"   		
 	snippet = snippet+ "\t.PoleVector ("		+" {:.6f}f,".format(pole_corrected.x + 0)    +" {:.6f}f,".format(pole_corrected.z + 0)    +" {:.6f}f".format(-pole_corrected.y + 0)   +" );\n"   		
@@ -426,7 +451,8 @@ def export_legs_fix(exportfolderpath, bodyNo):
 	#	
 	#leg_R_ikHandle
 	#pivot matches head ankle_R_joint position in world space
-	pivot_corrected = leg_R_ikHandle - leg_init_R		
+	pivot_corrected = leg_R_ikHandle - leg_init_R
+	oba["HHPoseValuesR"]["leg_R_ikHandle_pivot"] = pivot_corrected			
 	snippet = ":Person\" + :person + \"Anim:Model01:"
 	snippet = snippet+"leg_R_ikHandle"
 	snippet = snippet + ".SNode? . {\n";
