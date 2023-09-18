@@ -280,6 +280,7 @@ def import_g3f_difeomorphic() :
     'body_genital01',
     'body_head01',
     'body_main_upper',
+    'body_main_censor',
     'body_hand01_R',
     'body_foot_R',
     'body_fingernails_L',
@@ -374,7 +375,9 @@ def import_g3f_difeomorphic() :
 
     bpy.data.materials["body_teeth01"]["localname"]="local_custommouth_RS"
     bpy.data.materials["body_teeth01"]["objectname"]="body_teeth01_SG"
-
+    #
+    bpy.data.materials["body_main_censor"]["localname"]="local_customcensor_RS"
+    bpy.data.materials["body_main_censor"]["objectname"]="body_main_censor_SG"
 
     #add fake shapekeys
 

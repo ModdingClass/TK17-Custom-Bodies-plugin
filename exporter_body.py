@@ -101,7 +101,7 @@ def export_body(exportfolderpath, bodyNo, includeGeograftsOnExport) :
     if not includeGeograftsOnExport:
         pass
     else:
-        if ( operator_exists("daz.merge_geografts_fast") or operator_exists("daz.merge_geografts") ):
+        if ( operator_exists("daz.merge_geografts_fast") or operator_exists("daz.merge_geografts") or operator_exists("daz.merge_geografts_nondestructive")):
             pass
         else:
             ShowMessageBox("'Include Geografts' is checked, but can't find `modded` Difeomorphic addon for Blender", "Error", 'ERROR')
@@ -159,7 +159,9 @@ def export_body(exportfolderpath, bodyNo, includeGeograftsOnExport) :
         bodyClone.select=True
         bpy.context.scene.objects.active = bodyClone
         bodyClone.select=True
-        if ( operator_exists("daz.merge_geografts_fast") ):
+        if ( operator_exists("daz.merge_geografts_nondestructive") ):
+            bpy.ops.daz.merge_geografts_nondestructive()        
+        elif ( operator_exists("daz.merge_geografts_fast") ):
             bpy.ops.daz.merge_geografts_fast()
         else: 
             bpy.ops.daz.merge_geografts()
