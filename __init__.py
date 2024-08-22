@@ -60,6 +60,7 @@ from .fake_bones import *
 from .clear_armature_rotation import *
 from .tools_message_box import *
 from .exporter_body import *
+from .exporter_unreal import *
 from .importer_g3f import *
 from .importer_g3f_morphs import *
 from .exporter_fake_bones import *
@@ -109,6 +110,7 @@ if "bpy" in locals():
     imp.reload(clear_armature_rotation)
     imp.reload(tools_message_box)
     imp.reload(exporter_body)
+    imp.reload(exporter_unreal)
     imp.reload(importer_g3f)
     imp.reload(importer_g3f_morphs)
     imp.reload(exporter_fake_bones)
@@ -149,6 +151,7 @@ else:
     from . import clear_armature_rotation
     from . import tools_message_box
     from . import exporter_body
+    from . import exporter_unreal
     from . import importer_g3f_morphs
     from . import exporter_fake_bones
     from . import exporter_z_cleanup_values
@@ -235,17 +238,32 @@ class TKARMATURE_vars(bpy.types.PropertyGroup) :
         else:
             self.exportfolderpath = new_value
         print("exportfolderpath: ", self.exportfolderpath)
-    
-    exportfolderpath =  bpy.props.StringProperty(name="exportfolderpath", default='',subtype='DIR_PATH', update=update_func_exportfolderpath)
+
+    def update_func_exportfolderpathUnreal(self, context):
+        #self.exportfolderpath = os.path.join(self.exportfolderpathUnreal,"")
+        new_value = os.path.join(self.exportfolderpathUnreal,"")
+        if new_value == self.exportfolderpathUnreal:
+            pass
+        else:
+            self.exportfolderpathUnreal = new_value
+        print("exportfolderpathUnreal: ", self.exportfolderpathUnreal)
+
+    #exportfolderpath =  bpy.props.StringProperty(name="exportfolderpath", default='',subtype='DIR_PATH', update=update_func_exportfolderpath)
     
     filepath =  bpy.props.StringProperty(name="filepath", default='',subtype='FILE_PATH')
     filepath_h5m =  bpy.props.StringProperty(name="filepath_h5m", default='',subtype='FILE_PATH')
+
+    fbxFilename =  bpy.props.StringProperty(name="fbxFilename", default='',subtype='FILE_NAME')
+
     exportfolderpath =  bpy.props.StringProperty(name="exportfolderpath", default='',subtype='DIR_PATH', update=update_func_exportfolderpath)
+    exportfolderpathUnreal = bpy.props.StringProperty(name="exportfolderpathUnreal", default='',subtype='DIR_PATH', update=update_func_exportfolderpathUnreal)
     bodyNo = bpy.props.StringProperty(name="bodyNo",description="Body No", default="01")
     dontExportJointEnds = bpy.props.BoolProperty(name="dontExportJointEnds", description="Weightless jointEnds are not exported",    default=True)
     dontExportMaleJoints = bpy.props.BoolProperty(name="dontExportMaleJoints", description="Male specific joints are not exported",    default=True)
 
-    includeGeograftsOnExport = bpy.props.BoolProperty(name="includeGeograftsOnExport", description="Bake Geografts when exporting",    default=True)
+    includeGeograftsOnExport = bpy.props.BoolProperty(name="includeGeograftsOnExport", description="Bake children Geografts when exporting",    default=True)
+    includeGeograftsOnExportUnreal = bpy.props.BoolProperty(name="includeGeograftsOnExportUnreal", description="Bake children Geografts when exporting",    default=True)
+    createSubdivMeshOnExportUnreal = bpy.props.BoolProperty(name="createSubdivMeshOnExportUnreal", description="Add a subdivided mesh when exporting",    default=True)
 
 
 
@@ -484,10 +502,66 @@ class FakeBonesPanel(bpy.types.Panel):
         
 
 
-class ExporterPanel(bpy.types.Panel):
+class ExporterPanelUnreal(bpy.types.Panel):
     """Creates a Panel in the Tool Shelf"""
-    bl_label = "Exporter"
-    bl_idname = "Exporter Panel"
+    bl_label = "Exporter Unreal"
+    bl_idname = "Exporter Panel Unreal"
+    bl_space_type = 'VIEW_3D'
+    bl_region_type = 'TOOLS'
+    bl_category = "TK17 Body"
+    def draw(self,context):
+        layout=self.layout
+        box = layout.box()
+        scene=context.scene
+        tkarmature  = scene.tkarmature
+        row=box.row(align=True)
+        row.operator('tkarmature.fake',text='              ')
+        row.operator('tkarmature.fake',text='              ')
+        row.operator('tkarmature.fake',text='              ')
+        #box.row().separator()
+        row=box.row(align=True)
+        row.operator('tkarmature.fake',text='              ')        
+        row.operator('tkarmature.fake',text='              ')
+        row.operator('tkarmature.fake',text='              ')
+        #box.row().separator()
+        row=box.row(align=True)
+        row.operator('tkarmature.fake',text='              ')
+        row.operator('tkarmature.fake',text='              ')
+        row.operator('tkarmature.export_skeletalmesh_unreal',text='Export Unreal SkeletalMesh', icon='TIME')            
+        row=box.row()
+        
+        #row.separator()
+        
+        #row.operator('test.open_filebrowser',text='Import Blenda body',icon='OBJECT_DATA')    
+        new_box = row.box()
+        new_box.label(text="Extra Export")
+        row_extra=new_box.row(align=True)
+
+        
+        row_extra.prop(tkarmature,'createSubdivMeshOnExportUnreal',text="Create Subdiv")
+        row_extra.alignment = 'RIGHT'
+        row_extra.prop(tkarmature,'includeGeograftsOnExportUnreal',text="Include Geografts")
+        
+        
+
+        row=box.row(align=True)
+        subbox_exporter=row.box()
+        subbox_row = subbox_exporter.row()
+        
+        icon='FILE_FOLDER'
+        subbox_row.label(text='Folder location:',icon=icon)
+        subbox_row = subbox_exporter.row()
+        subbox_row.prop(tkarmature,'exportfolderpathUnreal',text='')        
+        subbox_row = subbox_exporter.row()
+        #subbox_row.label(text='Body#:',icon='QUESTION')
+        subbox_row.prop(tkarmature,'fbxFilename',text='Fbx filename')
+
+
+
+class ExporterPanelVX(bpy.types.Panel):
+    """Creates a Panel in the Tool Shelf"""
+    bl_label = "Exporter VX"
+    bl_idname = "Exporter Panel VX"
     bl_space_type = 'VIEW_3D'
     bl_region_type = 'TOOLS'
     bl_category = "TK17 Body"
@@ -537,10 +611,7 @@ class ExporterPanel(bpy.types.Panel):
         subbox_row.prop(tkarmature,'exportfolderpath',text='')        
         subbox_row = subbox_exporter.row()
         #subbox_row.label(text='Body#:',icon='QUESTION')
-        subbox_row.prop(tkarmature,'bodyNo',text='Body#')
-
-
-            
+        subbox_row.prop(tkarmature,'bodyNo',text='Body#')            
 
 class OT_fake(bpy.types.Operator):
     ''''''
@@ -1276,7 +1347,30 @@ class OT_Export_Empties_To_Files(bpy.types.Operator):
         file_path = tkarmature.exportfolderpath+"AcBody"+tkarmature.bodyNo+"Collision.bs"
         ShowMessageBox("Exported to "+file_path, "Success", 'INFO')
         return {'FINISHED'}
-        
+
+class OT_Export_SkeletalMeshUnreal(bpy.types.Operator):
+    ''''''
+    bl_idname = "tkarmature.export_skeletalmesh_unreal"
+    bl_label = ""
+    bl_description = "Export SkeletalMesh for Unreal"
+    
+    group = bpy.props.StringProperty(name="ALL")
+
+    def execute(self, context):
+        scene  = bpy.context.scene
+        tkarmature  = scene.tkarmature
+        if os.path.isdir(tkarmature.exportfolderpathUnreal):
+            print ("Exporting to: "+tkarmature.exportfolderpathUnreal)
+            export_to_unreal(tkarmature.exportfolderpathUnreal,tkarmature.fbxFilename, tkarmature.includeGeograftsOnExport)
+            if tkarmature.createSubdivMeshOnExportUnreal:
+                #fbx_type : LodGroup
+                print ("Creating the lod group parent empty: "+"fbx_type : LodGroup")
+        else:
+            ShowMessageBox("Missing the export folder", "Error", 'ERROR')
+            return {'FINISHED'}        
+        #export_body(tkarmature.exportfolderpath, tkarmature.bodyNo, tkarmature.includeGeograftsOnExport)
+        return {'FINISHED'}
+
 class OT_Export_Body(bpy.types.Operator):
     ''''''
     bl_idname = "tkarmature.export_body"
