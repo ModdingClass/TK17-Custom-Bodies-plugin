@@ -170,7 +170,7 @@ else:
 version = 'v%s.%s'%(bl_info['version'][0],bl_info['version'][1])
 
 
-
+fbody_global_matching_index_dict = OrderedDict()
 
 def delete_hierarchy(parent_obj_name):
     bpy.ops.object.select_all(action='DESELECT')
@@ -521,8 +521,8 @@ class ExporterPanelUnreal(bpy.types.Panel):
         #box.row().separator()
         row=box.row(align=True)
         row.operator('tkarmature.fake',text='              ')        
-        row.operator('tkarmature.fake',text='              ')
-        row.operator('tkarmature.fake',text='              ')
+        row.operator('tkarmature.build_subdivision_vertex_matching_table',text='Build subdiv match', icon='GROUP_VERTEX')  
+        row.operator('tkarmature.load_fbody_matching_index_dict_from_json',text='Load subdiv match',icon='GROUP_VERTEX')
         #box.row().separator()
         row=box.row(align=True)
         row.operator('tkarmature.fake',text='              ')
@@ -1348,6 +1348,51 @@ class OT_Export_Empties_To_Files(bpy.types.Operator):
         ShowMessageBox("Exported to "+file_path, "Success", 'INFO')
         return {'FINISHED'}
 
+
+class OT_Import_fbody_matching_index_dict_from_json(bpy.types.Operator):
+    ''''''
+    bl_idname = "tkarmature.load_fbody_matching_index_dict_from_json"
+    bl_label = ""
+    bl_description = "Load subdivision vertex matching table from json"
+    
+    group = bpy.props.StringProperty(name="ALL")
+
+    def execute(self, context):
+        scene  = bpy.context.scene
+        tkarmature  = scene.tkarmature
+        if os.path.isdir(tkarmature.exportfolderpathUnreal):
+            load_fbody_matching_index_dict_from_json(tkarmature.exportfolderpathUnreal, tkarmature.includeGeograftsOnExportUnreal)
+            if tkarmature.createSubdivMeshOnExportUnreal:
+                #fbx_type : LodGroup
+                print ("Creating the lod group parent empty: "+"fbx_type : LodGroup")
+        else:
+            ShowMessageBox("Missing the import/export folder", "Error", 'ERROR')
+            return {'FINISHED'}        
+        return {'FINISHED'}
+
+
+class OT_Export_subdivision_vertex_matching_table(bpy.types.Operator):
+    ''''''
+    bl_idname = "tkarmature.build_subdivision_vertex_matching_table"
+    bl_label = ""
+    bl_description = "Build subdivision vertex matching table"
+    
+    group = bpy.props.StringProperty(name="ALL")
+
+    def execute(self, context):
+        scene  = bpy.context.scene
+        tkarmature  = scene.tkarmature
+        if os.path.isdir(tkarmature.exportfolderpathUnreal):
+            print ("Exporting to: "+tkarmature.exportfolderpathUnreal)
+            build_subdivision_vertex_matching_table(tkarmature.exportfolderpathUnreal, tkarmature.includeGeograftsOnExportUnreal)
+            if tkarmature.createSubdivMeshOnExportUnreal:
+                #fbx_type : LodGroup
+                print ("Creating the lod group parent empty: "+"fbx_type : LodGroup")
+        else:
+            ShowMessageBox("Missing the export folder", "Error", 'ERROR')
+            return {'FINISHED'}        
+        return {'FINISHED'}
+
 class OT_Export_SkeletalMeshUnreal(bpy.types.Operator):
     ''''''
     bl_idname = "tkarmature.export_skeletalmesh_unreal"
@@ -1361,7 +1406,7 @@ class OT_Export_SkeletalMeshUnreal(bpy.types.Operator):
         tkarmature  = scene.tkarmature
         if os.path.isdir(tkarmature.exportfolderpathUnreal):
             print ("Exporting to: "+tkarmature.exportfolderpathUnreal)
-            export_to_unreal(tkarmature.exportfolderpathUnreal,tkarmature.fbxFilename, tkarmature.includeGeograftsOnExport)
+            export_to_unreal(tkarmature.exportfolderpathUnreal,tkarmature.fbxFilename, tkarmature.includeGeograftsOnExportUnreal)
             if tkarmature.createSubdivMeshOnExportUnreal:
                 #fbx_type : LodGroup
                 print ("Creating the lod group parent empty: "+"fbx_type : LodGroup")
