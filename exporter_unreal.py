@@ -1,3 +1,7 @@
+#17418 only body
+#18105 with gens
+#71523 subdiv body with gens
+ 
 import bpy, mathutils
 import re
 from collections import OrderedDict
@@ -8,6 +12,8 @@ import os
 import time
 from .utils import *
 from .tools_message_box import *
+
+import fbody_stats
 
 from mathutils import Vector
 from mathutils import Matrix
@@ -370,6 +376,7 @@ def load_fbody_matching_index_dict_from_json(exportfolderpath, includeGeograftsO
     loaded_ordered_dict = OrderedDict(int_key_dict)
     print(loaded_ordered_dict)  # Output: {'a': 1, 'b': 2, 'c': 3}
     print(loaded_ordered_dict[0])
+    print("Dictionary size: {} ".format(len(loaded_ordered_dict)))
     #
 
 

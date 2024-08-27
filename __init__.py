@@ -76,6 +76,8 @@ from .tools_import_export_materials_json import *
 from .tools_import_export_edit_bones_json import *
 from .ik_tools import *
 
+import fbody_stats
+
 from bpy.app.handlers import persistent
 from bpy.props import *
 import mathutils
