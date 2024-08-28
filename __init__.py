@@ -76,7 +76,8 @@ from .tools_import_export_materials_json import *
 from .tools_import_export_edit_bones_json import *
 from .ik_tools import *
 
-import fbody_stats
+from .fbody_stats import *
+from .strip_and_clean_op import *
 
 from bpy.app.handlers import persistent
 from bpy.props import *
@@ -126,7 +127,8 @@ if "bpy" in locals():
     imp.reload(tools_import_export_vertex_groups_json)
     imp.reload(tools_import_export_shape_keys_json)
     imp.reload(tools_import_export_materials_json)
-
+    imp.reload(fbody_stats)
+    imp.reload(strip_and_clean_op)
     imp.reload(ik_tools)
     print("Reloaded multifiles")
 else:
@@ -166,6 +168,8 @@ else:
     from . import tools_import_export_vertex_groups_json
     from . import tools_import_export_shape_keys_json
     from . import tools_import_export_materials_json
+    from . import fbody_stats
+    from . import strip_and_clean_op    
     from . import ik_tools
     print("Imported multifiles")
 
@@ -266,6 +270,7 @@ class TKARMATURE_vars(bpy.types.PropertyGroup) :
     includeGeograftsOnExport = bpy.props.BoolProperty(name="includeGeograftsOnExport", description="Bake children Geografts when exporting",    default=True)
     includeGeograftsOnExportUnreal = bpy.props.BoolProperty(name="includeGeograftsOnExportUnreal", description="Bake children Geografts when exporting",    default=True)
     createSubdivMeshOnExportUnreal = bpy.props.BoolProperty(name="createSubdivMeshOnExportUnreal", description="Add a subdivided mesh when exporting",    default=True)
+    cleanTempMeshesOnExportUnreal = bpy.props.BoolProperty(name="cleanTempMeshesOnExportUnreal", description="Delete temp/work meshes after exporting",    default=True)
 
 
 
@@ -543,7 +548,8 @@ class ExporterPanelUnreal(bpy.types.Panel):
         row_extra.prop(tkarmature,'createSubdivMeshOnExportUnreal',text="Create Subdiv")
         row_extra.alignment = 'RIGHT'
         row_extra.prop(tkarmature,'includeGeograftsOnExportUnreal',text="Include Geografts")
-        
+        row_extra=new_box.row(align=True)
+        row_extra.prop(tkarmature,'cleanTempMeshesOnExportUnreal',text="Cleanup after export")
         
 
         row=box.row(align=True)
@@ -1386,7 +1392,7 @@ class OT_Export_subdivision_vertex_matching_table(bpy.types.Operator):
         tkarmature  = scene.tkarmature
         if os.path.isdir(tkarmature.exportfolderpathUnreal):
             print ("Exporting to: "+tkarmature.exportfolderpathUnreal)
-            build_subdivision_vertex_matching_table(tkarmature.exportfolderpathUnreal, tkarmature.includeGeograftsOnExportUnreal)
+            build_subdivision_vertex_matching_table(tkarmature.exportfolderpathUnreal, tkarmature.includeGeograftsOnExportUnreal, tkarmature.cleanTempMeshesOnExportUnreal)
             if tkarmature.createSubdivMeshOnExportUnreal:
                 #fbx_type : LodGroup
                 print ("Creating the lod group parent empty: "+"fbx_type : LodGroup")
@@ -1408,7 +1414,7 @@ class OT_Export_SkeletalMeshUnreal(bpy.types.Operator):
         tkarmature  = scene.tkarmature
         if os.path.isdir(tkarmature.exportfolderpathUnreal):
             print ("Exporting to: "+tkarmature.exportfolderpathUnreal)
-            export_to_unreal(tkarmature.exportfolderpathUnreal,tkarmature.fbxFilename, tkarmature.includeGeograftsOnExportUnreal)
+            export_to_unreal_v2(tkarmature.exportfolderpathUnreal,tkarmature.fbxFilename, tkarmature.includeGeograftsOnExportUnreal, tkarmature.cleanTempMeshesOnExportUnreal)
             if tkarmature.createSubdivMeshOnExportUnreal:
                 #fbx_type : LodGroup
                 print ("Creating the lod group parent empty: "+"fbx_type : LodGroup")
